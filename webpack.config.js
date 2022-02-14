@@ -8,6 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
 	publicPath: '/dist/'
   },
+  experiments: {
+    topLevelAwait: true
+  },
   plugins: [
 	  new MiniCssExtractPlugin({
 		  filename: "[name].css",
@@ -20,7 +23,12 @@ module.exports = {
 			rules: [{
 				test: /\.(jsx|js)$/i,
 				exclude: /(node_modules)/,
-				use: ['babel-loader']
+				use: {
+					loader: 'babel-loader',
+					options: {
+						plugins: ['@babel/plugin-syntax-top-level-await']
+					}
+				}
 			},
 			{
 				test: /\.css$/i,

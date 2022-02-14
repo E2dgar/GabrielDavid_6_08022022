@@ -1,2 +1,3 @@
 import "../scss/main.scss";
-console.log('test')
+
+import PhotographerApi from "./api";
