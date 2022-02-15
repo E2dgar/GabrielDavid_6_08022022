@@ -21,11 +21,8 @@ class Photographer {
                         </div>
                         <h2>${this.name}</h2>
                     </a>
-
                     <h3>${this.country}, ${this.city}</h3>
-
                     <p>${this.tagline}</p>
-
                     <p>${this.price}€/jour</p>
                 </article>
                 `
