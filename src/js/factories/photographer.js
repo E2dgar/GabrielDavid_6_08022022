@@ -1,17 +1,35 @@
-function photographerFactory(data) {
-    const { name, portrait } = data;
+import { path } from '../constants'
 
-    const picture = `assets/photographers/${portrait}`;
 
-    function getUserCardDOM() {
-        const article = document.createElement( 'article' );
-        const img = document.createElement( 'img' );
-        img.setAttribute("src", picture)
-        const h2 = document.createElement( 'h2' );
-        h2.textContent = name;
-        article.appendChild(img);
-        article.appendChild(h2);
-        return (article);
+class Photographer {
+    constructor(data) {
+        this.name = data.name
+        this.id = data.id
+        this.city = data.city
+        this.country = data.country
+        this.tagline = data.tagline
+        this.price = data.price
+        this.portrait = data.portrait
     }
-    return { name, picture, getUserCardDOM }
+
+    createUserCard () {
+        return `
+                <article class="photographer">
+                    <a href="/photographer/${this.id}">
+                        <div class="media-container">
+                            <img src="${path.USER_THUMB + this.portrait}" alt=""/>
+                        </div>
+                        <h2>${this.name}</h2>
+                    </a>
+
+                    <h3>${this.country}, ${this.city}</h3>
+
+                    <p>${this.tagline}</p>
+
+                    <p>${this.price}€/jour</p>
+                </article>
+                `
+    }
 }
+
+export default Photographer;
