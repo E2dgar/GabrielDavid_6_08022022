@@ -15,7 +15,7 @@ class Photographer {
     createUserCard () {
         return `
                 <article class="photographer">
-                    <a href="/photographer/${this.id}">
+                    <a href="#${this.id}" class="photographer-link">
                         <div class="media-container">
                             <img src="${path.USER_THUMB + this.portrait}" alt=""/>
                         </div>

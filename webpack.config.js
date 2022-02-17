@@ -17,11 +17,11 @@ module.exports = {
 	  }),
 	],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js']
 	},
 	module: {
 			rules: [{
-				test: /\.(jsx|js)$/i,
+				test: /\.(js)$/i,
 				exclude: /(node_modules)/,
 				use: {
 					loader: 'babel-loader',
