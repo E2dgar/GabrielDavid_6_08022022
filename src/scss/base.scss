@@ -1,5 +1,42 @@
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
-    background: blue;
 }
+
+* {
+    box-sizing: border-box;
+    }
+
+html {
+    scroll-behavior: smooth;
+}
+
+main {
+    margin: 0 100px;
+    
+}
+
+/*Colors************************/
+    $primary: #901C1C;
+    $secondary: #D3573C;
+    $black: #525252;
+    $white: #FFFFFF;
+    $grey: #FAFAFA;
+
+
+/*Fonts************************/
+    /*$f96: 6rem;*/
+    $f64: 4rem;
+    /*$f48: 3rem;*/
+    /*$f40: 2.5rem;
+    $f36: 2.25rem;*/
+    $f24: 1.5rem;
+    $f20: 1.25rem;
+    $f18: 1.125rem;
+   /* $f14: .875rem;
+    $f13: 0.82rem;
+    $f10: 0.625rem;*/
+
+
+
+

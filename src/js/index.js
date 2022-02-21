@@ -1,19 +1,34 @@
 import "../scss/main.scss";
-import Router from "./router";
-import { bannerMain } from "./components/banner";
-import Photographer from "./factories/Photographer";
-import { getData } from "./services";
+
+import home from "./home";
+import profil from "./profil";
+import { getData } from "./services"
 
 
-new Router();
-const home = async () => {
-    bannerMain("Nos photographes");
-    const { photographers } =  await getData();
-    const wrapper = document.getElementById("list");
-
-    photographers.forEach( photographer => {
-            wrapper.innerHTML += new Photographer(photographer).createUserCard();         
+window.onload = () => {
+    home();
+    history.pushState(null, null, "/index.html");
+    const links = document.querySelectorAll('.data-link');
+    let url ="";
+    links.forEach(element => {
+        element.addEventListener('click', e => {
+            e.preventDefault();
+            url=e.target.closest('a').href
+            history.pushState(null, null, url)
         })
+    });
 }
 
-home();
+
+const renderPage = async () => {
+  const { photographers } =  await getData();
+
+  const hash = window.location.hash.substring(1);
+  if(hash !== ""){
+    const filtered = photographers.filter(photographer => photographer.id === parseInt(hash))
+    profil(filtered)
+  }else {
+    home();
+  }
+}
+window.onpopstate = renderPage;

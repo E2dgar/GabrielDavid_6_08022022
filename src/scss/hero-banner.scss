@@ -1,0 +1,61 @@
+.hero-photographer {
+    background: $grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 70px 50px;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        h2 {
+            color: $secondary;
+            font-weight: normal;
+            font-size: $f64;
+            margin: 0 0 1rem;
+        }
+
+        p {
+            margin-top: 0;
+        }
+
+        .location {
+            color: $primary;
+            font-size: $f24;
+            margin-bottom: 19px;
+        }
+
+        .tagline {
+            color: $black;
+            font-size: $f18
+        }
+    }
+
+    button {
+        border: none;
+        background-color: $primary;
+        color: $white;
+        font-size: $f20;
+        font-weight: bold;
+        border-radius: 5px;
+        height: 70px;
+        padding: 11px;
+        cursor: pointer;
+    }
+
+    .img-container {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+            object-fit: cover;
+            object-position: center center;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
