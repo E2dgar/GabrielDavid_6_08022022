@@ -6,22 +6,18 @@ import { getData } from "./services"
 
 
 window.onload = () => {
-   
-    const pathLocation = window.location.pathname;
-    console.log("pathname",pathLocation);
-    console.log("location",window.location)
-    history.pushState(null, null, pathLocation );
+    history.pushState(null, null,  window.location.pathname );
     const links = document.querySelectorAll('.data-link');
     let url ="";
     links.forEach(element => {
         element.addEventListener('click', e => {
             e.preventDefault();
             url=e.target.closest('a').href
-            history.pushState(null, null, pathLocation + url)
+            history.pushState(null, null, window.location.pathname + url)
         })
     });
 
-   /* home();*/
+   home();
 }
 
 
