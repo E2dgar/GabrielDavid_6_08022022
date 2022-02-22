@@ -1,8 +1,10 @@
 import { bannerProfil } from "./components/banner";
 import profilBanner from "./profilBanner";
 import { path } from "./constants";
+import { getData } from "./services";
+import MediaFactory from "./factories/MediaFactory"
 
-const profil = (photographer) => {
+const profil = async (photographer) => {
     /*bannerProfil();
     profilBanner();*/
     //Remove photographers list
@@ -52,7 +54,37 @@ const profil = (photographer) => {
 
     
     heroPhotographer.append(wrapperDetails, contact, imgWrapper)
-    mainWrapper.appendChild(heroPhotographer);
+    
+
+    /*TODO refacto get media ? */
+    const { media } = await getData();
+
+    const filteredMedia = media.filter( media => photographer[0].id === media.photographerId);
+
+    const mediasPhotographer = document.createElement("section");
+    mediasPhotographer.className = "medias-section";
+
+    const tagFilter = document.createElement("p");
+    tagFilter.textContent = "Filtre à implémenter";
+
+    const mediasWrapper = document.createElement("div");
+    mediasWrapper.className = "medias-wrapper";
+
+    filteredMedia.forEach( media => {
+if(media.video){
+
+} else {
+    console.log("add media")
+    mediasWrapper.append( new MediaFactory(media).createGalleryCard());    
+    console.log(mediasWrapper)   
+}
+         
+    })
+    mediasPhotographer.append(mediasWrapper);
+
+    mainWrapper.append(heroPhotographer, mediasPhotographer);
+
+
 }
 
 export default profil
