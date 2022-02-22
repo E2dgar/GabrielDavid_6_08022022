@@ -7,7 +7,8 @@ import { getData } from "./services"
 
 window.onload = () => {
     home();
-    history.pushState(null, null, "/index.html");
+    pathLocation = window.location
+    history.pushState(null, null, pathLocation + "/index.html");
     const links = document.querySelectorAll('.data-link');
     let url ="";
     links.forEach(element => {
