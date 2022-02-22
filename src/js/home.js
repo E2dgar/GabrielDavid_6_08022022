@@ -1,8 +1,10 @@
-import { bannerMain } from "./components/banner";
+import header from "./components/header";
 import Photographer from "./factories/Photographer";
-import { getData } from "./services";
+import { getData, createDOMElement } from "./services";
 
 const home = async () => {
+
+    document.querySelector("body").className = "home-page";
 
     const photoPage = document.querySelector("section.hero-photographer");
     const photoPageGallery = document.querySelector("section.medias-section");
@@ -14,14 +16,11 @@ const home = async () => {
         photoPageGallery.remove();
     }
 
-    bannerMain("Nos photographes");
+    header("Nos photographes");
     const { photographers } =  await getData();
     const main = document.getElementById("main-content");
-    const wrapper = document.createElement("div");
-    wrapper.className="photographer_section";
-    wrapper.setAttribute("id", "list")
 
-    
+    const wrapper = createDOMElement("div", "photographer_section", [{name: "id", value: "list"}]);
 
     photographers.forEach( photographer => {
             wrapper.innerHTML += new Photographer(photographer).createUserCard();         

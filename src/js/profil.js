@@ -1,94 +1,75 @@
-import { bannerProfil } from "./components/banner";
-import profilBanner from "./profilBanner";
+import header from "./components/header";
 import { path } from "./constants";
-import { getData } from "./services";
+import { getData, createDOMElement } from "./services";
 import MediaFactory from "./factories/MediaFactory"
 
 const profil = async (photographer) => {
-    /*bannerProfil();
-    profilBanner();*/
+    document.querySelector("body").className = "photographer-page";
+    const photograph = photographer[0];
+
+    //Change title doc
+    document.title = "Fisheye | " + photograph.name;
+
+    header();
     //Remove photographers list
     const indexWrapper = document.getElementById("list");
     if(indexWrapper){
         indexWrapper.remove();
-
     } 
 
-    //Change title doc
-    document.title = "Fisheye | " + photographer[0].name
-
-    //Inset wrapper profil
+    //Photographer profil
     const mainWrapper = document.getElementById("main-content");
     let heroPhotographer = document.querySelector("section.hero-photographer")
 
     if(heroPhotographer){
         heroPhotographer.remove()
     }
+    heroPhotographer = createDOMElement("section", "hero-photographer");
 
-     heroPhotographer = document.createElement("section");
-    heroPhotographer.className = "hero-photographer";
 
-    const wrapperDetails = document.createElement("div");
+    const wrapperDetails = createDOMElement("div");
 
-    const name =  document.createElement("h2");
-    name.textContent = photographer[0].name;
-
-    const location = document.createElement("p");
-    location.className = "location";
-    location.textContent = photographer[0].city + ", " + photographer[0].country;
-
-    const tagline = document.createElement("p");
-    tagline.className = "tagline";
-    tagline.textContent = photographer[0].tagline;
-
+    const name = createDOMElement("h2", "", "", photograph.name)
+    const location = createDOMElement("p", "location", "", photograph.city + ", " + photograph.country)
+    const tagline = createDOMElement("p", "tagmine", "", photograph.tagline);
     wrapperDetails.append(name, location, tagline);
 
-    const contact = document.createElement("button")
-    contact.textContent = "Contactez-moi"
+    
+    const contact = createDOMElement("button", "", "", "Contactez-moi");
 
-    const imgWrapper = document.createElement("div");
-    imgWrapper.className = "img-container";
-    const img = document.createElement("img")
-    img.setAttribute("src", path.USER_THUMB + photographer[0].portrait)
+    const imgWrapper = createDOMElement("div", "img-container")
+    const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photograph.portrait}] )
     imgWrapper.append(img);
 
-    
     heroPhotographer.append(wrapperDetails, contact, imgWrapper)
     
-
     /*TODO refacto get media ? */
     const { media } = await getData();
 
-    const filteredMedia = media.filter( media => photographer[0].id === media.photographerId);
+    const filteredMedia = media.filter( media => photograph.id === media.photographerId);
 
     let mediasPhotographer = document.querySelector("section.medias-section");
     if(mediasPhotographer){
         mediasPhotographer.remove()
     }
-    mediasPhotographer = document.createElement("section");
-    mediasPhotographer.className = "medias-section";
+    mediasPhotographer = createDOMElement("section", "medias-section");
 
     const tagFilter = document.createElement("p");
     tagFilter.textContent = "Filtre à implémenter";
 
-    const mediasWrapper = document.createElement("div");
-    mediasWrapper.className = "medias-wrapper";
+    const mediasWrapper = createDOMElement("div", "medias-wrapper");
 
     filteredMedia.forEach( media => {
-if(media.video){
+        if(media.video){
 
-} else {
-    console.log("add media")
-    mediasWrapper.append( new MediaFactory(media).createGalleryCard());    
-    console.log(mediasWrapper)   
-}
+        } else {
+            mediasWrapper.append( new MediaFactory(media).createGalleryCard()); 
+        }
          
     })
     mediasPhotographer.append(mediasWrapper);
 
     mainWrapper.append(heroPhotographer, mediasPhotographer);
-
-
 }
 
 export default profil
