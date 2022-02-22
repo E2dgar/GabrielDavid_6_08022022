@@ -6,7 +6,7 @@ import { getData } from "./services"
 
 
 window.onload = () => {
-    home();
+   
     const pathLocation = window.location.pathname;
     console.log(pathLocation);
     history.pushState(null, null, pathLocation + "/index.html");
@@ -19,6 +19,8 @@ window.onload = () => {
             history.pushState(null, null, url)
         })
     });
+
+    home();
 }
 
 
