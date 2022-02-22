@@ -2,7 +2,7 @@ const bannerMain = (title) => {
     const header = document.querySelector("header");
 
     const link = document.createElement("a");
-    link.setAttribute("href", "/");
+    link.setAttribute("href",  window.location.pathname );
    
 
     const logo = document.createElement("img");
