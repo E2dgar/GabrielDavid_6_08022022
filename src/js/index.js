@@ -9,7 +9,8 @@ window.onload = () => {
    
     const pathLocation = window.location.pathname;
     console.log(pathLocation);
-    history.pushState(null, null, pathLocation + "/index.html");
+    console.log(window.location)
+    history.pushState(null, null, pathLocation );
     const links = document.querySelectorAll('.data-link');
     let url ="";
     links.forEach(element => {
@@ -20,7 +21,7 @@ window.onload = () => {
         })
     });
 
-    home();
+   /* home();*/
 }
 
 
