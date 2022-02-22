@@ -7,7 +7,7 @@ import { getData } from "./services"
 
 window.onload = () => {
     home();
-    pathLocation = window.location
+    pathLocation = window.location.pathname
     history.pushState(null, null, pathLocation + "/index.html");
     const links = document.querySelectorAll('.data-link');
     let url ="";
