@@ -8,8 +8,8 @@ import { getData } from "./services"
 window.onload = () => {
    
     const pathLocation = window.location.pathname;
-    console.log(pathLocation);
-    console.log(window.location)
+    console.log("pathname",pathLocation);
+    console.log("location",window.location)
     history.pushState(null, null, pathLocation );
     const links = document.querySelectorAll('.data-link');
     let url ="";
@@ -17,7 +17,7 @@ window.onload = () => {
         element.addEventListener('click', e => {
             e.preventDefault();
             url=e.target.closest('a').href
-            history.pushState(null, null, url)
+            history.pushState(null, null, pathLocation + url)
         })
     });
 
