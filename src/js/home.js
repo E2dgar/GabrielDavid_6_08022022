@@ -5,8 +5,13 @@ import { getData } from "./services";
 const home = async () => {
 
     const photoPage = document.querySelector("section.hero-photographer");
+    const photoPageGallery = document.querySelector("section.medias-section");
+
     if(photoPage){
         photoPage.remove();
+    }
+    if(photoPageGallery){
+        photoPageGallery.remove();
     }
 
     bannerMain("Nos photographes");

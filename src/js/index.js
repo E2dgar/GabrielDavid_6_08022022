@@ -25,7 +25,7 @@ const renderPage = async () => {
   const { photographers } =  await getData();
 
   const hash = window.location.hash.substring(1);
-  if(hash !== ""){
+  if(hash !== "" && hash !== "main-content"){
     const filtered = photographers.filter(photographer => photographer.id === parseInt(hash))
     profil(filtered)
   }else {

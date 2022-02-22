@@ -61,7 +61,11 @@ const profil = async (photographer) => {
 
     const filteredMedia = media.filter( media => photographer[0].id === media.photographerId);
 
-    const mediasPhotographer = document.createElement("section");
+    let mediasPhotographer = document.querySelector("section.medias-section");
+    if(mediasPhotographer){
+        mediasPhotographer.remove()
+    }
+    mediasPhotographer = document.createElement("section");
     mediasPhotographer.className = "medias-section";
 
     const tagFilter = document.createElement("p");
