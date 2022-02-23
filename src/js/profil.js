@@ -3,6 +3,7 @@ import { path } from "./constants";
 import { getData, createDOMElement } from "./services";
 import MediaFactory from "./factories/MediaFactory";
 import likes from "./components/likes";
+import mediasFilters from "./components/mediasFilters";
 
 const profil = async (photographer) => {
     document.querySelector("body").className = "photographer-page";
@@ -55,9 +56,6 @@ const profil = async (photographer) => {
     }
     mediasPhotographer = createDOMElement("section", "medias-section");
 
-    
-    const tagFilter = document.createElement("p");
-    tagFilter.textContent = "Filtre à implémenter";
 
     const mediasWrapper = createDOMElement("div", "medias-wrapper");
 
@@ -69,7 +67,7 @@ const profil = async (photographer) => {
         }
          
     })
-    mediasPhotographer.append(mediasWrapper);
+    mediasPhotographer.append(mediasFilters, mediasWrapper);
 
     const counter = likes(filteredMedia, photograph.price);
 
