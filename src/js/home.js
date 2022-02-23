@@ -5,6 +5,8 @@ import { getData, createDOMElement } from "./services";
 const home = async () => {
     document.querySelector("body").className = "home-page";
 
+    document.title = "Fisheye ";
+
     const photoPage = document.querySelector("section.hero-photographer");
     const photoPageGallery = document.querySelector("section.medias-section");
 
@@ -18,15 +20,13 @@ const home = async () => {
     header("Nos photographes");
 
     const { photographers } =  await getData();
-    
+
     const main = document.getElementById("main-content");
 
     if(!document.querySelector("section.photographer-section")){
         const wrapper = createDOMElement("div", "photographer-section", [{name: "id", value: "list"}]);
 
-        photographers.forEach( photographer => {
-                wrapper.innerHTML += new Photographer(photographer).createUserCard();         
-            });
+        photographers.forEach( photographer => wrapper.append( new Photographer(photographer).createUserCard()));
             
         main.append(wrapper)
     }  

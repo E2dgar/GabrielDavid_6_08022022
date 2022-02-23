@@ -1,7 +1,8 @@
 import header from "./components/header";
 import { path } from "./constants";
 import { getData, createDOMElement } from "./services";
-import MediaFactory from "./factories/MediaFactory"
+import MediaFactory from "./factories/MediaFactory";
+import likes from "./components/likes";
 
 const profil = async (photographer) => {
     document.querySelector("body").className = "photographer-page";
@@ -54,6 +55,7 @@ const profil = async (photographer) => {
     }
     mediasPhotographer = createDOMElement("section", "medias-section");
 
+    
     const tagFilter = document.createElement("p");
     tagFilter.textContent = "Filtre à implémenter";
 
@@ -69,7 +71,9 @@ const profil = async (photographer) => {
     })
     mediasPhotographer.append(mediasWrapper);
 
-    mainWrapper.append(heroPhotographer, mediasPhotographer);
+    const counter = likes(filteredMedia, photograph.price);
+
+    mainWrapper.append(heroPhotographer, mediasPhotographer, counter);
 }
 
 export default profil

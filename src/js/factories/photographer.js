@@ -1,4 +1,5 @@
-import { path } from '../constants'
+import { path } from '../constants';
+import { createDOMElement } from '../services';
 
 
 class Photographer {
@@ -13,19 +14,26 @@ class Photographer {
     }
 
     createUserCard () {
-        return `
-                <article class="photographer">
-                    <a href="#${this.id}" class="photographer-link data-link" data-link="">
-                        <div class="media-container">
-                            <img src="${path.USER_THUMB + this.portrait}" alt=""/>
-                        </div>
-                        <h2>${this.name}</h2>
-                    </a>
-                    <h3>${this.country}, ${this.city}</h3>
-                    <p>${this.tagline}</p>
-                    <p>${this.price}€/jour</p>
-                </article>
-                `
+        const article = createDOMElement("article", "photographer");
+
+        const link = createDOMElement("a", "photographer-link data-link", [{name: "href", value: `#${this.id}`}] );
+
+        const mediaContainer = createDOMElement("div", "media-container"); 
+        const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + this.portrait},
+                                                 {name: "alt", value: this.name}]);
+        mediaContainer.append(img);
+
+        const title = createDOMElement("h2", "", "", this.name);
+
+        link.append(mediaContainer, title);
+
+        const location = createDOMElement("h3", "", "", `${this.country}, ${this.city}`);
+        const tagline = createDOMElement("p", "", "", this.tagline);
+        const price = createDOMElement("p", "", "", `${this.price}€/jour`);
+
+        article.append(link, location, tagline, price);
+
+        return article;
     }
 }
 

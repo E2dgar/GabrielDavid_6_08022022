@@ -16,6 +16,7 @@ const getData = async () => {
   }
 };
 
+
 /**
  * Create a DOM element and set attributes if needed
  * @param {string} tag 
