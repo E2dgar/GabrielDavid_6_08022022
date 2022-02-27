@@ -1,8 +1,9 @@
 import "../scss/main.scss";
 
 import home from "./home";
-import profil from "./profil";
-import { getData } from "./services"
+import profil from "./Views/profil";
+import { getData } from "./services";
+import Photographer from "./Models/Photographer";
 
 
 window.onload = () => {
@@ -26,8 +27,11 @@ const renderPage = async () => {
 
   const hash = window.location.hash.substring(1);
   if(hash !== "" && hash !== "main-content"){
-    const filtered = photographers.filter(photographer => photographer.id === parseInt(hash))
-    profil(filtered)
+    const filtered = photographers.filter(photographer => photographer.id === parseInt(hash));
+    console.log("filt",filtered)
+    const photographer = new Photographer(filtered[0]);
+    console.log('ph', photographer)
+    profil(photographer, await photographer.getMedias())
   }else {
     home();
   }

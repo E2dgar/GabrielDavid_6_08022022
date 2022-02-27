@@ -29,49 +29,10 @@ const profil = async (photographer) => {
     heroPhotographer = createDOMElement("section", "hero-photographer");
 
 
-    const wrapperDetails = createDOMElement("div");
-
-    const name = createDOMElement("h2", "", "", photograph.name)
-    const location = createDOMElement("p", "location", "", photograph.city + ", " + photograph.country)
-    const tagline = createDOMElement("p", "tagmine", "", photograph.tagline);
-    wrapperDetails.append(name, location, tagline);
-
     
-    const contact = createDOMElement("button", "", "", "Contactez-moi");
-
-    const imgWrapper = createDOMElement("div", "img-container")
-    const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photograph.portrait}] )
-    imgWrapper.append(img);
-
-    heroPhotographer.append(wrapperDetails, contact, imgWrapper)
     
     /*TODO refacto get media ? */
-    const { media } = await getData();
-
-    const filteredMedia = media.filter( media => photograph.id === media.photographerId);
-
-    let mediasPhotographer = document.querySelector("section.medias-section");
-    if(mediasPhotographer){
-        mediasPhotographer.remove()
-    }
-    mediasPhotographer = createDOMElement("section", "medias-section");
-
-
-    const mediasWrapper = createDOMElement("div", "medias-wrapper");
-
-    filteredMedia.forEach( media => {
-        if(media.video){
-
-        } else {
-            mediasWrapper.append( new MediaFactory(media).createGalleryCard()); 
-        }
-         
-    })
-    mediasPhotographer.append(mediasFilters, mediasWrapper);
-
-    const counter = likes(filteredMedia, photograph.price);
-
-    mainWrapper.append(heroPhotographer, mediasPhotographer, counter);
+    
 }
 
 export default profil
