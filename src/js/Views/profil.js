@@ -1,10 +1,8 @@
-import { createDOMElement } from "../services";
-import heroProfil from "./components/heroProfil";
-import galleryProfil from "./components/galleryProfil";
+import header from "./components/header";
+import hero from "./components/profil/hero";
+import gallery from "./components/profil/gallery";
 import mediaFactory from "../Models/MediaFactory";
-import Media from "../models/Media";
-import ImageMedia from "../Models/Image";
-import header from "../components/header";
+import likesCounter from "./components/profil/likesCounter";
 
 const profil = (photographer, medias) => {
     document.querySelector("body").className = "photographer-page";
@@ -12,19 +10,14 @@ const profil = (photographer, medias) => {
     /* manage header and remove home lements */
     const homeList = document.querySelector("#list");
     homeList.remove();
-    const hero = heroProfil(photographer);
+    const heroSection = hero(photographer);
 
     const getMedias =  medias;
-    console.log('await',getMedias)
     const mediaSorted = [];
-    getMedias.forEach(media => {
-        console.log('perend ', media)
-        console.log('stop', new ImageMedia(media));
-        mediaSorted.push(mediaFactory(media));
-    })
-    console.log('sorted',mediaSorted)
-    const gallery = galleryProfil(mediaSorted);
-console.log('gal', gallery)
+    getMedias.forEach(media => mediaSorted.push(mediaFactory(media)));
+    
+    const galleryPhotographer = gallery(mediaSorted);
+
     const main = document.querySelector("#main-content");
 
     /*const { media } = await getData();
@@ -48,14 +41,14 @@ console.log('gal', gallery)
         }
          
     })
-    mediasPhotographer.append(mediasFilters, mediasWrapper);
+    mediasPhotographer.append(mediasFilters, mediasWrapper);*/
 
-    const counter = likes(filteredMedia, photograph.price);*/
+    const counter = likesCounter(mediaSorted, photographer.price);
 
-    main.append(hero, gallery);
+    
+    main.append(heroSection, galleryPhotographer, counter);
 
     return main;
-
 }
 
 export default profil;

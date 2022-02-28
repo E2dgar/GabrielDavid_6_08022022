@@ -1,0 +1,26 @@
+import { createDOMElement } from "../../../services";
+import mediaCard from "./mediaCard";
+import mediasFilters from "./mediasFilters";
+
+const gallery = (medias) => {
+    /* Remove potential previous gallery */
+    let gallerySection = document.querySelector("section.medias-section");
+    if(gallerySection){
+        gallerySection.remove()
+    }
+    gallerySection = createDOMElement("section", "medias-section");
+
+    const mediasWrapper = createDOMElement("div", "medias-wrapper");
+
+    medias.forEach( media =>  mediasWrapper.append(mediaCard(media)));
+    /*mediasPhotographer.append(mediasFilters, mediasWrapper);
+
+    const counter = likes(filteredMedia, photograph.price);*/
+    /*mainWrapper.append(heroPhotographer, mediasPhotographer, counter);*/
+   /* mainWrapper.append(heroPhotographer, mediasPhotographer);*/
+   gallerySection.append(mediasFilters, mediasWrapper);
+
+   return gallerySection;
+}
+
+export default gallery;

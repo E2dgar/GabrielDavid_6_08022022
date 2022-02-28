@@ -1,14 +1,12 @@
-import { createDOMElement } from "../../services";
-import { path } from "../../constants";
+import { createDOMElement } from "../../../services";
+import { path } from "../../../constants";
 
-const heroProfil = (photographer) => {
-
-    console.log('hero photo');
-    let hero = document.querySelector("section.hero-photographer");
-    if(hero){
-        hero.remove()
+const hero = (photographer) => {
+    let heroSection = document.querySelector("section.hero-photographer");
+    if(heroSection){
+        heroSection.remove()
     } else {
-        hero = createDOMElement("section", "hero-photographer");
+        heroSection = createDOMElement("section", "hero-photographer");
     }
 
     const wrapperDetails = createDOMElement("div");
@@ -25,9 +23,9 @@ const heroProfil = (photographer) => {
     const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photographer.portrait}] )
     imgWrapper.append(img);
     
-    hero.append(wrapperDetails, contact, imgWrapper);
-console.log('end of hero')
-    return hero;
+    heroSection.append(wrapperDetails, contact, imgWrapper);
+
+    return heroSection;
 }
 
-export default heroProfil;
+export default hero;

@@ -1,4 +1,4 @@
-import { createDOMElement } from "../services";
+import { createDOMElement } from "../../services";
 
 const header = (title) => {
     const header = document.querySelector("header");
@@ -21,9 +21,7 @@ const header = (title) => {
 
     if(!document.querySelector("body").classList.contains("home-page")){
         document.querySelector("header h1").remove();
-        console.log('delete')
     }
-
 }
 
 export default header;
