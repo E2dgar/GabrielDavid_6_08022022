@@ -3,6 +3,7 @@ import hero from "./components/profil/hero";
 import gallery from "./components/profil/gallery";
 import mediaFactory from "../Models/MediaFactory";
 import likesCounter from "./components/profil/likesCounter";
+import customSelect from "../utils/customSelect";
 
 const profil = (photographer, medias) => {
     document.querySelector("body").className = "photographer-page";
@@ -47,6 +48,8 @@ const profil = (photographer, medias) => {
 
     
     main.append(heroSection, galleryPhotographer, counter);
+
+    customSelect(medias);
 
     return main;
 }

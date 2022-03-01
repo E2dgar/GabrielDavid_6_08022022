@@ -1,32 +1,41 @@
-import { createDOMElement } from "../../../services"
+import { createDOMElement } from "../../../services";
+import arrow from "../icons/arrow";
 
 
-const mediasFilters = createDOMElement("div", "listbox");
-const label = createDOMElement("span", "", [{name: "id", value: "select-label"}], "Trier par");
-const select = createDOMElement("div", "select");
-const button = createDOMElement("button", "", [{name: "aria-haspopup", value: "listbox"},
-                                               {name: "aria-labelledby", value: "select-label select-button"},
-                                               {name: "id", value:"select-button"}]);
+const mediasFilters = createDOMElement("div", "filter-container");
 
-const optionsList = createDOMElement("ul", "hidden", [{name: "tabindex", value: -1},
-                                                  {name: "role", value: "listbox"},
-                                                  {name: "aria-labelledby", value: "select-label"},
-                                                  {name: "aria-activedescendant", value: ""}]);
+const options = { 
+    popular:  "Popularité",
+    date:     "Date",
+    title:    "Titre",
+}
 
-const options = [
-    {key:"popular", value: "Popularité"},
-    {key:"date", value: "Date"},
-    {key:"title", value: "Titre"},
-]
-options.forEach(option => {
-    let element = createDOMElement("li", "", [{name: "id", value: option.key},
-                                              {name: "role", value: "option"}],
-                                              option.value);
-    optionsList.append(element)
-});
+const listboxArea = createDOMElement("div", "listbox-area");
+const leftArea = createDOMElement("div", "left-area");
+const label = createDOMElement("span", "label", [{name: "id", value: "select-label"}], "Trier par");
+const optionsWrapper = createDOMElement("div", "", [{name: "id", value: "options-wrapper"}]);
+const selectedOpt = createDOMElement("button", "", [{name: "id", value: "selected-opt"}, {name: "aria-haspopup", value: "listbox"}, {name: "aria-labelledby", value: "slect-label slected-opt"}], options[Object.keys(options)[0]]);
 
-select.append(button, optionsList);
-mediasFilters.append(label, select);
+const list = createDOMElement("ul", "hidden", [{name: "id", value: "options-list"}, {name: "role", value: "listbox"}, {name: "aria-labelledby", value: "select-label"}, {name: "tabindex", value: -1}]);
+
+
+for (const [key, value] of Object.entries(options)){
+    let optionLi = createDOMElement("li", "", [{name: "id", value: key}, {name: "role", value: "option"}], value);
+    list.append(optionLi)
+}
+
+
+optionsWrapper.append(selectedOpt, list);
+leftArea.append(label, optionsWrapper);
+listboxArea.append(leftArea);
+
+mediasFilters.append(listboxArea);
+
+;
+
+
+
+
 
 
 export default mediasFilters;

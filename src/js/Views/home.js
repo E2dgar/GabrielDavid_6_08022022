@@ -13,20 +13,12 @@ const home = async (photographers) => {
         document.querySelector("section.medias-section"),
         document.querySelector("aside")
     ]
-    const photoPage = document.querySelector("section.hero-photographer");
-    const photoPageGallery = document.querySelector("section.medias-section");
 
     elmentsToRemove.forEach(elt => {
         if(elt){
             elt.remove();
         }
     })
-    /*if(photoPage){
-        photoPage.remove();
-    }
-    if(photoPageGallery){
-        photoPageGallery.remove();
-    }*/
 
     header("Nos photographes");
 

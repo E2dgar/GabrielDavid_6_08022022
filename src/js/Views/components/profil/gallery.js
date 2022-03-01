@@ -13,14 +13,10 @@ const gallery = (medias) => {
     const mediasWrapper = createDOMElement("div", "medias-wrapper");
 
     medias.forEach( media =>  mediasWrapper.append(mediaCard(media)));
-    /*mediasPhotographer.append(mediasFilters, mediasWrapper);
 
-    const counter = likes(filteredMedia, photograph.price);*/
-    /*mainWrapper.append(heroPhotographer, mediasPhotographer, counter);*/
-   /* mainWrapper.append(heroPhotographer, mediasPhotographer);*/
-   gallerySection.append(mediasFilters, mediasWrapper);
+    gallerySection.append(mediasFilters, mediasWrapper);
 
-   return gallerySection;
+    return gallerySection;
 }
 
 export default gallery;
