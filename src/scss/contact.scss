@@ -1,0 +1,73 @@
+.modal {
+    background: $white;
+    position: absolute;
+    z-index: 200;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    padding: 3rem 0;
+    display: none;
+
+    form {
+        background: $tertiary;
+        max-width: 670px;
+        width: 100%;
+        border-radius: 5px;
+        margin: auto;
+        padding: 1rem 3rem 3rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        svg {
+            position: absolute;
+            top: 35px;
+            right: 35px;
+            fill: $white;
+            cursor: pointer;
+        }
+
+        h1,
+        h2 {
+            font-size: $f64;
+            font-weight: normal;
+            color: $black-darker;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        label {
+            color: $black-form;
+            font-size: $f36;
+            line-height: 1.33;
+            border-radius: 5px;
+
+            &.message-label {
+                margin-top: 10px;
+            }
+        }
+        input {
+            height: 68px;
+            border: none;
+            border-radius: 5px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 170px;
+        }
+        button {
+            color: $white;
+            background-color: $primary;
+            border-radius: 5px;
+            padding: 11px;
+            width: 170px;
+            height: 70px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: $f20;
+            margin-top: 26px;
+        }
+    }
+}

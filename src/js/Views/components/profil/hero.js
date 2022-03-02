@@ -17,7 +17,7 @@ const hero = (photographer) => {
     wrapperDetails.append(name, location, tagline);
     
     
-    const contact = createDOMElement("button", "", "", "Contactez-moi");
+    const contact = createDOMElement("button", "contact-button", "", "Contactez-moi");
     
     const imgWrapper = createDOMElement("div", "img-container")
     const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photographer.portrait}] )

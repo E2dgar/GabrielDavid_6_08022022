@@ -1,4 +1,5 @@
 import gallery from "../Views/components/profil/gallery";
+import gallerySort from "./gallerySort";
 
 const customSelect = (medias) => {
     const button = document.getElementById("selected-opt");
@@ -123,7 +124,7 @@ const customSelect = (medias) => {
         listbox.classList.remove("hidden");
         button.setAttribute("aria-expanded", true);
         listbox.focus();
-        setUpFocus();
+        /*setUpFocus();*/
 
     }
     button.addEventListener("click", showList);
@@ -146,7 +147,7 @@ const customSelect = (medias) => {
             mediaSorted = medias.sort((a, b) => {
                 console.log("filter",sortFilter)
                 if(sortFilter === "popular"){
-                    return a.likes - b.likes;
+                    return b.likes - a.likes;
                 }
                 if(sortFilter === "date"){
                     let da = new Date(a.date);
@@ -167,7 +168,9 @@ const customSelect = (medias) => {
                 }
             });
             console.log(mediaSorted)
+            gallerySort(mediaSorted)
         } 
+        
     }
    
     /**

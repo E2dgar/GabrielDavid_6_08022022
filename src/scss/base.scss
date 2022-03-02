@@ -22,6 +22,7 @@ main {
     $tertiary: #DB8876;
     $black: #525252;
     $black-darker: #000000;
+    $black-form: #312E2E;
     $white: #FFFFFF;
     $grey: #FAFAFA;
 
@@ -30,8 +31,8 @@ main {
     /*$f96: 6rem;*/
     $f64: 4rem;
     /*$f48: 3rem;*/
-    /*$f40: 2.5rem;
-    $f36: 2.25rem;*/
+    /*$f40: 2.5rem;*/
+    $f36: 2.25rem;
     $f24: 1.5rem;
     $f20: 1.25rem;
     $f18: 1.125rem;
@@ -53,4 +54,12 @@ main {
     &:focus {
         transform: translateX(0);
     }
+}
+
+.no-scroll main {
+    overflow: hidden;
+    max-height: 100vh;
+}
+.modal.display-modal {
+    display: flex;
 }

@@ -4,8 +4,11 @@ import gallery from "./components/profil/gallery";
 import mediaFactory from "../Models/MediaFactory";
 import likesCounter from "./components/profil/likesCounter";
 import customSelect from "../utils/customSelect";
+import contact from "./components/contactForm/contact";
+import modal from "../utils/modal";
 
 const profil = (photographer, medias) => {
+    document.title = `Fisheye | ${photographer.name}`;
     document.querySelector("body").className = "photographer-page";
     header();
     /* manage header and remove home lements */
@@ -21,35 +24,14 @@ const profil = (photographer, medias) => {
 
     const main = document.querySelector("#main-content");
 
-    /*const { media } = await getData();
-
-    const filteredMedia = media.filter( media => photograph.id === media.photographerId);
-
-    let mediasPhotographer = document.querySelector("section.medias-section");
-    if(mediasPhotographer){
-        mediasPhotographer.remove()
-    }
-    mediasPhotographer = createDOMElement("section", "medias-section");
-
-
-    const mediasWrapper = createDOMElement("div", "medias-wrapper");
-
-    filteredMedia.forEach( media => {
-        if(media.video){
-
-        } else {
-            mediasWrapper.append( new MediaFactory(media).createGalleryCard()); 
-        }
-         
-    })
-    mediasPhotographer.append(mediasFilters, mediasWrapper);*/
-
     const counter = likesCounter(mediaSorted, photographer.price);
 
     
-    main.append(heroSection, galleryPhotographer, counter);
+    main.append(heroSection, galleryPhotographer, counter, contact(photographer.name));
 
     customSelect(medias);
+
+    modal();
 
     return main;
 }
