@@ -102,11 +102,10 @@ const customSelect = (medias) => {
      * @param event  
      */
     const keyEvents = (e) => {
-        e.preventDefault();
         let key = e.which || e.keycode;
-
-
+        e.preventDefault();
         if(key === 40){
+            
             getNextItem();
         }
         if(key === 38){
@@ -124,7 +123,7 @@ const customSelect = (medias) => {
         listbox.classList.remove("hidden");
         button.setAttribute("aria-expanded", true);
         listbox.focus();
-        /*setUpFocus();*/
+        setUpFocus();
 
     }
     button.addEventListener("click", showList);

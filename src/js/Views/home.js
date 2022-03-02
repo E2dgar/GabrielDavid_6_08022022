@@ -6,7 +6,7 @@ import { createDOMElement } from "../services";
 const home = async (photographers) => {
     document.querySelector("body").className = "home-page";
 
-    document.title = "Fisheye ";
+    document.title = "Fisheye";
 
     const elmentsToRemove = [
         document.querySelector("section.hero-photographer"),

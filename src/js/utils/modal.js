@@ -18,6 +18,20 @@ const modal = () => {
         body.classList.remove("no-scroll")
     }
     close.addEventListener("click", closeModal);
+
+    
+    const keyEvents = (e) => {
+        let key = e.which || e.keycode;
+
+        if(key === 27){
+            
+        e.preventDefault();
+            closeModal();
+        }
+    }
+    document.addEventListener("keydown", keyEvents)
+    
+
 }
 
 export default modal;
