@@ -7,7 +7,7 @@ import { path } from "./constants"
 const getData = async () => {
   try {
     const response = await fetch(path.API_URL)
-    const data = await response.json()
+    const data = response.json()
 
     return data
   } 
@@ -46,6 +46,4 @@ const getData = async () => {
 };
 
 
-
 export { getData, createDOMElement }
-

@@ -58,7 +58,7 @@ main {
 
 .no-scroll main {
     overflow: hidden;
-    max-height: 100vh;
+    max-height: 0;
 }
 .modal.display-modal {
     display: flex;

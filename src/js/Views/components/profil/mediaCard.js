@@ -1,15 +1,18 @@
 import { createDOMElement } from "../../../services";
 import likeSvg from "../icons/like";
-import MediaCardFactory from "../../../Models/MediaCardFactory";
+import mediaCardFactory from "../../../Models/mediaCardFactory";
+import mediaModal from "../../../utils/mediaModal";
 
 const mediaCard = (media) => {
     const card = document.createElement("article");
     card.className = "media-card";
+    card.setAttribute("data-type", media.type)
+    
 
     const wrapperThumb = document.createElement("div");
     wrapperThumb.className = "img-container";
 
-    const img = MediaCardFactory(media);
+    const img = mediaCardFactory(media);
     wrapperThumb.append(img)
 
     const legend = document.createElement("p");
@@ -36,6 +39,7 @@ const mediaCard = (media) => {
     legend.append(title, likeCounter, likeButton);
 
     card.append(wrapperThumb, legend);
+
 
     return card;
 }

@@ -31,11 +31,6 @@ listboxArea.append(leftArea);
 
 mediasFilters.append(listboxArea);
 
-;
-
-
-
-
 
 
 export default mediasFilters;

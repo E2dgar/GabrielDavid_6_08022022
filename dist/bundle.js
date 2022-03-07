@@ -1,1 +1,1458 @@
-(()=>{"use strict";var e,t,a,n,o,r,i={837:(e,t,a)=>{a.d(t,{Z:()=>c});var n=a(969),o=a(218);var r=a(225);const i=async e=>{document.querySelector("body").className="home-page",document.title="Fisheye ",[document.querySelector("section.hero-photographer"),document.querySelector("section.medias-section"),document.querySelector("aside")].forEach((e=>{e&&e.remove()})),(0,n.Z)("Nos photographes");const t=document.getElementById("main-content");if(!document.querySelector("section.photographer-section")){const a=(0,o.G)("section","photographer-section",[{name:"id",value:"list"}]);e.forEach((e=>a.append((e=>{const t=(0,o.G)("article","photographer"),a=(0,o.G)("a","photographer-link data-link",[{name:"href",value:`#${e.id}`}]),n=(0,o.G)("div","media-container"),i=(0,o.G)("img","",[{name:"src",value:r.E.USER_THUMB+e.portrait},{name:"alt",value:e.name}]);n.append(i);const c=(0,o.G)("h2","","",e.name);a.append(n,c);const s=(0,o.G)("h3","","",`${e.country}, ${e.city}`),l=(0,o.G)("p","","",e.tagline),d=(0,o.G)("p","","",`${e.price}€/jour`);return t.append(a,s,l,d),t})(new class{constructor(e){this.name=e.name,this.id=e.id,this.city=e.city,this.country=e.country,this.tagline=e.tagline,this.price=e.price,this.portrait=e.portrait}async getMedias(){const{media:e}=await(0,o.Y)();return e.filter((e=>this.id===parseInt(e.photographerId)))}}(e))))),t.append(a)}},c=e=>{i(e)}},820:(e,t,a)=>{a.d(t,{Z:()=>A});var n=a(969),o=a(218),r=a(225);const i=()=>{const e=document.createElementNS("http://www.w3.org/2000/svg","svg");e.setAttribute("viewBox","0 0 20 20"),e.setAttribute("aria-hidden",!0);const t=document.createElementNS("http://www.w3.org/2000/svg","path");return t.setAttribute("d","M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z"),e.append(t),e},c=e=>"image"===e.type?((e,t)=>{const a=document.createElement("img");return a.setAttribute("alt",e),a.setAttribute("src",r.E.MEDIA_IMG_THUMB+t),a})(e.title,e.image):"video"===e.type?((e,t)=>{const a=document.createElement("img");return a.setAttribute("alt",e),a.setAttribute("src",r.E.MEDIA_VIDEO_THUMB+t.replace(".","")+".png"),a})(e.title,e.video):"Format error",s=e=>{const t=document.createElement("article");t.className="media-card";const a=document.createElement("div");a.className="img-container";const n=c(e);a.append(n);const r=document.createElement("p");r.className="media-legend";const s=document.createElement("h3");s.textContent=e.title;const l=document.createElement("span");l.textContent=e.likes;const d=(0,o.G)("button","like-button",[{name:"aria-label",value:"likes"}]),u=i();return u.addEventListener("click",(()=>{const e=document.querySelector("aside span.counter");l.textContent++,e.textContent++})),d.append(u),r.append(s,l,d),t.append(a,r),t},l=(0,o.G)("div","filter-container"),d={popular:"Popularité",date:"Date",title:"Titre"},u=(0,o.G)("div","listbox-area"),p=(0,o.G)("div","left-area"),m=(0,o.G)("span","label",[{name:"id",value:"select-label"}],"Trier par"),h=(0,o.G)("div","",[{name:"id",value:"options-wrapper"}]),v=(0,o.G)("button","",[{name:"id",value:"selected-opt"},{name:"aria-haspopup",value:"listbox"},{name:"aria-labelledby",value:"slect-label slected-opt"}],d[Object.keys(d)[0]]),y=(0,o.G)("ul","hidden",[{name:"id",value:"options-list"},{name:"role",value:"listbox"},{name:"aria-labelledby",value:"select-label"},{name:"tabindex",value:-1}]);for(const[e,t]of Object.entries(d)){let a=(0,o.G)("li","",[{name:"id",value:e},{name:"role",value:"option"}],t);y.append(a)}h.append(v,y),p.append(m,h),u.append(p),l.append(u);const b=l,g=class{constructor(e){this.title=e.title,this.likes=e.likes,this.date=e.date,this.price=e.price}},f=class extends g{constructor(e){super(e),this.type="image",this.image=e.image}},w=class extends g{constructor(e){super(e),this.type="video",this.video=e.video}},E=e=>e.image?new f(e):e.video?new w(e):"Media format unknown",S=e=>{const t=document.getElementById("selected-opt"),a=document.getElementById("options-list"),n=document.querySelectorAll("[role=option]"),o=document.querySelector("[role=option]"),r=e=>{let t=document.querySelector(".focused");t&&t.classList.remove("focused"),e.classList.add("focused"),a.setAttribute("aria-activedescendant",e.id)},i=()=>{let e=document.querySelector(".focused");t.textContent=e.textContent,d()};a.addEventListener("focus",(()=>{a.addEventListener("keydown",c)}));const c=e=>{let t=e.which||e.keycode;e.preventDefault(),40===t&&(()=>{let e=document.querySelector(".focused");if(!e.nextSibling)return void console.log("pas de suivant");let t=e.nextSibling;r(t)})(),38===t&&(()=>{let e=document.querySelector(".focused");if(!e.previousSibling)return void console.log("pas de précédent");let t=e.previousSibling;r(t)})(),13!==t&&32!==t||i()};t.addEventListener("click",(()=>{a.classList.remove("hidden"),t.setAttribute("aria-expanded",!0),a.focus(),a.getAttribute("aria-activedescendant")||o&&r(o)})),new MutationObserver((t=>{l(t,e)})).observe(a,{attributes:!0,attributeOldValue:!0,attributeFilter:["aria-activedescendant"]});const l=(e,t)=>{let a=t,n=!1,o=document.querySelector("#options-list").getAttribute("aria-activedescendant");e[0].oldValue!==o&&(!0,a=t.sort(((e,t)=>{if(console.log("filter",o),"popular"===o)return t.likes-e.likes;if("date"===o){let a=new Date(e.date);return new Date(t.date)-a}if("title"===o){let a=e.title.toLowerCase(),n=t.title.toLowerCase();return a<n?-1:a>n?1:0}})),console.log(a),(e=>{const t=document.querySelector(".medias-wrapper");document.querySelectorAll(".media-card").forEach((e=>{e.remove()}));const a=[];e.forEach((e=>a.push(E(e)))),a.forEach((e=>t.append(s(e))))})(a))},d=()=>{a.classList.add("hidden"),t.removeAttribute("aria-expanded")};a.addEventListener("blur",d),n.forEach((e=>{e.addEventListener("click",(e=>(e=>{r(e.target),i()})(e)))}))},G=document.createElementNS("http://www.w3.org/2000/svg","svg");G.setAttribute("viewBox","0 0 42 42"),G.setAttribute("width",42),G.setAttribute("height",42),G.setAttribute("fill","none"),G.classList.add("close-modal");const L=document.createElementNS("http://www.w3.org/2000/svg","path");L.setAttribute("d","M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z"),G.append(L);const q=G,x=(e,t)=>{document.title=`Fisheye | ${e.name}`,document.querySelector("body").className="photographer-page",(0,n.Z)(),document.querySelector("#list").remove();const a=(e=>{let t=document.querySelector("section.hero-photographer");t?t.remove():t=(0,o.G)("section","hero-photographer");const a=(0,o.G)("div"),n=(0,o.G)("h2","","",e.name),i=(0,o.G)("p","location","",e.city+", "+e.country),c=(0,o.G)("p","tagmine","",e.tagline);a.append(n,i,c);const s=(0,o.G)("button","contact-button","","Contactez-moi"),l=(0,o.G)("div","img-container"),d=(0,o.G)("img","",[{name:"src",value:r.E.USER_THUMB+e.portrait}]);return l.append(d),t.append(a,s,l),t})(e),c=[];t.forEach((e=>c.push(E(e))));const l=(e=>{let t=document.querySelector("section.medias-section");t&&t.remove(),t=(0,o.G)("section","medias-section");const a=(0,o.G)("div","medias-wrapper");return e.forEach((e=>a.append(s(e)))),t.append(b,a),t})(c),d=document.querySelector("#main-content"),u=((e,t)=>{const a=(0,o.G)("aside");let n=0;e.forEach((e=>n+=e.likes));const r=(0,o.G)("span","counter","",n),c=i(),s=(0,o.G)("span","price","",t+"€ / jour");return a.append(r,c,s),a})(c,e.price);return d.append(a,l,u,(e=>{document.querySelector("body");const t=document.querySelector("#main-content"),a=(document.querySelector(".contact-button"),(0,o.G)("section","modal",[{name:"aria-hidden",value:!0},{name:"role",value:"dialog"},{name:"aria-describedby",value:"modal-title"}])),n=(0,o.G)("form",""),r=(0,o.G)("h1","","","Contactez-moi"),i=(0,o.G)("h2","","",e);n.append(r,i,q),[{id:"firstname",type:"text",label:"Prénom"},{id:"lastname",type:"text",label:"Nom"},{id:"email",type:"email",label:"Email"},{id:"message",type:"textarea",label:"Votre message"}].forEach((e=>{console.log(e.id),n.append((0,o.G)("label",`${e.id}-label`,[{name:"for",value:e.id}],e.label)),"textarea"===e.type?n.append((0,o.G)("textarea","",[{name:"id",value:e.id}])):n.append((0,o.G)("input","",[{name:"id",value:e.id},{name:"type",value:e.type}]))}));const c=(0,o.G)("button","",[{name:"type",value:"submit"}],"Envoyer");n.append(c),a.append(n),t.insertAdjacentElement("afterend",a)})(e.name)),S(t),(()=>{const e=document.querySelector("#main-content"),t=document.querySelector(".contact-button"),a=document.querySelector(".modal"),n=document.querySelector("body"),o=document.querySelector(".close-modal");t.addEventListener("click",(()=>{e.setAttribute("aria-hidden",!0),a.classList.add("display-modal"),n.classList.add("no-scroll")}));const r=()=>{e.removeAttribute("aria-hidden"),a.classList.remove("display-modal"),n.classList.remove("no-scroll")};o.addEventListener("click",r),document.addEventListener("keydown",(e=>{27===(e.which||e.keycode)&&(e.preventDefault(),r())}))})(),d},A=async(e,t)=>{const a=e.filter((e=>e.id===parseInt(t))),n=new class{constructor(e){this.name=e.name,this.id=e.id,this.city=e.city,this.country=e.country,this.tagline=e.tagline,this.price=e.price,this.portrait=e.portrait}async getMedias(){const{media:e}=await(0,o.Y)();return e.filter((e=>this.id===parseInt(e.photographerId)))}}(a[0]);x(n,await n.getMedias())}},969:(e,t,a)=>{a.d(t,{Z:()=>o});var n=a(218);const o=e=>{const t=document.querySelector("header");if(!document.querySelector("header a")){const e=(0,n.G)("a","data-link",[{name:"href",value:"#"}]),a=(0,n.G)("img","logo",[{name:"alt",value:"Fisheye Home page"},{name:"src",value:"assets/images/logo.png"}]);e.append(a),t.append(e)}if(!document.querySelector("header h1")){const a=(0,n.G)("h1","","",e);t.append(a)}document.querySelector("body").classList.contains("home-page")||document.querySelector("header h1").remove()}},225:(e,t,a)=>{a.d(t,{E:()=>n});const n={API_URL:"src/js/data/photographers.json",USER_THUMB:"assets/photographers/",MEDIA_IMG_THUMB:"assets/medias/img/thumbs/",MEDIA_IMG_WIDE:"assets/medias/img/wide/",MEDIA_VIDEO:"assets/medias/video",MEDIA_VIDEO_THUMB:"assets/medias/video/thumbs/"}},497:(e,t,a)=>{a.a(e,(async(e,t)=>{try{a(485);var n=a(218),o=a(837),r=a(820);const{photographers:e}=await(0,n.Y)();window.onload=()=>{history.pushState(null,null,window.location.pathname);const t=document.querySelectorAll(".data-link");let a="";t.forEach((e=>{e.addEventListener("click",(e=>{e.preventDefault(),a=e.target.closest("a").href,history.pushState(null,null,window.location.pathname+a)}))})),(0,o.Z)(e)};const i=()=>{const t=window.location.hash.substring(1);""!==t&&"main-content"!==t?(0,r.Z)(e,t):(0,o.Z)(e)};window.onpopstate=i,t()}catch(e){t(e)}}),1)},218:(e,t,a)=>{a.d(t,{Y:()=>o,G:()=>r});var n=a(225);const o=async()=>{try{const e=await fetch(n.E.API_URL);return await e.json()}catch(e){console.log(e)}},r=(e,t,a,n)=>{const o=document.createElement(e);return t&&(o.className=t),a&&a.forEach((e=>{o.setAttribute(e.name,e.value)})),n&&(o.textContent=n),o}},485:()=>{}},c={};function s(e){var t=c[e];if(void 0!==t)return t.exports;var a=c[e]={exports:{}};return i[e](a,a.exports,s),a.exports}e="function"==typeof Symbol?Symbol("webpack then"):"__webpack_then__",t="function"==typeof Symbol?Symbol("webpack exports"):"__webpack_exports__",a="function"==typeof Symbol?Symbol("webpack error"):"__webpack_error__",n=e=>{e&&(e.forEach((e=>e.r--)),e.forEach((e=>e.r--?e.r++:e())))},o=e=>!--e.r&&e(),r=(e,t)=>e?e.push(t):o(t),s.a=(i,c,s)=>{var l,d,u,p=s&&[],m=i.exports,h=!0,v=!1,y=(t,a,n)=>{v||(v=!0,a.r+=t.length,t.map(((t,o)=>t[e](a,n))),v=!1)},b=new Promise(((e,t)=>{u=t,d=()=>(e(m),n(p),p=0)}));b[t]=m,b[e]=(e,t)=>{if(h)return o(e);l&&y(l,e,t),r(p,e),b.catch(t)},i.exports=b,c((i=>{var c;l=(i=>i.map((i=>{if(null!==i&&"object"==typeof i){if(i[e])return i;if(i.then){var c=[];i.then((e=>{s[t]=e,n(c),c=0}),(e=>{s[a]=e,n(c),c=0}));var s={};return s[e]=(e,t)=>(r(c,e),i.catch(t)),s}}var l={};return l[e]=e=>o(e),l[t]=i,l})))(i);var s=()=>l.map((e=>{if(e[a])throw e[a];return e[t]})),d=new Promise(((e,t)=>{(c=()=>e(s)).r=0,y(l,c,t)}));return c.r?d:s()}),(e=>(e&&u(b[a]=e),d()))),h=!1},s.d=(e,t)=>{for(var a in t)s.o(t,a)&&!s.o(e,a)&&Object.defineProperty(e,a,{enumerable:!0,get:t[a]})},s.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),s(497)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ([
+/* 0 */
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _Controller_HomeController__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
+
+
+
+
+const {
+  photographers
+} = await (0,_services__WEBPACK_IMPORTED_MODULE_1__.getData)();
+
+window.onload = () => {
+  history.pushState(null, null, window.location.pathname);
+  const links = document.querySelectorAll('.data-link');
+  let url = "";
+  links.forEach(element => {
+    element.addEventListener('click', e => {
+      e.preventDefault();
+      url = e.target.closest('a').href;
+      history.pushState(null, null, window.location.pathname + url);
+    });
+  });
+  (0,_Controller_HomeController__WEBPACK_IMPORTED_MODULE_2__["default"])(photographers);
+};
+
+const renderPage = () => {
+  const hash = window.location.hash.substring(1);
+
+  if (hash !== "" && hash !== "main-content") {
+    (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, hash);
+  } else {
+    (0,_Controller_HomeController__WEBPACK_IMPORTED_MODULE_2__["default"])(photographers);
+  }
+};
+
+window.onpopstate = renderPage;
+__webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
+
+/***/ }),
+/* 1 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+/* 2 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getData": () => (/* binding */ getData),
+/* harmony export */   "createDOMElement": () => (/* binding */ createDOMElement)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+
+/**
+ * 
+ * @returns Return data json from api url
+ */
+
+const getData = async () => {
+  try {
+    const response = await fetch(_constants__WEBPACK_IMPORTED_MODULE_0__.path.API_URL);
+    const data = response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+/**
+ * Create a DOM element and set attributes if needed
+ * @param {string} tag 
+ * @param {string|null} className
+ * @param {Array|null} attributes
+ * @param {string} textContent
+ * @returns {object} DOM Element
+ */
+
+
+const createDOMElement = (tag, className, attributes, textContent) => {
+  const DOMElement = document.createElement(tag);
+
+  if (className) {
+    DOMElement.className = className;
+  }
+
+  if (attributes) {
+    attributes.forEach(attribute => {
+      DOMElement.setAttribute(attribute.name, attribute.value);
+    });
+  }
+
+  if (textContent) {
+    DOMElement.textContent = textContent;
+  }
+
+  return DOMElement;
+};
+
+
+
+/***/ }),
+/* 3 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "path": () => (/* binding */ path)
+/* harmony export */ });
+const path = {
+  API_URL: "src/js/data/photographers.json",
+  USER_THUMB: "assets/photographers/",
+  MEDIA_IMG_THUMB: "assets/medias/img/thumbs/",
+  MEDIA_IMG_WIDE: "assets/medias/img/wide/",
+  MEDIA_VIDEO: "assets/medias/video",
+  MEDIA_VIDEO_THUMB: "assets/medias/video/thumbs/"
+};
+
+/***/ }),
+/* 4 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Views_home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+
+
+const HomeController = photographers => {
+  (0,_Views_home__WEBPACK_IMPORTED_MODULE_0__["default"])(photographers);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HomeController);
+
+/***/ }),
+/* 5 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _components_home_photographerCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+
+
+
+
+
+const home = async photographers => {
+  document.querySelector("body").className = "home-page";
+  document.title = "Fisheye";
+  const elmentsToRemove = [document.querySelector("section.hero-photographer"), document.querySelector("section.medias-section"), document.querySelector("aside"), document.querySelector(".modal")];
+  elmentsToRemove.forEach(elt => {
+    if (elt) {
+      elt.remove();
+    }
+  });
+  (0,_components_header__WEBPACK_IMPORTED_MODULE_0__["default"])("Nos photographes");
+  const main = document.getElementById("main-content");
+
+  if (!document.querySelector("section.photographer-section")) {
+    const wrapper = (0,_services__WEBPACK_IMPORTED_MODULE_3__.createDOMElement)("section", "photographer-section", [{
+      name: "id",
+      value: "list"
+    }]);
+    photographers.forEach(photographer => wrapper.append((0,_components_home_photographerCard__WEBPACK_IMPORTED_MODULE_2__["default"])(new _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__["default"](photographer))));
+    main.append(wrapper);
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (home);
+
+/***/ }),
+/* 6 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+
+const header = title => {
+  const header = document.querySelector("header");
+
+  if (!document.querySelector("header a")) {
+    const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("a", "data-link", [{
+      name: "href",
+      value: "#"
+    }]);
+    const logo = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "logo", [{
+      name: "alt",
+      value: "Fisheye Home page"
+    }, {
+      name: "src",
+      value: "assets/images/logo.png"
+    }]);
+    link.append(logo);
+    header.append(link);
+  }
+
+  if (!document.querySelector("header h1")) {
+    const headerTitle = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", title);
+    header.append(headerTitle);
+  }
+
+  if (!document.querySelector("body").classList.contains("home-page")) {
+    document.querySelector("header h1").remove();
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (header);
+
+/***/ }),
+/* 7 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+
+class Photographer {
+  constructor(data) {
+    this.name = data.name;
+    this.id = data.id;
+    this.city = data.city;
+    this.country = data.country;
+    this.tagline = data.tagline;
+    this.price = data.price;
+    this.portrait = data.portrait;
+  }
+  /**
+   * Get all medias of a photographer
+   * @returns {object}
+   */
+
+
+  async getMedias() {
+    const {
+      media
+    } = await (0,_services__WEBPACK_IMPORTED_MODULE_0__.getData)();
+    return media.filter(media => this.id === parseInt(media.photographerId));
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Photographer);
+
+/***/ }),
+/* 8 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+const photographerCard = photographer => {
+  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", "photographer");
+  const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("a", "photographer-link data-link", [{
+    name: "href",
+    value: `#${photographer.id}`
+  }]);
+  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "media-container");
+  const img = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
+    name: "src",
+    value: _constants__WEBPACK_IMPORTED_MODULE_1__.path.USER_THUMB + photographer.portrait
+  }, {
+    name: "alt",
+    value: photographer.name
+  }]);
+  mediaContainer.append(img);
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer.name);
+  link.append(mediaContainer, title);
+  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h3", "", "", `${photographer.country}, ${photographer.city}`);
+  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "", "", photographer.tagline);
+  const price = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "", "", `${photographer.price}€/jour`);
+  article.append(link, location, tagline, price);
+  return article;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (photographerCard);
+
+/***/ }),
+/* 9 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Views_profil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+
+
+
+const ProfilController = async (photographers, id) => {
+  const filtered = photographers.filter(photographer => photographer.id === parseInt(id));
+  const photographer = new _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__["default"](filtered[0]);
+  (0,_Views_profil__WEBPACK_IMPORTED_MODULE_0__["default"])(photographer, await photographer.getMedias());
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfilController);
+
+/***/ }),
+/* 10 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _components_profil_hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _components_profil_gallery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(23);
+/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24);
+/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(28);
+/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(16);
+/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_utils_mediaModal__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(29);
+
+
+
+
+
+
+
+
+
+
+
+const profil = (photographer, medias) => {
+  document.title = `Fisheye | ${photographer.name}`;
+  document.querySelector("body").className = "photographer-page";
+  const cards = document.querySelectorAll("article");
+  (0,_components_header__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  /* manage header and remove home lements */
+
+  const homeList = document.querySelector("#list");
+  homeList.remove();
+  const heroSection = (0,_components_profil_hero__WEBPACK_IMPORTED_MODULE_1__["default"])(photographer);
+  const getMedias = medias;
+  const mediaSorted = [];
+  getMedias.forEach(media => mediaSorted.push((0,_Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__["default"])(media)));
+  const galleryPhotographer = (0,_components_profil_gallery__WEBPACK_IMPORTED_MODULE_2__["default"])(mediaSorted);
+  const main = document.querySelector("#main-content");
+  const counter = (0,_components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__["default"])(mediaSorted, photographer.price);
+  main.append(heroSection, galleryPhotographer, counter, (0,_components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name));
+  (0,_utils_customSelect__WEBPACK_IMPORTED_MODULE_5__["default"])(medias);
+  (0,_components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__["default"])();
+  (0,_utils_modal__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  return main;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (profil);
+
+/***/ }),
+/* 11 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+const hero = photographer => {
+  let heroSection = document.querySelector("section.hero-photographer");
+
+  if (heroSection) {
+    heroSection.remove();
+  } else {
+    heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "hero-photographer");
+  }
+
+  const wrapperDetails = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div");
+  const name = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer.name);
+  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "location", "", photographer.city + ", " + photographer.country);
+  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "tagmine", "", photographer.tagline);
+  wrapperDetails.append(name, location, tagline);
+  const contact = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "contact-button", [, {
+    name: "data-modal",
+    value: "modal-form"
+  }], "Contactez-moi");
+  const imgWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "img-container");
+  const img = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
+    name: "src",
+    value: _constants__WEBPACK_IMPORTED_MODULE_1__.path.USER_THUMB + photographer.portrait
+  }]);
+  imgWrapper.append(img);
+  heroSection.append(wrapperDetails, contact, imgWrapper);
+  return heroSection;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (hero);
+
+/***/ }),
+/* 12 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _mediaCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+
+
+
+
+const gallery = medias => {
+  /* Remove potential previous gallery */
+  let gallerySection = document.querySelector("section.medias-section");
+
+  if (gallerySection) {
+    gallerySection.remove();
+  }
+
+  gallerySection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "medias-section");
+  const mediasWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "medias-wrapper");
+  medias.forEach(media => mediasWrapper.append((0,_mediaCard__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
+  gallerySection.append(_mediasFilters__WEBPACK_IMPORTED_MODULE_2__["default"], mediasWrapper);
+  return gallerySection;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gallery);
+
+/***/ }),
+/* 13 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_like__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _Models_mediaCardFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_utils_mediaModal__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+const mediaCard = media => {
+  const card = document.createElement("article");
+  card.className = "media-card";
+  card.setAttribute("data-type", media.type);
+  const wrapperThumb = document.createElement("div");
+  wrapperThumb.className = "img-container";
+  const img = (0,_Models_mediaCardFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(media);
+  wrapperThumb.append(img);
+  const legend = document.createElement("p");
+  legend.className = "media-legend";
+  const title = document.createElement("h3");
+  title.textContent = media.title;
+  const likeCounter = document.createElement("span");
+  likeCounter.textContent = media.likes;
+  const likeButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "like-button", [{
+    name: "aria-label",
+    value: "likes"
+  }]);
+  const likeIcon = (0,_icons_like__WEBPACK_IMPORTED_MODULE_1__["default"])();
+
+  const updateCount = () => {
+    const mainCounter = document.querySelector("aside span.counter");
+    likeCounter.textContent++;
+    mainCounter.textContent++;
+  };
+
+  likeIcon.addEventListener("click", updateCount);
+  likeButton.append(likeIcon);
+  legend.append(title, likeCounter, likeButton);
+  card.append(wrapperThumb, legend);
+  return card;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediaCard);
+
+/***/ }),
+/* 14 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const likeSvg = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 20 20');
+  svg.setAttribute('aria-hidden', true);
+  const likePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  likePath.setAttribute("d", "M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z");
+  svg.append(likePath);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (likeSvg);
+
+/***/ }),
+/* 15 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+
+/**
+ * Modify src depending on media type
+ * @param {object} data 
+ * @returns 
+ */
+
+const MediaCardFactory = media => {
+  if (media.type === "image") {
+    return imageThumb(media.title, media.image);
+  } else if (media.type === "video") {
+    return videoThumb(media.title, media.video);
+  }
+
+  return "Format error";
+};
+
+const imageThumb = (title, image) => {
+  const img = document.createElement("img");
+  img.setAttribute("alt", title);
+  img.setAttribute("src", _constants__WEBPACK_IMPORTED_MODULE_0__.path.MEDIA_IMG_THUMB + image);
+  img.setAttribute("data-modal", "modal-media");
+  return img;
+};
+
+const videoThumb = (title, image) => {
+  const img = document.createElement("img");
+  img.setAttribute("alt", title);
+  img.setAttribute("src", _constants__WEBPACK_IMPORTED_MODULE_0__.path.MEDIA_VIDEO_THUMB + image.replace(".", "") + ".png");
+  img.setAttribute("data-modal", "modal-media");
+  return img;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MediaCardFactory);
+
+/***/ }),
+/* 16 */
+/***/ (() => {
+
+
+
+/***/ }),
+/* 17 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+
+
+const mediasFilters = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "filter-container");
+const options = {
+  popular: "Popularité",
+  date: "Date",
+  title: "Titre"
+};
+const listboxArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "listbox-area");
+const leftArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "left-area");
+const label = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "label", [{
+  name: "id",
+  value: "select-label"
+}], "Trier par");
+const optionsWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "", [{
+  name: "id",
+  value: "options-wrapper"
+}]);
+const selectedOpt = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "", [{
+  name: "id",
+  value: "selected-opt"
+}, {
+  name: "aria-haspopup",
+  value: "listbox"
+}, {
+  name: "aria-labelledby",
+  value: "slect-label slected-opt"
+}], options[Object.keys(options)[0]]);
+const list = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("ul", "hidden", [{
+  name: "id",
+  value: "options-list"
+}, {
+  name: "role",
+  value: "listbox"
+}, {
+  name: "aria-labelledby",
+  value: "select-label"
+}, {
+  name: "tabindex",
+  value: -1
+}]);
+
+for (const [key, value] of Object.entries(options)) {
+  let optionLi = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("li", "", [{
+    name: "id",
+    value: key
+  }, {
+    name: "role",
+    value: "option"
+  }], value);
+  list.append(optionLi);
+}
+
+optionsWrapper.append(selectedOpt, list);
+leftArea.append(label, optionsWrapper);
+listboxArea.append(leftArea);
+mediasFilters.append(listboxArea);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediasFilters);
+
+/***/ }),
+/* 18 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const arrow = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 16 11');
+  svg.setAttribute('aria-hidden', true);
+  svg.setAttribute('width', 16);
+  svg.setAttribute('height', 11);
+  svg.setAttribute('fill', "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M1.88 10.5466L8 4.43996L14.12 10.5466L16 8.66663L8 0.66663L1.64355e-07 8.66663L1.88 10.5466Z");
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrow);
+
+/***/ }),
+/* 19 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _Video__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+
+
+
+const mediaFactory = data => {
+  if (data.image) {
+    return new _Image__WEBPACK_IMPORTED_MODULE_0__["default"](data);
+  } else if (data.video) {
+    return new _Video__WEBPACK_IMPORTED_MODULE_1__["default"](data);
+  } else {
+    return "Media format unknown";
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediaFactory);
+
+/***/ }),
+/* 20 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+
+
+class ImageMedia extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(data) {
+    super(data);
+    this.type = "image";
+    this.image = data.image;
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageMedia);
+
+/***/ }),
+/* 21 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Media {
+  constructor(data) {
+    this.title = data.title;
+    this.likes = data.likes;
+    this.date = data.date;
+    this.price = data.price;
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Media);
+
+/***/ }),
+/* 22 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+
+
+class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(data) {
+    super(data);
+    this.type = "video";
+    this.video = data.video;
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Video);
+
+/***/ }),
+/* 23 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_like__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+
+
+
+const likesCounter = (data, price) => {
+  const aside = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("aside");
+  let count = 0;
+  data.forEach(like => count += like.likes);
+  const counter = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "counter", "", count);
+  const likeButton = (0,_icons_like__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  const tarif = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "price", "", price + "€ / jour");
+  aside.append(counter, likeButton, tarif);
+  return aside;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (likesCounter);
+
+/***/ }),
+/* 24 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Views_components_profil_gallery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var _gallerySort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+
+
+
+const customSelect = medias => {
+  const button = document.getElementById("selected-opt");
+  const listbox = document.getElementById("options-list");
+  const options = document.querySelectorAll("[role=option]");
+  const firstItem = document.querySelector("[role=option]");
+  let sortState = "";
+  const sortFunctions = {
+    "popularite": "likes"
+  };
+  /**
+   * Set focus on the first item if no aria-activedescendant
+   * @returns 
+   */
+
+  const setUpFocus = () => {
+    if (listbox.getAttribute("aria-activedescendant")) {
+      return;
+    }
+
+    focusFirstItem();
+  };
+  /**
+   * Execute focusItem on first item
+   */
+
+
+  const focusFirstItem = () => {
+    if (firstItem) {
+      focusItem(firstItem);
+    }
+  };
+  /**
+   * Set focus on an item
+   * @param {object} item 
+   */
+
+
+  const focusItem = item => {
+    let focusedItem = document.querySelector(".focused");
+
+    if (focusedItem) {
+      focusedItem.classList.remove("focused");
+    }
+
+    item.classList.add("focused");
+    listbox.setAttribute("aria-activedescendant", item.id);
+  };
+  /**
+   * Select a item and hide listbox
+   */
+
+
+  const selectItem = () => {
+    let focusedItem = document.querySelector(".focused");
+    button.textContent = focusedItem.textContent;
+    hideList();
+  };
+  /**
+   * Get previous item when use down arrow
+   */
+
+
+  const getPreviousItem = () => {
+    let focusedItem = document.querySelector(".focused");
+
+    if (!focusedItem.previousSibling) {
+      console.log('pas de précédent');
+      return;
+    }
+
+    let nextItem = focusedItem.previousSibling;
+    focusItem(nextItem);
+  };
+  /**
+   * Get next item when use up arrow 
+   */
+
+
+  const getNextItem = () => {
+    let focusedItem = document.querySelector(".focused");
+
+    if (!focusedItem.nextSibling) {
+      console.log('pas de suivant');
+      return;
+    }
+
+    let nextItem = focusedItem.nextSibling;
+    focusItem(nextItem);
+  };
+  /**
+   * Add listener on keyboard
+   */
+
+
+  const keyEventsListener = () => {
+    listbox.addEventListener("keydown", keyEvents);
+  };
+  /* Add listener on focus list to trigger listener on keyboad */
+
+
+  listbox.addEventListener("focus", keyEventsListener);
+  /**
+   * Execute functions depending on keys pressed
+   * @param event  
+   */
+
+  const keyEvents = e => {
+    let key = e.which || e.keycode;
+    e.preventDefault();
+
+    if (key === 40) {
+      getNextItem();
+    }
+
+    if (key === 38) {
+      getPreviousItem();
+    }
+
+    if (key === 13 || key === 32) {
+      selectItem();
+    }
+  };
+  /**
+   * Show the list of options
+   */
+
+
+  const showList = () => {
+    listbox.classList.remove("hidden");
+    button.setAttribute("aria-expanded", true);
+    listbox.focus();
+    setUpFocus();
+  };
+
+  button.addEventListener("click", showList);
+  /**
+   * Sort medias
+   */
+
+  let observer = new MutationObserver(mutationRecords => {
+    sortMedias(mutationRecords, medias);
+  });
+  observer.observe(listbox, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ["aria-activedescendant"]
+  });
+
+  const sortMedias = (records, medias) => {
+    let mediaSorted = medias;
+    let sort = false;
+    let sortFilter = document.querySelector("#options-list").getAttribute("aria-activedescendant");
+
+    if (records[0].oldValue !== sortFilter) {
+      sort = true;
+      mediaSorted = medias.sort((a, b) => {
+        console.log("filter", sortFilter);
+
+        if (sortFilter === "popular") {
+          return b.likes - a.likes;
+        }
+
+        if (sortFilter === "date") {
+          let da = new Date(a.date);
+          let db = new Date(b.date);
+          return db - da;
+        }
+
+        if (sortFilter === "title") {
+          let titleA = a.title.toLowerCase();
+          let titleB = b.title.toLowerCase();
+
+          if (titleA < titleB) {
+            return -1;
+          }
+
+          if (titleA > titleB) {
+            return 1;
+          }
+
+          return 0;
+        }
+      });
+      console.log(mediaSorted);
+      (0,_gallerySort__WEBPACK_IMPORTED_MODULE_1__["default"])(mediaSorted);
+    }
+  };
+  /**
+   * Hide the list of options and trigger medias sort
+   */
+
+
+  const hideList = () => {
+    listbox.classList.add("hidden");
+    button.removeAttribute("aria-expanded");
+  };
+
+  listbox.addEventListener("blur", hideList);
+  /* Focus item and select on mouse click    */
+
+  const clickItem = e => {
+    focusItem(e.target);
+    selectItem();
+  };
+
+  options.forEach(option => {
+    option.addEventListener("click", e => clickItem(e));
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (customSelect);
+
+/***/ }),
+/* 25 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+
+
+
+const gallerySort = medias => {
+  const gallery = document.querySelector(".medias-wrapper");
+  const cards = document.querySelectorAll(".media-card");
+  cards.forEach(card => {
+    card.remove();
+  });
+  const mediaSorted = [];
+  medias.forEach(media => mediaSorted.push((0,_Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
+  mediaSorted.forEach(media => gallery.append((0,_Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__["default"])(media)));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gallerySort);
+
+/***/ }),
+/* 26 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+
+
+
+const contact = photographer => {
+  const body = document.querySelector("body");
+  const main = document.querySelector("#main-content");
+  const contactButton = document.querySelector(".contact-button");
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "modal modal-form", [{
+    name: "aria-hidden",
+    value: true
+  }, {
+    name: "role",
+    value: "dialog"
+  }, {
+    name: "aria-describedby",
+    value: "modal-title"
+  }]);
+  const form = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("form", "");
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", "Contactez-moi");
+  const subtitle = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer);
+  form.append(title, subtitle, _icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  const inputs = [{
+    id: "firstname",
+    type: "text",
+    label: "Prénom"
+  }, {
+    id: "lastname",
+    type: "text",
+    label: "Nom"
+  }, {
+    id: "email",
+    type: "email",
+    label: "Email"
+  }, {
+    id: "message",
+    type: "textarea",
+    label: "Votre message"
+  }];
+  inputs.forEach(input => {
+    console.log(input.id);
+    form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("label", `${input.id}-label`, [{
+      name: "for",
+      value: input.id
+    }], input.label));
+
+    if (input.type === "textarea") {
+      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("textarea", "", [{
+        name: "id",
+        value: input.id
+      }]));
+    } else {
+      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("input", "", [{
+        name: "id",
+        value: input.id
+      }, {
+        name: "type",
+        value: input.type
+      }]));
+    }
+  });
+  const button = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "", [{
+    name: "type",
+    value: "submit"
+  }], "Envoyer");
+  form.append(button);
+  modal.append(form);
+  main.insertAdjacentElement("afterend", modal);
+  /*contactButton.addEventListener("click", displayModal);*/
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contact);
+
+/***/ }),
+/* 27 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg.setAttribute('viewBox', '0 0 42 42');
+svg.setAttribute('width', 42);
+svg.setAttribute('height', 42);
+svg.setAttribute('fill', "none");
+svg.classList.add("close-modal");
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("d", "M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z");
+svg.append(path);
+const cross = svg;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
+
+/***/ }),
+/* 28 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+
+const modal = () => {
+  const main = document.querySelector("#main-content");
+  const lightbox = document.querySelector('.modal-media article .media-container');
+  const contactButton = document.querySelector(".contact-button");
+  const body = document.querySelector("body");
+  const close = document.querySelector(".close-modal");
+  let modal = null;
+  const cards = document.querySelectorAll("article.media-card");
+
+  const mediaModal = e => {
+    const src = e.target.getAttribute("src").replace('thumbs', 'wide');
+    const type = e.target.closest("article").getAttribute('data-type');
+    let mediaElement = null;
+
+    switch (type) {
+      case 'image':
+        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
+          name: 'src',
+          value: src
+        }]);
+        break;
+
+      case 'video':
+        let video = src.replace('mp4.png', '.mp4');
+        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("video", "", [{
+          name: 'controls',
+          value: true
+        }, {
+          name: 'src',
+          value: video
+        }]);
+        break;
+
+      default:
+        "";
+    }
+
+    lightbox.append(mediaElement);
+  };
+
+  cards.forEach(card => {
+    card.addEventListener("click", e => {
+      targetModal(e);
+      openModal();
+      mediaModal(e);
+    });
+  });
+
+  const targetModal = e => {
+    modal = document.querySelector("." + e.target.getAttribute("data-modal"));
+  };
+
+  const openModal = () => {
+    main.setAttribute("aria-hidden", true);
+    modal.classList.add("display-modal");
+    body.classList.add("no-scroll");
+  };
+
+  contactButton.addEventListener("click", e => {
+    targetModal(e);
+    openModal();
+  });
+
+  const closeModal = () => {
+    main.removeAttribute("aria-hidden");
+    modal.classList.remove("display-modal");
+    body.classList.remove("no-scroll");
+  };
+
+  close.addEventListener("click", closeModal);
+
+  const keyEvents = e => {
+    let key = e.which || e.keycode;
+
+    if (key === 27) {
+      e.preventDefault();
+      closeModal();
+    }
+  };
+
+  document.addEventListener("keydown", keyEvents);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
+
+/***/ }),
+/* 29 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+
+const lightbox = () => {
+  const body = document.querySelector("body");
+  const main = document.querySelector("#main-content");
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "modal modal-media", [{
+    name: "aria-hidden",
+    value: true
+  }, {
+    name: "role",
+    value: "dialog"
+  }, {
+    name: "aria-describedby",
+    value: "modal-title"
+  }]);
+  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", "media");
+  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', 'media-container');
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", "titre media");
+  const media = article.append(mediaContainer, title);
+  modal.append(article);
+  main.insertAdjacentElement("afterend", modal);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
+
+/***/ })
+/******/ 	]);
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/async module */
+/******/ 	(() => {
+/******/ 		var webpackThen = typeof Symbol === "function" ? Symbol("webpack then") : "__webpack_then__";
+/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 		var webpackError = typeof Symbol === "function" ? Symbol("webpack error") : "__webpack_error__";
+/******/ 		var completeQueue = (queue) => {
+/******/ 			if(queue) {
+/******/ 				queue.forEach((fn) => (fn.r--));
+/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 			}
+/******/ 		}
+/******/ 		var completeFunction = (fn) => (!--fn.r && fn());
+/******/ 		var queueFunction = (queue, fn) => (queue ? queue.push(fn) : completeFunction(fn));
+/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 			if(dep !== null && typeof dep === "object") {
+/******/ 				if(dep[webpackThen]) return dep;
+/******/ 				if(dep.then) {
+/******/ 					var queue = [];
+/******/ 					dep.then((r) => {
+/******/ 						obj[webpackExports] = r;
+/******/ 						completeQueue(queue);
+/******/ 						queue = 0;
+/******/ 					}, (e) => {
+/******/ 						obj[webpackError] = e;
+/******/ 						completeQueue(queue);
+/******/ 						queue = 0;
+/******/ 					});
+/******/ 					var obj = {};
+/******/ 					obj[webpackThen] = (fn, reject) => (queueFunction(queue, fn), dep['catch'](reject));
+/******/ 					return obj;
+/******/ 				}
+/******/ 			}
+/******/ 			var ret = {};
+/******/ 			ret[webpackThen] = (fn) => (completeFunction(fn));
+/******/ 			ret[webpackExports] = dep;
+/******/ 			return ret;
+/******/ 		}));
+/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
+/******/ 			var queue = hasAwait && [];
+/******/ 			var exports = module.exports;
+/******/ 			var currentDeps;
+/******/ 			var outerResolve;
+/******/ 			var reject;
+/******/ 			var isEvaluating = true;
+/******/ 			var nested = false;
+/******/ 			var whenAll = (deps, onResolve, onReject) => {
+/******/ 				if (nested) return;
+/******/ 				nested = true;
+/******/ 				onResolve.r += deps.length;
+/******/ 				deps.map((dep, i) => (dep[webpackThen](onResolve, onReject)));
+/******/ 				nested = false;
+/******/ 			};
+/******/ 			var promise = new Promise((resolve, rej) => {
+/******/ 				reject = rej;
+/******/ 				outerResolve = () => (resolve(exports), completeQueue(queue), queue = 0);
+/******/ 			});
+/******/ 			promise[webpackExports] = exports;
+/******/ 			promise[webpackThen] = (fn, rejectFn) => {
+/******/ 				if (isEvaluating) { return completeFunction(fn); }
+/******/ 				if (currentDeps) whenAll(currentDeps, fn, rejectFn);
+/******/ 				queueFunction(queue, fn);
+/******/ 				promise['catch'](rejectFn);
+/******/ 			};
+/******/ 			module.exports = promise;
+/******/ 			body((deps) => {
+/******/ 				currentDeps = wrapDeps(deps);
+/******/ 				var fn;
+/******/ 				var getResult = () => (currentDeps.map((d) => {
+/******/ 					if(d[webpackError]) throw d[webpackError];
+/******/ 					return d[webpackExports];
+/******/ 				}))
+/******/ 				var promise = new Promise((resolve, reject) => {
+/******/ 					fn = () => (resolve(getResult));
+/******/ 					fn.r = 0;
+/******/ 					whenAll(currentDeps, fn, reject);
+/******/ 				});
+/******/ 				return fn.r ? promise : getResult();
+/******/ 			}, (err) => (err && reject(promise[webpackError] = err), outerResolve()));
+/******/ 			isEvaluating = false;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module used 'module' so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__(0);
+/******/ 	
+/******/ })()
+;

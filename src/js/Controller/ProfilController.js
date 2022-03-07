@@ -1,5 +1,5 @@
 import profil from "../Views/profil";
-import Photographer from "../models/Photographer";
+import Photographer from "../Models/Photographer";
 
 const ProfilController = async (photographers, id) => {
     const filtered = photographers.filter(photographer => photographer.id === parseInt(id));

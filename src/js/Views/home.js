@@ -11,7 +11,8 @@ const home = async (photographers) => {
     const elmentsToRemove = [
         document.querySelector("section.hero-photographer"),
         document.querySelector("section.medias-section"),
-        document.querySelector("aside")
+        document.querySelector("aside"),
+        document.querySelector(".modal"),
     ]
 
     elmentsToRemove.forEach(elt => {

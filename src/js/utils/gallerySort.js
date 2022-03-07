@@ -1,5 +1,5 @@
 import mediaCard from "../Views/components/profil/mediaCard";
-import MediaFactory from "../Models/MediaFactory";
+import mediaFactory from "../Models/mediaFactory";
 
 const gallerySort = medias => {
     const gallery = document.querySelector(".medias-wrapper");
@@ -10,7 +10,7 @@ const gallerySort = medias => {
     });
 
     const mediaSorted = [];
-    medias.forEach(media => mediaSorted.push(MediaFactory(media)));
+    medias.forEach(media => mediaSorted.push(mediaFactory(media)));
     mediaSorted.forEach( media =>  gallery.append(mediaCard(media)));
 }
 
