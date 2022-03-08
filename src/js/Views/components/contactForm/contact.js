@@ -5,7 +5,7 @@ const contact = (photographer) => {
     const body = document.querySelector("body");
     const main = document.querySelector("#main-content");
     const contactButton = document.querySelector(".contact-button");
-    const modal = createDOMElement("section", "modal modal-form", [{name: "aria-hidden", value: true}, {name: "role", value: "dialog"}, {name: "aria-describedby", value: "modal-title"}])
+    const modal = createDOMElement("section", ['modal', 'modal-form'], [{name: "aria-hidden", value: true}, {name: "role", value: "dialog"}, {name: "aria-describedby", value: "modal-title"}])
     const form = createDOMElement("form", "");
     const title = createDOMElement("h1", "", "", "Contactez-moi");
     const subtitle = createDOMElement("h2", "", "", photographer);
@@ -21,7 +21,7 @@ const contact = (photographer) => {
 
     inputs.forEach( input => {
         console.log(input.id)
-        form.append(createDOMElement("label", `${input.id}-label`, [{name: "for", value: input.id}], input.label));
+        form.append(createDOMElement("label", [`${input.id}-label`], [{name: "for", value: input.id}], input.label));
         if(input.type === "textarea"){
             form.append(createDOMElement("textarea", "", [{name: "id", value: input.id}]));
         } else {

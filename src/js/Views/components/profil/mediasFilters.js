@@ -2,7 +2,7 @@ import { createDOMElement } from "../../../services";
 import arrow from "../icons/arrow";
 
 
-const mediasFilters = createDOMElement("div", "filter-container");
+const mediasFilters = createDOMElement("div", ['filter-container']);
 
 const options = { 
     popular:  "Popularité",
@@ -10,13 +10,13 @@ const options = {
     title:    "Titre",
 }
 
-const listboxArea = createDOMElement("div", "listbox-area");
-const leftArea = createDOMElement("div", "left-area");
-const label = createDOMElement("span", "label", [{name: "id", value: "select-label"}], "Trier par");
+const listboxArea = createDOMElement("div", ['listbox-area']);
+const leftArea = createDOMElement("div", ['left-area']);
+const label = createDOMElement("span", ['label'], [{name: "id", value: "select-label"}], "Trier par");
 const optionsWrapper = createDOMElement("div", "", [{name: "id", value: "options-wrapper"}]);
 const selectedOpt = createDOMElement("button", "", [{name: "id", value: "selected-opt"}, {name: "aria-haspopup", value: "listbox"}, {name: "aria-labelledby", value: "slect-label slected-opt"}], options[Object.keys(options)[0]]);
 
-const list = createDOMElement("ul", "hidden", [{name: "id", value: "options-list"}, {name: "role", value: "listbox"}, {name: "aria-labelledby", value: "select-label"}, {name: "tabindex", value: -1}]);
+const list = createDOMElement("ul", ['hidden'], [{name: "id", value: "options-list"}, {name: "role", value: "listbox"}, {name: "aria-labelledby", value: "select-label"}, {name: "tabindex", value: -1}]);
 
 
 for (const [key, value] of Object.entries(options)){

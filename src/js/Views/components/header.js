@@ -4,9 +4,9 @@ const header = (title) => {
     const header = document.querySelector("header");
 
     if(!document.querySelector("header a")){
-        const link = createDOMElement("a", "data-link", [{name: "href", value: "#"}]);
+        const link = createDOMElement("a", ['data-link', 'logo-link'], [{name: "href", value: "#"}]);
     
-        const logo = createDOMElement("img", "logo", [ {name: "alt", value: "Fisheye Home page"},
+        const logo = createDOMElement("img", ['logo'], [ {name: "alt", value: "Fisheye Home page"},
                                                        {name: "src", value: "assets/images/logo.png"}]);
        
     

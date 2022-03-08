@@ -8,11 +8,11 @@ const likesCounter = (data, price) => {
     let count = 0;
     data.forEach(like => count += like.likes);
 
-    const counter = createDOMElement("span", "counter", "", count);
+    const counter = createDOMElement("span", ['counter'], "", count);
 
     const likeButton = likeSvg();
 
-    const tarif = createDOMElement("span", "price", "", price + "€ / jour");
+    const tarif = createDOMElement("span", ['price'], "", price + "€ / jour");
 
     aside.append(counter, likeButton , tarif);
 

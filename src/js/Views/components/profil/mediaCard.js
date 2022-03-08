@@ -24,7 +24,7 @@ const mediaCard = (media) => {
     const likeCounter = document.createElement("span");
     likeCounter.textContent = media.likes;
 
-    const likeButton = createDOMElement("button", "like-button", [{name: "aria-label", value: "likes"}]);   
+    const likeButton = createDOMElement("button", ['like-button'], [{name: "aria-label", value: "likes"}]);   
     const likeIcon = likeSvg(); 
 
     const updateCount = () => {

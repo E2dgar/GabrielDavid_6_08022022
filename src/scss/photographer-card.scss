@@ -1,0 +1,46 @@
+.photographer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 5rem;
+
+    a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+
+        &:focus {
+            outline: 2px solid $primary;
+        }
+
+        h2 {
+            color: $secondary;
+            font-size: $f36;
+            line-height: 1.33;
+            margin: 20px 0 0;
+        }
+    }
+
+    h3 {
+        color: $primary;
+        font-size: $f13;
+        font-weight: normal;
+        line-height: 1.33;
+        margin: 0;
+    }
+
+    .tagline {
+        color: $black-darker;
+        font-size: $f10;
+        line-height: 1.33;
+        margin: 3px 0;
+    }
+
+    .price {
+        color: $grey-darker;
+        margin: 0;
+        font-size: $f9;
+    }
+}

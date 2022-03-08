@@ -8,9 +8,9 @@ const gallery = (medias) => {
     if(gallerySection){
         gallerySection.remove()
     }
-    gallerySection = createDOMElement("section", "medias-section");
+    gallerySection = createDOMElement("section", ['medias-section']);
 
-    const mediasWrapper = createDOMElement("div", "medias-wrapper");
+    const mediasWrapper = createDOMElement("div", ['medias-wrapper']);
 
     medias.forEach( media =>  mediasWrapper.append(mediaCard(media)));
 

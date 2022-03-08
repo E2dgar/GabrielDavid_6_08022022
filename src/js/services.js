@@ -20,7 +20,7 @@ const getData = async () => {
 /**
  * Create a DOM element and set attributes if needed
  * @param {string} tag 
- * @param {string|null} className
+ * @param {Array|null} className
  * @param {Array|null} attributes
  * @param {string} textContent
  * @returns {object} DOM Element
@@ -28,8 +28,10 @@ const getData = async () => {
  const createDOMElement = (tag, className, attributes, textContent) => {
   const DOMElement = document.createElement(tag);
 
-  if(className){
-    DOMElement.className = className;
+  if(className?.length > 0){
+    className.forEach(classe => {
+      DOMElement.classList.add(classe);
+    })
   }
 
   if(attributes){

@@ -1,18 +1,19 @@
-import header from "./components/header";
-import Photographer from "../Models/Photographer";
-import photographerCard from "./components/home/photographerCard";
-import { createDOMElement } from "../services";
+import header from './components/header';
+import Photographer from '../Models/Photographer';
+import photographerCard from './components/home/photographerCard';
+import { createDOMElement } from '../services';
 
 const home = async (photographers) => {
-    document.querySelector("body").className = "home-page";
+    document.querySelector('body').className = 'home-page';
 
-    document.title = "Fisheye";
+    document.title = 'Fisheye';
 
     const elmentsToRemove = [
-        document.querySelector("section.hero-photographer"),
-        document.querySelector("section.medias-section"),
-        document.querySelector("aside"),
-        document.querySelector(".modal"),
+        document.querySelector('section.hero-photographer'),
+        document.querySelector('section.medias-section'),
+        document.querySelector('aside'),
+        document.querySelector('.modal'),
+        document.querySelector('filter-container')
     ]
 
     elmentsToRemove.forEach(elt => {
@@ -21,12 +22,12 @@ const home = async (photographers) => {
         }
     })
 
-    header("Nos photographes");
+    header('Nos photographes');
 
-    const main = document.getElementById("main-content");
+    const main = document.getElementById('main-content');
 
-    if(!document.querySelector("section.photographer-section")){
-        const wrapper = createDOMElement("section", "photographer-section", [{name: "id", value: "list"}]);
+    if(!document.querySelector('section.photographer-section')){
+        const wrapper = createDOMElement('section', ['photographer-section'], [{name: 'id', value: 'list'}]);
 
         photographers.forEach( photographer => wrapper.append( photographerCard(new Photographer(photographer))));
             

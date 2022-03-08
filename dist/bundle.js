@@ -84,7 +84,7 @@ const getData = async () => {
 /**
  * Create a DOM element and set attributes if needed
  * @param {string} tag 
- * @param {string|null} className
+ * @param {Array|null} className
  * @param {Array|null} attributes
  * @param {string} textContent
  * @returns {object} DOM Element
@@ -94,8 +94,10 @@ const getData = async () => {
 const createDOMElement = (tag, className, attributes, textContent) => {
   const DOMElement = document.createElement(tag);
 
-  if (className) {
-    DOMElement.className = className;
+  if (className?.length > 0) {
+    className.forEach(classe => {
+      DOMElement.classList.add(classe);
+    });
   }
 
   if (attributes) {
@@ -168,21 +170,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const home = async photographers => {
-  document.querySelector("body").className = "home-page";
-  document.title = "Fisheye";
-  const elmentsToRemove = [document.querySelector("section.hero-photographer"), document.querySelector("section.medias-section"), document.querySelector("aside"), document.querySelector(".modal")];
+  document.querySelector('body').className = 'home-page';
+  document.title = 'Fisheye';
+  const elmentsToRemove = [document.querySelector('section.hero-photographer'), document.querySelector('section.medias-section'), document.querySelector('aside'), document.querySelector('.modal'), document.querySelector('filter-container')];
   elmentsToRemove.forEach(elt => {
     if (elt) {
       elt.remove();
     }
   });
-  (0,_components_header__WEBPACK_IMPORTED_MODULE_0__["default"])("Nos photographes");
-  const main = document.getElementById("main-content");
+  (0,_components_header__WEBPACK_IMPORTED_MODULE_0__["default"])('Nos photographes');
+  const main = document.getElementById('main-content');
 
-  if (!document.querySelector("section.photographer-section")) {
-    const wrapper = (0,_services__WEBPACK_IMPORTED_MODULE_3__.createDOMElement)("section", "photographer-section", [{
-      name: "id",
-      value: "list"
+  if (!document.querySelector('section.photographer-section')) {
+    const wrapper = (0,_services__WEBPACK_IMPORTED_MODULE_3__.createDOMElement)('section', ['photographer-section'], [{
+      name: 'id',
+      value: 'list'
     }]);
     photographers.forEach(photographer => wrapper.append((0,_components_home_photographerCard__WEBPACK_IMPORTED_MODULE_2__["default"])(new _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__["default"](photographer))));
     main.append(wrapper);
@@ -207,11 +209,11 @@ const header = title => {
   const header = document.querySelector("header");
 
   if (!document.querySelector("header a")) {
-    const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("a", "data-link", [{
+    const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("a", ['data-link', 'logo-link'], [{
       name: "href",
       value: "#"
     }]);
-    const logo = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "logo", [{
+    const logo = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", ['logo'], [{
       name: "alt",
       value: "Fisheye Home page"
     }, {
@@ -288,25 +290,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const photographerCard = photographer => {
-  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", "photographer");
-  const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("a", "photographer-link data-link", [{
-    name: "href",
+  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('article', ['photographer']);
+  const link = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', ['photographer-link', 'data-link'], [{
+    name: 'href',
     value: `#${photographer.id}`
   }]);
-  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "media-container");
-  const img = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
-    name: "src",
+  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['avatar']);
+  const img = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('img', '', [{
+    name: 'src',
     value: _constants__WEBPACK_IMPORTED_MODULE_1__.path.USER_THUMB + photographer.portrait
   }, {
-    name: "alt",
+    name: 'alt',
     value: photographer.name
   }]);
   mediaContainer.append(img);
-  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer.name);
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('h2', '', '', photographer.name);
   link.append(mediaContainer, title);
-  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h3", "", "", `${photographer.country}, ${photographer.city}`);
-  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "", "", photographer.tagline);
-  const price = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "", "", `${photographer.price}€/jour`);
+  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('h3', '', '', `${photographer.country}, ${photographer.city}`);
+  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('p', ['tagline'], '', photographer.tagline);
+  const price = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('p', ['price'], '', `${photographer.price}€/jour`);
   article.append(link, location, tagline, price);
   return article;
 };
@@ -411,19 +413,19 @@ const hero = photographer => {
   if (heroSection) {
     heroSection.remove();
   } else {
-    heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "hero-photographer");
+    heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ["hero-photographer"]);
   }
 
   const wrapperDetails = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div");
   const name = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer.name);
-  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "location", "", photographer.city + ", " + photographer.country);
-  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", "tagmine", "", photographer.tagline);
+  const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", ["location"], "", photographer.city + ", " + photographer.country);
+  const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", ["tagline"], "", photographer.tagline);
   wrapperDetails.append(name, location, tagline);
-  const contact = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "contact-button", [, {
+  const contact = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ["contact-button"], [, {
     name: "data-modal",
     value: "modal-form"
   }], "Contactez-moi");
-  const imgWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "img-container");
+  const imgWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ["avatar"]);
   const img = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
     name: "src",
     value: _constants__WEBPACK_IMPORTED_MODULE_1__.path.USER_THUMB + photographer.portrait
@@ -459,8 +461,8 @@ const gallery = medias => {
     gallerySection.remove();
   }
 
-  gallerySection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "medias-section");
-  const mediasWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "medias-wrapper");
+  gallerySection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['medias-section']);
+  const mediasWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['medias-wrapper']);
   medias.forEach(media => mediasWrapper.append((0,_mediaCard__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
   gallerySection.append(_mediasFilters__WEBPACK_IMPORTED_MODULE_2__["default"], mediasWrapper);
   return gallerySection;
@@ -501,7 +503,7 @@ const mediaCard = media => {
   title.textContent = media.title;
   const likeCounter = document.createElement("span");
   likeCounter.textContent = media.likes;
-  const likeButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "like-button", [{
+  const likeButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['like-button'], [{
     name: "aria-label",
     value: "likes"
   }]);
@@ -607,15 +609,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 
 
-const mediasFilters = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "filter-container");
+const mediasFilters = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['filter-container']);
 const options = {
   popular: "Popularité",
   date: "Date",
   title: "Titre"
 };
-const listboxArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "listbox-area");
-const leftArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", "left-area");
-const label = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "label", [{
+const listboxArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['listbox-area']);
+const leftArea = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['left-area']);
+const label = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", ['label'], [{
   name: "id",
   value: "select-label"
 }], "Trier par");
@@ -633,7 +635,7 @@ const selectedOpt = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(
   name: "aria-labelledby",
   value: "slect-label slected-opt"
 }], options[Object.keys(options)[0]]);
-const list = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("ul", "hidden", [{
+const list = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("ul", ['hidden'], [{
   name: "id",
   value: "options-list"
 }, {
@@ -799,9 +801,9 @@ const likesCounter = (data, price) => {
   const aside = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("aside");
   let count = 0;
   data.forEach(like => count += like.likes);
-  const counter = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "counter", "", count);
+  const counter = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", ['counter'], "", count);
   const likeButton = (0,_icons_like__WEBPACK_IMPORTED_MODULE_1__["default"])();
-  const tarif = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", "price", "", price + "€ / jour");
+  const tarif = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", ['price'], "", price + "€ / jour");
   aside.append(counter, likeButton, tarif);
   return aside;
 };
@@ -1079,7 +1081,7 @@ const contact = photographer => {
   const body = document.querySelector("body");
   const main = document.querySelector("#main-content");
   const contactButton = document.querySelector(".contact-button");
-  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "modal modal-form", [{
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-form'], [{
     name: "aria-hidden",
     value: true
   }, {
@@ -1112,7 +1114,7 @@ const contact = photographer => {
   }];
   inputs.forEach(input => {
     console.log(input.id);
-    form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("label", `${input.id}-label`, [{
+    form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("label", [`${input.id}-label`], [{
       name: "for",
       value: input.id
     }], input.label));
@@ -1277,7 +1279,7 @@ __webpack_require__.r(__webpack_exports__);
 const lightbox = () => {
   const body = document.querySelector("body");
   const main = document.querySelector("#main-content");
-  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", "modal modal-media", [{
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-media'], [{
     name: "aria-hidden",
     value: true
   }, {
@@ -1287,9 +1289,9 @@ const lightbox = () => {
     name: "aria-describedby",
     value: "modal-title"
   }]);
-  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", "media");
-  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', 'media-container');
-  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", "titre media");
+  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
+  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", ['titre media']);
   const media = article.append(mediaContainer, title);
   modal.append(article);
   main.insertAdjacentElement("afterend", modal);
