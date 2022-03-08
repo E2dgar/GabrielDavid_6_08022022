@@ -129,8 +129,8 @@ const path = {
   USER_THUMB: "assets/photographers/",
   MEDIA_IMG_THUMB: "assets/medias/img/thumbs/",
   MEDIA_IMG_WIDE: "assets/medias/img/wide/",
-  MEDIA_VIDEO: "assets/medias/video",
-  MEDIA_VIDEO_THUMB: "assets/medias/video/thumbs/"
+  MEDIA_VIDEO_THUMB: "assets/medias/video/thumbs/",
+  MEDIA_VIDEO_WIDE: "assets/medias/video/wide/"
 };
 
 /***/ }),
@@ -172,7 +172,7 @@ __webpack_require__.r(__webpack_exports__);
 const home = async photographers => {
   document.querySelector('body').className = 'home-page';
   document.title = 'Fisheye';
-  const elmentsToRemove = [document.querySelector('section.hero-photographer'), document.querySelector('section.medias-section'), document.querySelector('aside'), document.querySelector('.modal'), document.querySelector('filter-container')];
+  const elmentsToRemove = [document.querySelector('section.hero-photographer'), document.querySelector('section.medias-section'), document.querySelector('aside'), document.querySelector('.modal'), document.querySelector('filter-container'), document.querySelector('.modal-form'), document.querySelector('.modal-media')];
   elmentsToRemove.forEach(elt => {
     if (elt) {
       elt.remove();
@@ -387,7 +387,7 @@ const profil = (photographer, medias) => {
   main.append(heroSection, galleryPhotographer, counter, (0,_components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name));
   (0,_utils_customSelect__WEBPACK_IMPORTED_MODULE_5__["default"])(medias);
   (0,_components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__["default"])();
-  (0,_utils_modal__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  (0,_utils_modal__WEBPACK_IMPORTED_MODULE_7__["default"])(mediaSorted);
   return main;
 };
 
@@ -490,12 +490,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const mediaCard = media => {
-  const card = document.createElement("article");
-  card.className = "media-card";
-  card.setAttribute("data-type", media.type);
+  const card = document.createElement('article');
+  card.className = 'media-card';
+  card.setAttribute('data-type', media.type);
+  card.setAttribute('id', media.id);
   const wrapperThumb = document.createElement("div");
   wrapperThumb.className = "img-container";
-  const img = (0,_Models_mediaCardFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(media);
+  const img = document.createElement("img");
+  img.setAttribute("alt", media.title);
+  img.setAttribute("src", media.srcThumb);
+  img.setAttribute("data-modal", "modal-media");
   wrapperThumb.append(img);
   const legend = document.createElement("p");
   legend.className = "media-legend";
@@ -564,7 +568,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const MediaCardFactory = media => {
   if (media.type === "image") {
-    return imageThumb(media.title, media.image);
+    return imageThumb(media.title, media);
   } else if (media.type === "video") {
     return videoThumb(media.title, media.video);
   }
@@ -573,9 +577,10 @@ const MediaCardFactory = media => {
 };
 
 const imageThumb = (title, image) => {
+  console.log('image', image);
   const img = document.createElement("img");
   img.setAttribute("alt", title);
-  img.setAttribute("src", _constants__WEBPACK_IMPORTED_MODULE_0__.path.MEDIA_IMG_THUMB + image);
+  img.setAttribute("src", image.srcThumb);
   img.setAttribute("data-modal", "modal-media");
   return img;
 };
@@ -726,13 +731,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
 
 
 class ImageMedia extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(data) {
     super(data);
     this.type = "image";
-    this.image = data.image;
+    this.src = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_IMG_WIDE + data.image;
+    this.srcThumb = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_IMG_THUMB + data.image;
   }
 
 }
@@ -750,6 +758,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class Media {
   constructor(data) {
+    this.id = data.id;
     this.title = data.title;
     this.likes = data.likes;
     this.date = data.date;
@@ -770,13 +779,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
 
 
 class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(data) {
     super(data);
     this.type = "video";
-    this.video = data.video;
+    this.src = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_WIDE + data.video;
+    this.srcThumb = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_THUMB + data.video.replace('.mp4', 'mp4.png');
   }
 
 }
@@ -1078,6 +1090,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const contact = photographer => {
+  console.log('contact  ');
   const body = document.querySelector("body");
   const main = document.querySelector("#main-content");
   const contactButton = document.querySelector(".contact-button");
@@ -1179,23 +1192,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 
-const modal = () => {
+const modal = medias => {
   const main = document.querySelector("#main-content");
+  const lightboxArticle = document.querySelector('.modal-media article');
   const lightbox = document.querySelector('.modal-media article .media-container');
   const contactButton = document.querySelector(".contact-button");
   const body = document.querySelector("body");
   const close = document.querySelector(".close-modal");
+  const slideButton = document.querySelectorAll('.slide-button');
   let modal = null;
+  let mediaIndex = null;
+  let currentIndex = null;
+  console.log('medias', medias);
   const cards = document.querySelectorAll("article.media-card");
 
   const mediaModal = e => {
-    const src = e.target.getAttribute("src").replace('thumbs', 'wide');
-    const type = e.target.closest("article").getAttribute('data-type');
+    const mediaLightbox = document.querySelector('.modal-media .media-current');
+
+    if (mediaLightbox) {
+      mediaLightbox.remove();
+    }
+
+    const targetArticle = e.target.closest("article");
+    const media = medias.filter(media => parseInt(media.id) === parseInt(targetArticle.id))[0];
+    lightboxArticle.setAttribute('data-id', parseInt(targetArticle.id));
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
+
+    if (currentIndex === 0) {
+      console.log('prev not');
+      const leftArrow = document.querySelector('.left-button');
+      leftArrow.classList.add('hidden');
+    }
+
+    if (currentIndex === medias.length - 1) {
+      document.querySelector('.right-button').classList.add('hidden');
+    }
+
+    const src = media.src;
+    const type = media.type;
     let mediaElement = null;
 
     switch (type) {
       case 'image':
-        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", "", [{
+        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", ['media-current'], [{
           name: 'src',
           value: src
         }]);
@@ -1203,7 +1242,7 @@ const modal = () => {
 
       case 'video':
         let video = src.replace('mp4.png', '.mp4');
-        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("video", "", [{
+        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("video", ['media-current'], [{
           name: 'controls',
           value: true
         }, {
@@ -1230,6 +1269,48 @@ const modal = () => {
   const targetModal = e => {
     modal = document.querySelector("." + e.target.getAttribute("data-modal"));
   };
+
+  const slide = e => {
+    const direction = e.target.classList.contains('left-button') ? 'left' : 'right';
+    console.log('direction', direction);
+    const currentMedia = document.querySelector('.media-current');
+    /* mediaIndex = medias.findIndex(media => parseInt(media.id) === parseInt(targetArticle.id))*/
+
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
+    console.log('cur', currentIndex);
+
+    if (direction === "right") {
+      document.querySelector('.left-button').classList.remove('hidden');
+      currentIndex++;
+      console.log('plus', currentIndex);
+      const newMediaSrc = medias[currentIndex].src;
+      currentMedia.setAttribute('src', newMediaSrc);
+      lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+    }
+
+    if (direction === "left") {
+      document.querySelector('.left-button').classList.remove('hidden');
+      currentIndex--;
+      console.log('plus', currentIndex);
+      const newMediaSrc = medias[currentIndex].src;
+      currentMedia.setAttribute('src', newMediaSrc);
+      lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+    }
+
+    if (currentIndex === 0) {
+      console.log('prev not');
+      const leftArrow = document.querySelector('.left-button');
+      leftArrow.classList.add('hidden');
+    }
+
+    if (currentIndex === medias.length - 1) {
+      document.querySelector('.right-button').classList.add('hidden');
+    }
+  };
+
+  slideButton.forEach(button => {
+    button.addEventListener('click', e => slide(e));
+  });
 
   const openModal = () => {
     main.setAttribute("aria-hidden", true);
@@ -1274,6 +1355,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(27);
+
+
+
 
 
 const lightbox = () => {
@@ -1292,12 +1379,64 @@ const lightbox = () => {
   const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
   const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
   const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", ['titre media']);
-  const media = article.append(mediaContainer, title);
-  modal.append(article);
+  const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-button']);
+  closeBtutton.append(_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button']);
+  leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
+  const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button']);
+  rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
+  article.append(mediaContainer, title);
+  modal.append(article, rightButton, leftButton, closeBtutton);
   main.insertAdjacentElement("afterend", modal);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
+
+/***/ }),
+/* 30 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const arrowLeft = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 30 48');
+  svg.setAttribute('width', 30);
+  svg.setAttribute('height', 48);
+  svg.setAttribute('fill', "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z");
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowLeft);
+
+/***/ }),
+/* 31 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const arrowRight = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 30 48');
+  svg.setAttribute('width', 30);
+  svg.setAttribute('height', 48);
+  svg.setAttribute('fill', "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z");
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowRight);
 
 /***/ })
 /******/ 	]);

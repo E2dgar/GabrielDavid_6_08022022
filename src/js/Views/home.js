@@ -13,7 +13,9 @@ const home = async (photographers) => {
         document.querySelector('section.medias-section'),
         document.querySelector('aside'),
         document.querySelector('.modal'),
-        document.querySelector('filter-container')
+        document.querySelector('filter-container'),
+        document.querySelector('.modal-form'),
+        document.querySelector('.modal-media')
     ]
 
     elmentsToRemove.forEach(elt => {

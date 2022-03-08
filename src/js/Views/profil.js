@@ -36,7 +36,7 @@ const profil = (photographer, medias) => {
 
 
     lightbox();
-    modal();
+    modal(mediaSorted);
    
 
     return main;

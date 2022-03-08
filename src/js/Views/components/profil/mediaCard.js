@@ -1,18 +1,22 @@
-import { createDOMElement } from "../../../services";
-import likeSvg from "../icons/like";
-import mediaCardFactory from "../../../Models/mediaCardFactory";
-import mediaModal from "../../../utils/mediaModal";
+import { createDOMElement } from '../../../services';
+import likeSvg from '../icons/like';
+import mediaCardFactory from '../../../Models/mediaCardFactory';
+import mediaModal from '../../../utils/mediaModal';
 
 const mediaCard = (media) => {
-    const card = document.createElement("article");
-    card.className = "media-card";
-    card.setAttribute("data-type", media.type)
-    
+    const card = document.createElement('article');
+    card.className = 'media-card';
+    card.setAttribute('data-type', media.type)
+    card.setAttribute('id', media.id)
+
 
     const wrapperThumb = document.createElement("div");
     wrapperThumb.className = "img-container";
 
-    const img = mediaCardFactory(media);
+    const img = document.createElement("img");
+    img.setAttribute("alt", media.title);
+    img.setAttribute("src", media.srcThumb );
+    img.setAttribute("data-modal", "modal-media")
     wrapperThumb.append(img)
 
     const legend = document.createElement("p");

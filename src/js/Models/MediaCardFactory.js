@@ -7,7 +7,7 @@ import { path } from "../constants";
  */
 const MediaCardFactory = (media) => {
     if(media.type === "image"){
-        return imageThumb(media.title, media.image);
+        return imageThumb(media.title, media);
     } else if(media.type === "video"){
         return videoThumb(media.title, media.video)
     } 
@@ -15,9 +15,10 @@ const MediaCardFactory = (media) => {
 }
 
 const imageThumb = (title, image) => {
+    console.log('image', image)
     const img = document.createElement("img");
     img.setAttribute("alt", title);
-    img.setAttribute("src", path.MEDIA_IMG_THUMB + image );
+    img.setAttribute("src", image.srcThumb );
     img.setAttribute("data-modal", "modal-media")
 
     return img;

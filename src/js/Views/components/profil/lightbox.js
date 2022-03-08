@@ -1,4 +1,7 @@
 import { createDOMElement } from "../../../services";
+import arrowLeft from "../icons/arrowLighboxLeft";
+import arrowRight from "../icons/arrowLightboxRight";
+import cross from "../icons/cross";
 
 const lightbox = () => {
     const body = document.querySelector("body");
@@ -8,10 +11,18 @@ const lightbox = () => {
     const article = createDOMElement("article", ['media']);
     const mediaContainer = createDOMElement('div', ['media-container'])
     const title = createDOMElement("h1", "", "", ['titre media']);
-    const media = 
+    
+    const closeBtutton = createDOMElement("button", ['modal-button', 'close-button']);
+    closeBtutton.append(cross);
+
+    const leftButton = createDOMElement("button", ['modal-button', 'left-button', 'slide-button']);
+    leftButton.append(arrowLeft());
+
+    const rightButton = createDOMElement("button", ['modal-button', 'right-button', 'slide-button']);
+    rightButton.append(arrowRight());
 
     article.append(mediaContainer, title);
-    modal.append(article);
+    modal.append(article, rightButton, leftButton, closeBtutton);
     main.insertAdjacentElement("afterend", modal);
 }
 

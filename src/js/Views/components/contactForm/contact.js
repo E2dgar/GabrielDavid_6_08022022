@@ -2,6 +2,7 @@ import { createDOMElement } from "../../../services";
 import cross from "../icons/cross";
 
 const contact = (photographer) => {
+    console.log('contact  ');
     const body = document.querySelector("body");
     const main = document.querySelector("#main-content");
     const contactButton = document.querySelector(".contact-button");
