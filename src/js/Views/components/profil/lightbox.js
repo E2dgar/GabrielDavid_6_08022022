@@ -22,7 +22,7 @@ const lightbox = () => {
     rightButton.append(arrowRight());
 
     article.append(mediaContainer, title);
-    modal.append(article, rightButton, leftButton, closeBtutton);
+    modal.append(article, leftButton,  rightButton, closeBtutton);
     main.insertAdjacentElement("afterend", modal);
 }
 

@@ -1498,7 +1498,7 @@ const lightbox = () => {
   }]);
   rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
   article.append(mediaContainer, title);
-  modal.append(article, rightButton, leftButton, closeBtutton);
+  modal.append(article, leftButton, rightButton, closeBtutton);
   main.insertAdjacentElement("afterend", modal);
 };
 
