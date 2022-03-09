@@ -1,13 +1,13 @@
-import Media from "./Media";
-import { path } from "../constants";
+import Media from './Media'
+import { path } from '../constants'
 
 class Video extends Media {
-    constructor(data) {
-        super(data)
-        this.type = "video";
-        this.src = path.MEDIA_VIDEO_WIDE + data.video;
-        this.srcThumb = path.MEDIA_VIDEO_THUMB + data.video.replace('.mp4', 'mp4.png');
-    }
+  constructor(data) {
+    super(data)
+    this.type = 'video'
+    this.src = path.MEDIA_VIDEO_WIDE + data.video
+    this.srcThumb = path.MEDIA_VIDEO_THUMB + data.video.replace('.mp4', 'mp4.png')
+  }
 }
 
-export default Video;
+export default Video

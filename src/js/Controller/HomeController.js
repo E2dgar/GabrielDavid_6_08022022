@@ -1,7 +1,7 @@
-import home from "../Views/home";
+import home from '../Views/home'
 
 const HomeController = photographers => {
-    home(photographers)
+  home(photographers)
 }
 
-export default HomeController;
+export default HomeController

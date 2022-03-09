@@ -9,10 +9,11 @@ const MediaCardFactory = (media) => {
     if(media.type === "image"){
         return imageThumb(media.title, media);
     } else if(media.type === "video"){
-        return videoThumb(media.title, media.video)
+        return videoThumb(media.title, media)
     } 
     return "Format error"
 }
+
 
 const imageThumb = (title, image) => {
     console.log('image', image)

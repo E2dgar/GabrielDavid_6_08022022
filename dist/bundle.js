@@ -260,7 +260,7 @@ class Photographer {
   }
   /**
    * Get all medias of a photographer
-   * @returns {object}
+   * @returns {Object}
    */
 
 
@@ -328,6 +328,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
+/**
+ * Return view profil with data of a photographer
+ * @param {object} photographers 
+ * @param {string} id 
+ */
 
 const ProfilController = async (photographers, id) => {
   const filtered = photographers.filter(photographer => photographer.id === parseInt(id));
@@ -570,7 +575,7 @@ const MediaCardFactory = media => {
   if (media.type === "image") {
     return imageThumb(media.title, media);
   } else if (media.type === "video") {
-    return videoThumb(media.title, media.video);
+    return videoThumb(media.title, media);
   }
 
   return "Format error";
@@ -715,7 +720,7 @@ const mediaFactory = data => {
   } else if (data.video) {
     return new _Video__WEBPACK_IMPORTED_MODULE_1__["default"](data);
   } else {
-    return "Media format unknown";
+    return 'Media format unknown';
   }
 };
 
@@ -786,7 +791,7 @@ __webpack_require__.r(__webpack_exports__);
 class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(data) {
     super(data);
-    this.type = "video";
+    this.type = 'video';
     this.src = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_WIDE + data.video;
     this.srcThumb = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_THUMB + data.video.replace('.mp4', 'mp4.png');
   }
@@ -837,21 +842,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const customSelect = medias => {
-  const button = document.getElementById("selected-opt");
-  const listbox = document.getElementById("options-list");
-  const options = document.querySelectorAll("[role=option]");
-  const firstItem = document.querySelector("[role=option]");
-  let sortState = "";
-  const sortFunctions = {
-    "popularite": "likes"
-  };
+  const button = document.getElementById('selected-opt');
+  const listbox = document.getElementById('options-list');
+  const options = document.querySelectorAll('[role=option]');
+  const firstItem = document.querySelector('[role=option]');
   /**
    * Set focus on the first item if no aria-activedescendant
-   * @returns 
    */
 
   const setUpFocus = () => {
-    if (listbox.getAttribute("aria-activedescendant")) {
+    if (listbox.getAttribute('aria-activedescendant')) {
       return;
     }
 
@@ -868,20 +868,20 @@ const customSelect = medias => {
     }
   };
   /**
-   * Set focus on an item
+   * Set focus on an item. Class focus on item & aria-activedescendant on listbox
    * @param {object} item 
    */
 
 
   const focusItem = item => {
-    let focusedItem = document.querySelector(".focused");
+    let focusedItem = document.querySelector('.focused');
 
     if (focusedItem) {
-      focusedItem.classList.remove("focused");
+      focusedItem.classList.remove('focused');
     }
 
-    item.classList.add("focused");
-    listbox.setAttribute("aria-activedescendant", item.id);
+    item.classList.add('focused');
+    listbox.setAttribute('aria-activedescendant', item.id);
   };
   /**
    * Select a item and hide listbox
@@ -889,7 +889,7 @@ const customSelect = medias => {
 
 
   const selectItem = () => {
-    let focusedItem = document.querySelector(".focused");
+    let focusedItem = document.querySelector('.focused');
     button.textContent = focusedItem.textContent;
     hideList();
   };
@@ -899,10 +899,9 @@ const customSelect = medias => {
 
 
   const getPreviousItem = () => {
-    let focusedItem = document.querySelector(".focused");
+    let focusedItem = document.querySelector('.focused');
 
     if (!focusedItem.previousSibling) {
-      console.log('pas de précédent');
       return;
     }
 
@@ -915,10 +914,9 @@ const customSelect = medias => {
 
 
   const getNextItem = () => {
-    let focusedItem = document.querySelector(".focused");
+    let focusedItem = document.querySelector('.focused');
 
     if (!focusedItem.nextSibling) {
-      console.log('pas de suivant');
       return;
     }
 
@@ -931,12 +929,12 @@ const customSelect = medias => {
 
 
   const keyEventsListener = () => {
-    listbox.addEventListener("keydown", keyEvents);
+    listbox.addEventListener('keydown', keyEvents);
   };
   /* Add listener on focus list to trigger listener on keyboad */
 
 
-  listbox.addEventListener("focus", keyEventsListener);
+  listbox.addEventListener('focus', keyEventsListener);
   /**
    * Execute functions depending on keys pressed
    * @param event  
@@ -964,47 +962,43 @@ const customSelect = medias => {
 
 
   const showList = () => {
-    listbox.classList.remove("hidden");
-    button.setAttribute("aria-expanded", true);
+    listbox.classList.remove('hidden');
+    button.setAttribute('aria-expanded', true);
     listbox.focus();
     setUpFocus();
   };
 
-  button.addEventListener("click", showList);
+  button.addEventListener('click', showList);
   /**
    * Sort medias
    */
 
-  let observer = new MutationObserver(mutationRecords => {
-    sortMedias(mutationRecords, medias);
-  });
+  let observer = new MutationObserver(mutationRecords => sortMedias(mutationRecords, medias));
   observer.observe(listbox, {
     attributes: true,
     attributeOldValue: true,
-    attributeFilter: ["aria-activedescendant"]
+    attributeFilter: ['aria-activedescendant']
   });
 
   const sortMedias = (records, medias) => {
     let mediaSorted = medias;
     let sort = false;
-    let sortFilter = document.querySelector("#options-list").getAttribute("aria-activedescendant");
+    let sortFilter = document.querySelector('#options-list').getAttribute('aria-activedescendant');
 
     if (records[0].oldValue !== sortFilter) {
       sort = true;
       mediaSorted = medias.sort((a, b) => {
-        console.log("filter", sortFilter);
-
-        if (sortFilter === "popular") {
+        if (sortFilter === 'popular') {
           return b.likes - a.likes;
         }
 
-        if (sortFilter === "date") {
+        if (sortFilter === 'date') {
           let da = new Date(a.date);
           let db = new Date(b.date);
           return db - da;
         }
 
-        if (sortFilter === "title") {
+        if (sortFilter === 'title') {
           let titleA = a.title.toLowerCase();
           let titleB = b.title.toLowerCase();
 
@@ -1019,7 +1013,6 @@ const customSelect = medias => {
           return 0;
         }
       });
-      console.log(mediaSorted);
       (0,_gallerySort__WEBPACK_IMPORTED_MODULE_1__["default"])(mediaSorted);
     }
   };
@@ -1029,11 +1022,11 @@ const customSelect = medias => {
 
 
   const hideList = () => {
-    listbox.classList.add("hidden");
-    button.removeAttribute("aria-expanded");
+    listbox.classList.add('hidden');
+    button.removeAttribute('aria-expanded');
   };
 
-  listbox.addEventListener("blur", hideList);
+  listbox.addEventListener('blur', hideList);
   /* Focus item and select on mouse click    */
 
   const clickItem = e => {
@@ -1041,9 +1034,7 @@ const customSelect = medias => {
     selectItem();
   };
 
-  options.forEach(option => {
-    option.addEventListener("click", e => clickItem(e));
-  });
+  options.forEach(option => option.addEventListener("click", e => clickItem(e)));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (customSelect);
@@ -1063,11 +1054,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const gallerySort = medias => {
-  const gallery = document.querySelector(".medias-wrapper");
-  const cards = document.querySelectorAll(".media-card");
-  cards.forEach(card => {
-    card.remove();
-  });
+  const gallery = document.querySelector('.medias-wrapper');
+  const cards = document.querySelectorAll('.media-card');
+  cards.forEach(card => card.remove());
   const mediaSorted = [];
   medias.forEach(media => mediaSorted.push((0,_Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
   mediaSorted.forEach(media => gallery.append((0,_Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__["default"])(media)));
@@ -1094,6 +1083,10 @@ const contact = photographer => {
   const body = document.querySelector("body");
   const main = document.querySelector("#main-content");
   const contactButton = document.querySelector(".contact-button");
+  const closeModal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['close-modal'], [{
+    name: 'type',
+    value: 'button'
+  }]);
   const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-form'], [{
     name: "aria-hidden",
     value: true
@@ -1107,7 +1100,8 @@ const contact = photographer => {
   const form = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("form", "");
   const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", "Contactez-moi");
   const subtitle = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer);
-  form.append(title, subtitle, _icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  closeModal.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"])());
+  form.append(title, subtitle, closeModal);
   const inputs = [{
     id: "firstname",
     type: "text",
@@ -1168,16 +1162,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-svg.setAttribute('viewBox', '0 0 42 42');
-svg.setAttribute('width', 42);
-svg.setAttribute('height', 42);
-svg.setAttribute('fill', "none");
-svg.classList.add("close-modal");
-const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path.setAttribute("d", "M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z");
-svg.append(path);
-const cross = svg;
+const cross = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 42 42');
+  svg.setAttribute('width', 42);
+  svg.setAttribute('height', 42);
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('aria-hidden', true);
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z');
+  svg.append(path);
+  return svg;
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
 
 /***/ }),
@@ -1193,18 +1190,63 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const modal = medias => {
-  const main = document.querySelector("#main-content");
+  const main = document.querySelector('#main-content');
   const lightboxArticle = document.querySelector('.modal-media article');
   const lightbox = document.querySelector('.modal-media article .media-container');
-  const contactButton = document.querySelector(".contact-button");
-  const body = document.querySelector("body");
-  const close = document.querySelector(".close-modal");
+  const contactButton = document.querySelector('.contact-button');
+  const body = document.querySelector('body');
+  const close = document.querySelectorAll('.close-modal');
   const slideButton = document.querySelectorAll('.slide-button');
+  const leftArrow = document.querySelector('.left-button');
+  const rightArrow = document.querySelector('.right-button');
+  const cards = document.querySelectorAll('article.media-card');
   let modal = null;
-  let mediaIndex = null;
   let currentIndex = null;
-  console.log('medias', medias);
-  const cards = document.querySelectorAll("article.media-card");
+  console.log('modal c', close);
+  /**
+   * Hide left/right arrow for first and last slide
+   * @param {integer} index 
+   */
+
+  const displayArrows = index => {
+    if (index === 0) {
+      leftArrow.classList.add('hidden');
+    }
+
+    if (index === medias.length - 1) {
+      rightArrow.classList.add('hidden');
+    }
+  };
+  /**
+   * Create DOM slide
+   * @param {Object} media 
+   */
+
+
+  const createSlide = ({
+    src,
+    type
+  }) => {
+    let element = type === 'image' ? 'img' : 'video';
+    let attributesElement = [{
+      name: 'src',
+      value: src
+    }];
+
+    if (element === 'video') {
+      attributesElement.push({
+        name: 'controls',
+        value: true
+      });
+    }
+
+    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
+  };
+  /**
+   * Create slide on open modal depending on thumb clicked
+   * @param {event} e 
+   */
+
 
   const mediaModal = e => {
     const mediaLightbox = document.querySelector('.modal-media .media-current');
@@ -1214,48 +1256,19 @@ const modal = medias => {
     }
 
     const targetArticle = e.target.closest("article");
+    /*Get media in medias based on article ID */
+
     const media = medias.filter(media => parseInt(media.id) === parseInt(targetArticle.id))[0];
     lightboxArticle.setAttribute('data-id', parseInt(targetArticle.id));
+    /*Get media index in medias */
+
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
+    /*Setup arrows */
 
-    if (currentIndex === 0) {
-      console.log('prev not');
-      const leftArrow = document.querySelector('.left-button');
-      leftArrow.classList.add('hidden');
-    }
-
-    if (currentIndex === medias.length - 1) {
-      document.querySelector('.right-button').classList.add('hidden');
-    }
-
-    const src = media.src;
-    const type = media.type;
-    let mediaElement = null;
-
-    switch (type) {
-      case 'image':
-        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("img", ['media-current'], [{
-          name: 'src',
-          value: src
-        }]);
-        break;
-
-      case 'video':
-        let video = src.replace('mp4.png', '.mp4');
-        mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("video", ['media-current'], [{
-          name: 'controls',
-          value: true
-        }, {
-          name: 'src',
-          value: video
-        }]);
-        break;
-
-      default:
-        "";
-    }
-
-    lightbox.append(mediaElement);
+    leftArrow.classList.remove('hidden');
+    rightArrow.classList.remove('hidden');
+    displayArrows(currentIndex);
+    lightbox.append(createSlide(media));
   };
 
   cards.forEach(card => {
@@ -1269,67 +1282,79 @@ const modal = medias => {
   const targetModal = e => {
     modal = document.querySelector("." + e.target.getAttribute("data-modal"));
   };
+  /**
+   * Go to next slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
 
-  const slide = e => {
+
+  const nextSlide = (media, index) => {
+    document.querySelector('.left-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index + 1;
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Go to previous slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
+
+
+  const prevSlide = (media, index) => {
+    document.querySelector('.right-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index - 1;
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Get direction and manage slider
+   * @param {event} e 
+   */
+
+
+  const slider = e => {
     const direction = e.target.classList.contains('left-button') ? 'left' : 'right';
-    console.log('direction', direction);
     const currentMedia = document.querySelector('.media-current');
-    /* mediaIndex = medias.findIndex(media => parseInt(media.id) === parseInt(targetArticle.id))*/
-
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
-    console.log('cur', currentIndex);
 
     if (direction === "right") {
-      document.querySelector('.left-button').classList.remove('hidden');
-      currentIndex++;
-      console.log('plus', currentIndex);
-      const newMediaSrc = medias[currentIndex].src;
-      currentMedia.setAttribute('src', newMediaSrc);
-      lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+      nextSlide(currentMedia, currentIndex);
     }
 
     if (direction === "left") {
-      document.querySelector('.left-button').classList.remove('hidden');
-      currentIndex--;
-      console.log('plus', currentIndex);
-      const newMediaSrc = medias[currentIndex].src;
-      currentMedia.setAttribute('src', newMediaSrc);
-      lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+      prevSlide(currentMedia, currentIndex);
     }
 
-    if (currentIndex === 0) {
-      console.log('prev not');
-      const leftArrow = document.querySelector('.left-button');
-      leftArrow.classList.add('hidden');
-    }
-
-    if (currentIndex === medias.length - 1) {
-      document.querySelector('.right-button').classList.add('hidden');
-    }
+    lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+    displayArrows(currentIndex);
   };
 
-  slideButton.forEach(button => {
-    button.addEventListener('click', e => slide(e));
-  });
+  slideButton.forEach(button => button.addEventListener('click', e => slider(e)));
 
   const openModal = () => {
-    main.setAttribute("aria-hidden", true);
-    modal.classList.add("display-modal");
-    body.classList.add("no-scroll");
+    main.setAttribute('aria-hidden', true);
+    modal.classList.add('display-modal');
+    modal.removeAttribute('aria-hidden');
+    body.classList.add('no-scroll');
   };
+  /* Open targeted modal */
 
-  contactButton.addEventListener("click", e => {
+
+  contactButton.addEventListener('click', e => {
     targetModal(e);
     openModal();
   });
 
   const closeModal = () => {
-    main.removeAttribute("aria-hidden");
-    modal.classList.remove("display-modal");
-    body.classList.remove("no-scroll");
+    console.log('close');
+    main.removeAttribute('aria-hidden');
+    modal.classList.remove('display-modal');
+    body.classList.remove('no-scroll');
   };
 
-  close.addEventListener("click", closeModal);
+  close.forEach(button => button.addEventListener('click', closeModal));
 
   const keyEvents = e => {
     let key = e.which || e.keycode;
@@ -1340,7 +1365,7 @@ const modal = medias => {
     }
   };
 
-  document.addEventListener("keydown", keyEvents);
+  document.addEventListener('keydown', keyEvents);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
@@ -1379,8 +1404,8 @@ const lightbox = () => {
   const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
   const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
   const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", ['titre media']);
-  const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-button']);
-  closeBtutton.append(_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-modal']);
+  closeBtutton.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"])());
   const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button']);
   leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
   const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button']);

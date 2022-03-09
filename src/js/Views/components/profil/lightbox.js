@@ -12,8 +12,8 @@ const lightbox = () => {
     const mediaContainer = createDOMElement('div', ['media-container'])
     const title = createDOMElement("h1", "", "", ['titre media']);
     
-    const closeBtutton = createDOMElement("button", ['modal-button', 'close-button']);
-    closeBtutton.append(cross);
+    const closeBtutton = createDOMElement("button", ['modal-button', 'close-modal']);
+    closeBtutton.append(cross());
 
     const leftButton = createDOMElement("button", ['modal-button', 'left-button', 'slide-button']);
     leftButton.append(arrowLeft());

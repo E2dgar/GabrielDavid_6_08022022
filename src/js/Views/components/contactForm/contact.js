@@ -1,17 +1,19 @@
-import { createDOMElement } from "../../../services";
-import cross from "../icons/cross";
+import { createDOMElement } from '../../../services'
+import cross from '../icons/cross'
 
 const contact = (photographer) => {
     console.log('contact  ');
     const body = document.querySelector("body");
     const main = document.querySelector("#main-content");
     const contactButton = document.querySelector(".contact-button");
+    const closeModal = createDOMElement('button', ['close-modal'],  [{name: 'type', value: 'button'}])
     const modal = createDOMElement("section", ['modal', 'modal-form'], [{name: "aria-hidden", value: true}, {name: "role", value: "dialog"}, {name: "aria-describedby", value: "modal-title"}])
     const form = createDOMElement("form", "");
     const title = createDOMElement("h1", "", "", "Contactez-moi");
     const subtitle = createDOMElement("h2", "", "", photographer);
 
-    form.append(title, subtitle, cross);
+    closeModal.append(cross())
+    form.append(title, subtitle, closeModal);
 
     const inputs = [
         {id: "firstname", type: "text", label: "Prénom"},
