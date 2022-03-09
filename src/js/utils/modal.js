@@ -4,6 +4,7 @@ const modal = (medias) => {
   const main = document.querySelector('#main-content')
   const lightboxArticle = document.querySelector('.modal-media article')
   const lightbox = document.querySelector('.modal-media article .media-container')
+  const mediaTitle = document.querySelector('h1')
   const contactButton = document.querySelector('.contact-button')
   const body = document.querySelector('body')
   const close = document.querySelectorAll('.close-modal')
@@ -13,9 +14,10 @@ const modal = (medias) => {
   const cards= document.querySelectorAll('article.media-card')
   let modal = null
   let currentIndex = null
+  let firstSlide = false
+  let lastSlide = false
 
-  console.log('modal c', close)
-
+  console.log('medias', medias)
   /**
    * Hide left/right arrow for first and last slide
    * @param {integer} index 
@@ -23,9 +25,17 @@ const modal = (medias) => {
   const displayArrows = index => {
     if(index === 0){
       leftArrow.classList.add('hidden')
+      firstSlide = true
+      console.log(firstSlide)
+    } else {
+      firstSlide = false
     }
     if(index === medias.length - 1){
       rightArrow.classList.add('hidden')
+      lastSlide = true
+      console.log('me lenght', medias.length)
+    } else {
+      lastSlide = false
     }
   }
 
@@ -33,7 +43,7 @@ const modal = (medias) => {
    * Create DOM slide
    * @param {Object} media 
    */
-  const createSlide = ({src, type}) => {
+  const createSlide = ({src, type, title}) => {
     let element = type === 'image' ? 'img' : 'video'
     let attributesElement = [{name: 'src', value: src}]
 
@@ -41,6 +51,7 @@ const modal = (medias) => {
       attributesElement.push({name: 'controls', value: true})
     }
 
+    mediaTitle.textContent = title;
     return createDOMElement(element, ['media-current'], attributesElement)
   }
 
@@ -115,17 +126,15 @@ const modal = (medias) => {
   }
 
   /**
-   * Get direction and manage slider
-   * @param {event} e 
+   * Slider
+   * @param {string} direction 
    */
-  const slider = (e) => {
-    const direction = e.target.classList.contains('left-button') ? 'left' : 'right'
-
+  const slider = (direction) => {
     const currentMedia = document.querySelector('.media-current')
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
     
     if(direction === "right") {
-        nextSlide(currentMedia, currentIndex)
+      nextSlide(currentMedia, currentIndex)
     }
     if(direction === "left") {
       prevSlide(currentMedia, currentIndex)
@@ -136,7 +145,7 @@ const modal = (medias) => {
     displayArrows(currentIndex)
   }
 
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e)))
+  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))))
 
   const openModal = () => {
     main.setAttribute('aria-hidden', true);
@@ -165,6 +174,19 @@ const modal = (medias) => {
     if(key === 27){
       e.preventDefault()
       closeModal()
+    }
+
+    if(modal.classList.contains('modal-media')){
+      if(key === 39){
+        e.preventDefault()
+        rightArrow.focus();
+        if(!lastSlide) slider('right')
+      }
+      if(key === 37){
+        e.preventDefault()
+        leftArrow.focus();
+        if(!firstSlide) slider('left')
+      }
     }
   }
   document.addEventListener('keydown', keyEvents)

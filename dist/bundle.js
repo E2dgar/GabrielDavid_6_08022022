@@ -1077,78 +1077,85 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 
 
+/**
+ * Create contact form 
+ * @param {string} photographer Photographer name
+ */
 
 const contact = photographer => {
-  console.log('contact  ');
-  const body = document.querySelector("body");
-  const main = document.querySelector("#main-content");
-  const contactButton = document.querySelector(".contact-button");
+  const main = document.querySelector('#main-content');
   const closeModal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['close-modal'], [{
     name: 'type',
     value: 'button'
+  }, {
+    name: 'aria-label',
+    value: 'Close contact form'
   }]);
-  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-form'], [{
-    name: "aria-hidden",
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['modal', 'modal-form'], [{
+    name: 'aria-hidden',
     value: true
   }, {
-    name: "role",
-    value: "dialog"
+    name: 'role',
+    value: 'dialog'
   }, {
-    name: "aria-describedby",
-    value: "modal-title"
+    name: 'aria-describedby',
+    value: 'modal-title'
   }]);
-  const form = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("form", "");
-  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", "Contactez-moi");
-  const subtitle = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h2", "", "", photographer);
+  const form = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('form', '');
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('h1', '', '', 'Contactez-moi');
+  const subtitle = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('h2', '', '', photographer);
   closeModal.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"])());
   form.append(title, subtitle, closeModal);
   const inputs = [{
-    id: "firstname",
-    type: "text",
-    label: "Prénom"
+    id: 'firstname',
+    type: 'text',
+    label: 'Prénom'
   }, {
-    id: "lastname",
-    type: "text",
-    label: "Nom"
+    id: 'lastname',
+    type: 'text',
+    label: 'Nom'
   }, {
-    id: "email",
-    type: "email",
-    label: "Email"
+    id: 'email',
+    type: 'email',
+    label: 'Email'
   }, {
-    id: "message",
-    type: "textarea",
-    label: "Votre message"
+    id: 'message',
+    type: 'textarea',
+    label: 'Votre message'
   }];
+  /* Loop on inputs to fill the the form */
+
   inputs.forEach(input => {
-    console.log(input.id);
-    form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("label", [`${input.id}-label`], [{
-      name: "for",
+    form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('label', [`${input.id}-label`], [{
+      name: 'for',
       value: input.id
     }], input.label));
 
-    if (input.type === "textarea") {
-      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("textarea", "", [{
-        name: "id",
+    if (input.type === 'textarea') {
+      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('textarea', '', [{
+        name: 'id',
         value: input.id
       }]));
     } else {
-      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("input", "", [{
-        name: "id",
+      form.append((0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('input', '', [{
+        name: 'id',
         value: input.id
       }, {
-        name: "type",
+        name: 'type',
         value: input.type
       }]));
     }
   });
-  const button = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", "", [{
-    name: "type",
-    value: "submit"
-  }], "Envoyer");
+  const button = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', '', [{
+    name: 'type',
+    value: 'submit'
+  }, {
+    name: 'aria-label',
+    value: 'Send'
+  }], 'Envoyer');
   form.append(button);
   modal.append(form);
-  main.insertAdjacentElement("afterend", modal);
-  /*contactButton.addEventListener("click", displayModal);*/
+  main.insertAdjacentElement('afterend', modal);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contact);
@@ -1193,6 +1200,7 @@ const modal = medias => {
   const main = document.querySelector('#main-content');
   const lightboxArticle = document.querySelector('.modal-media article');
   const lightbox = document.querySelector('.modal-media article .media-container');
+  const mediaTitle = document.querySelector('h1');
   const contactButton = document.querySelector('.contact-button');
   const body = document.querySelector('body');
   const close = document.querySelectorAll('.close-modal');
@@ -1202,7 +1210,9 @@ const modal = medias => {
   const cards = document.querySelectorAll('article.media-card');
   let modal = null;
   let currentIndex = null;
-  console.log('modal c', close);
+  let firstSlide = false;
+  let lastSlide = false;
+  console.log('medias', medias);
   /**
    * Hide left/right arrow for first and last slide
    * @param {integer} index 
@@ -1211,10 +1221,18 @@ const modal = medias => {
   const displayArrows = index => {
     if (index === 0) {
       leftArrow.classList.add('hidden');
+      firstSlide = true;
+      console.log(firstSlide);
+    } else {
+      firstSlide = false;
     }
 
     if (index === medias.length - 1) {
       rightArrow.classList.add('hidden');
+      lastSlide = true;
+      console.log('me lenght', medias.length);
+    } else {
+      lastSlide = false;
     }
   };
   /**
@@ -1225,7 +1243,8 @@ const modal = medias => {
 
   const createSlide = ({
     src,
-    type
+    type,
+    title
   }) => {
     let element = type === 'image' ? 'img' : 'video';
     let attributesElement = [{
@@ -1240,6 +1259,7 @@ const modal = medias => {
       });
     }
 
+    mediaTitle.textContent = title;
     return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
   };
   /**
@@ -1309,13 +1329,12 @@ const modal = medias => {
     lightbox.append(createSlide(medias[currentIndex]));
   };
   /**
-   * Get direction and manage slider
-   * @param {event} e 
+   * Slider
+   * @param {string} direction 
    */
 
 
-  const slider = e => {
-    const direction = e.target.classList.contains('left-button') ? 'left' : 'right';
+  const slider = direction => {
     const currentMedia = document.querySelector('.media-current');
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
 
@@ -1331,7 +1350,7 @@ const modal = medias => {
     displayArrows(currentIndex);
   };
 
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e)));
+  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
 
   const openModal = () => {
     main.setAttribute('aria-hidden', true);
@@ -1362,6 +1381,20 @@ const modal = medias => {
     if (key === 27) {
       e.preventDefault();
       closeModal();
+    }
+
+    if (modal.classList.contains('modal-media')) {
+      if (key === 39) {
+        e.preventDefault();
+        rightArrow.focus();
+        if (!lastSlide) slider('right');
+      }
+
+      if (key === 37) {
+        e.preventDefault();
+        leftArrow.focus();
+        if (!firstSlide) slider('left');
+      }
     }
   };
 
@@ -1403,12 +1436,18 @@ const lightbox = () => {
   }]);
   const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
   const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
-  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", ['titre media']);
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "", "", ['media-title']);
   const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-modal']);
   closeBtutton.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"])());
-  const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button']);
+  const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button'], [{
+    name: 'data-direction',
+    value: 'left'
+  }]);
   leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
-  const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button']);
+  const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button'], [{
+    name: 'data-direction',
+    value: 'right'
+  }]);
   rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
   article.append(mediaContainer, title);
   modal.append(article, rightButton, leftButton, closeBtutton);
