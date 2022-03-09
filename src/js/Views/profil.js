@@ -30,7 +30,8 @@ const profil = (photographer, medias) => {
     const counter = likesCounter(mediaSorted, photographer.price);
 
     
-    main.append(heroSection, galleryPhotographer, counter, contact(photographer.name));
+    main.append(heroSection, galleryPhotographer, counter);
+    contact(photographer.name)
 
     customSelect(medias);
 

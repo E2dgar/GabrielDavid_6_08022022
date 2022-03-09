@@ -20,7 +20,7 @@ const hero = (photographer) => {
     const contact = createDOMElement("button", ["contact-button"], [, {name: "data-modal", value: "modal-form"}], "Contactez-moi");
     
     const imgWrapper = createDOMElement("div", ["avatar"])
-    const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photographer.portrait}] )
+    const img = createDOMElement("img", "", [{name: "src", value: path.USER_THUMB + photographer.portrait}, {name: 'alt', value: photographer.name}] )
     imgWrapper.append(img);
     
     heroSection.append(wrapperDetails, contact, imgWrapper);

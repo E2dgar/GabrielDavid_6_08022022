@@ -1,5 +1,6 @@
 import { createDOMElement } from '../../../services'
 import cross from '../icons/cross'
+import submitForm from '../../../utils/contactForm'
 
 /**
  * Create contact form 
@@ -8,10 +9,10 @@ import cross from '../icons/cross'
 const contact = photographer => {
   const main = document.querySelector('#main-content')
   const closeModal = createDOMElement('button', ['close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close contact form'}])
-  const modal = createDOMElement('section', ['modal', 'modal-form'], [{name: 'aria-hidden', value: true}, {name: 'role', value: 'dialog'}, {name: 'aria-describedby', value: 'modal-title'}])
+  const modal = createDOMElement('section', ['modal', 'modal-form'], [{name: 'aria-hidden', value: true}, {name: 'role', value: 'dialog'}, {name: 'aria-describedby', value: 'modal-title photographer-name'}])
   const form = createDOMElement('form', '')
-  const title = createDOMElement('h1', '', '', 'Contactez-moi')
-  const subtitle = createDOMElement('h2', '', '', photographer)
+  const title = createDOMElement('h1', '', [{name: 'id', value: 'modal-title'}], 'Contactez-moi')
+  const subtitle = createDOMElement('h2', '', [{name: 'id', value: 'photographer-name'}], photographer)
 
   closeModal.append(cross())
   form.append(title, subtitle, closeModal)
@@ -34,6 +35,7 @@ const contact = photographer => {
   })
 
   const button = createDOMElement('button', '', [{name: 'type', value: 'submit'},  {name: 'aria-label', value: 'Send'}], 'Envoyer')
+  button.addEventListener('click', (e, fields = inputs) => submitForm(e, fields))
   form.append(button)
 
   modal.append(form)

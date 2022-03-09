@@ -19,7 +19,7 @@ const mediaCard = (media) => {
     img.setAttribute("data-modal", "modal-media")
     wrapperThumb.append(img)
 
-    const legend = document.createElement("p");
+    const legend = document.createElement("div");
     legend.className = "media-legend";
 
     const title = document.createElement("h3")

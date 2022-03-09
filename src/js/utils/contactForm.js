@@ -1,9 +1,13 @@
-/*function displayModal() {
-    const modal = document.getElementById("contact_modal");
-	modal.style.display = "block";
+const submitForm = (e, inputs) => {
+    e.preventDefault()
+
+    let data  = {}
+
+    inputs.forEach(input => {
+        let inputData = document.getElementById(input.id)
+        data[inputData.id] =  inputData.value
+    })
+    console.table(data)
 }
 
-function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    modal.style.display = "none";
-}*/
+export default submitForm

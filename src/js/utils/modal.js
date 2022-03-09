@@ -45,7 +45,7 @@ const modal = (medias) => {
    */
   const createSlide = ({src, type, title}) => {
     let element = type === 'image' ? 'img' : 'video'
-    let attributesElement = [{name: 'src', value: src}]
+    let attributesElement = [{name: 'src', value: src}, {name: 'alt', value: title}]
 
     if(element === 'video'){
       attributesElement.push({name: 'controls', value: true})
@@ -63,6 +63,7 @@ const modal = (medias) => {
     const mediaLightbox = document.querySelector('.modal-media .media-current')
     if(mediaLightbox) {
         mediaLightbox.remove()
+        mediaTitle.remove()
     }
     const targetArticle = e.target.closest("article")
 
