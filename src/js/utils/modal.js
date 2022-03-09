@@ -152,6 +152,7 @@ const modal = (medias) => {
     main.setAttribute('aria-hidden', true);
     modal.classList.add('display-modal')
     modal.removeAttribute('aria-hidden')
+    document.querySelector('.display-modal .close-modal').focus()
     body.classList.add('no-scroll')
   }
 
