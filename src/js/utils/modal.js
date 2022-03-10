@@ -11,7 +11,7 @@ const modal = (medias) => {
   const slideButton = document.querySelectorAll('.slide-button')
   const leftArrow = document.querySelector('.left-button')
   const rightArrow = document.querySelector('.right-button')
-  const cards= document.querySelectorAll('article.media-card')
+  const cards= document.querySelectorAll('.lightbox-link')
   let modal = null
   let currentIndex = null
   let firstSlide = false
@@ -59,17 +59,18 @@ const modal = (medias) => {
    * Create slide on open modal depending on thumb clicked
    * @param {event} e 
    */
-  const mediaModal = e => {
+  const mediaModal = target => {
     const mediaLightbox = document.querySelector('.modal-media .media-current')
     if(mediaLightbox) {
         mediaLightbox.remove()
         mediaTitle.remove()
     }
-    const targetArticle = e.target.closest("article")
+    /*
+    const targetLink = e instanceof KeyboardEvent ? e :  e.target.closest('a')*/
 
     /*Get media in medias based on article ID */
-    const media = medias.filter(media => parseInt(media.id) === parseInt(targetArticle.id))[0]
-    lightboxArticle.setAttribute('data-id', parseInt(targetArticle.id))
+    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0]
+    lightboxArticle.setAttribute('data-id', parseInt(target.id))
 
     /*Get media index in medias */
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
@@ -84,16 +85,23 @@ const modal = (medias) => {
   }
 
 
+  const modalConfig = (e) => {
+    targetModal(e)
+    openModal()
+    mediaModal(e)
+  }
   cards.forEach(card => {
-    card.addEventListener("click", e => {
-        targetModal(e)
-        openModal()
-        mediaModal(e)
+    card.addEventListener("click", e => modalConfig(e.target.closest('a')))
+
+    card.addEventListener("keyup", e => {
+      if(e.code === "Enter"){
+        modalConfig(card)
+      }
     })
   })
 
   const targetModal = e => {
-    modal = document.querySelector("." + e.target.getAttribute("data-modal"))
+    modal = document.querySelector("." + e.getAttribute("data-modal"))
   }
   
   /**
@@ -178,7 +186,7 @@ const modal = (medias) => {
       closeModal()
     }
 
-    if(modal.classList.contains('modal-media')){
+    if(modal?.classList.contains('modal-media')){
       if(key === 39){
         e.preventDefault()
         rightArrow.focus();

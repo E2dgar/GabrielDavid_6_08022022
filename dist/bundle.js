@@ -501,37 +501,57 @@ __webpack_require__.r(__webpack_exports__);
 const mediaCard = media => {
   const card = document.createElement('article');
   card.className = 'media-card';
-  card.setAttribute('data-type', media.type);
-  card.setAttribute('id', media.id);
-  const wrapperThumb = document.createElement("div");
-  wrapperThumb.className = "img-container";
-  const img = document.createElement("img");
-  img.setAttribute("alt", media.title);
-  img.setAttribute("src", media.srcThumb);
-  img.setAttribute("data-modal", "modal-media");
-  wrapperThumb.append(img);
-  const legend = document.createElement("div");
-  legend.className = "media-legend";
-  const title = document.createElement("h3");
+  /*const wrapperThumb = document.createElement('div')
+  wrapperThumb.className = 'img-container'*/
+
+  const lightboxLink = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', ['lightbox-link'], [{
+    name: 'data-type',
+    value: media.type
+  }, {
+    name: 'id',
+    value: media.id
+  }, {
+    name: 'role',
+    value: 'button'
+  }, {
+    name: 'tabindex',
+    value: 0
+  }, {
+    name: 'title',
+    value: 'Open in the lightbox'
+  }, {
+    name: 'data-src',
+    value: media.src
+  }, {
+    name: 'data-modal',
+    value: 'modal-media'
+  }]);
+  const img = document.createElement('img');
+  img.setAttribute('alt', media.title);
+  img.setAttribute('src', media.srcThumb);
+  lightboxLink.append(img);
+  const legend = document.createElement('div');
+  legend.className = 'media-legend';
+  const title = document.createElement('h3');
   title.textContent = media.title;
-  const likeCounter = document.createElement("span");
+  const likeCounter = document.createElement('span');
   likeCounter.textContent = media.likes;
-  const likeButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['like-button'], [{
-    name: "aria-label",
-    value: "likes"
+  const likeButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['like-button'], [{
+    name: 'aria-label',
+    value: 'likes'
   }]);
   const likeIcon = (0,_icons_like__WEBPACK_IMPORTED_MODULE_1__["default"])();
 
   const updateCount = () => {
-    const mainCounter = document.querySelector("aside span.counter");
+    const mainCounter = document.querySelector('aside span.counter');
     likeCounter.textContent++;
     mainCounter.textContent++;
   };
 
-  likeIcon.addEventListener("click", updateCount);
+  likeIcon.addEventListener('click', updateCount);
   likeButton.append(likeIcon);
   legend.append(title, likeCounter, likeButton);
-  card.append(wrapperThumb, legend);
+  card.append(lightboxLink, legend);
   return card;
 };
 
@@ -1241,7 +1261,7 @@ const modal = medias => {
   const slideButton = document.querySelectorAll('.slide-button');
   const leftArrow = document.querySelector('.left-button');
   const rightArrow = document.querySelector('.right-button');
-  const cards = document.querySelectorAll('article.media-card');
+  const cards = document.querySelectorAll('.lightbox-link');
   let modal = null;
   let currentIndex = null;
   let firstSlide = false;
@@ -1305,19 +1325,21 @@ const modal = medias => {
    */
 
 
-  const mediaModal = e => {
+  const mediaModal = target => {
     const mediaLightbox = document.querySelector('.modal-media .media-current');
 
     if (mediaLightbox) {
       mediaLightbox.remove();
       mediaTitle.remove();
     }
+    /*
+    const targetLink = e instanceof KeyboardEvent ? e :  e.target.closest('a')*/
 
-    const targetArticle = e.target.closest("article");
     /*Get media in medias based on article ID */
 
-    const media = medias.filter(media => parseInt(media.id) === parseInt(targetArticle.id))[0];
-    lightboxArticle.setAttribute('data-id', parseInt(targetArticle.id));
+
+    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
+    lightboxArticle.setAttribute('data-id', parseInt(target.id));
     /*Get media index in medias */
 
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
@@ -1329,16 +1351,27 @@ const modal = medias => {
     lightbox.append(createSlide(media));
   };
 
+  const modalConfig = e => {
+    console.log(e);
+    targetModal(e);
+    openModal();
+    mediaModal(e);
+  };
+
   cards.forEach(card => {
-    card.addEventListener("click", e => {
-      targetModal(e);
-      openModal();
-      mediaModal(e);
+    card.addEventListener("click", e => modalConfig(e.target.closest('a')));
+    card.addEventListener("keyup", e => {
+      console.log('e   ', e);
+      console.log('code', e.code);
+
+      if (e.code === "Enter") {
+        modalConfig(card);
+      }
     });
   });
 
   const targetModal = e => {
-    modal = document.querySelector("." + e.target.getAttribute("data-modal"));
+    modal = document.querySelector("." + e.getAttribute("data-modal"));
   };
   /**
    * Go to next slide
@@ -1422,7 +1455,7 @@ const modal = medias => {
       closeModal();
     }
 
-    if (modal.classList.contains('modal-media')) {
+    if (modal?.classList.contains('modal-media')) {
       if (key === 39) {
         e.preventDefault();
         rightArrow.focus();
