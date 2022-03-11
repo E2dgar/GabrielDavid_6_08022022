@@ -3,16 +3,16 @@ import arrowLeft from "../icons/arrowLighboxLeft";
 import arrowRight from "../icons/arrowLightboxRight";
 import cross from "../icons/cross";
 
-const lightbox = () => {
+const lightboxUI = () => {
     const body = document.querySelector("body");
     const main = document.querySelector("#main-content");
 
-    const modal = createDOMElement("section", ['modal', 'modal-media'], [{name: "aria-hidden", value: true}, {name: "role", value: "dialog"}, {name: "aria-label", value: "Media modal"}])
+    const modal = createDOMElement("section", ['modal', 'modal-media'], [{name: 'data-modal', value: 'modal-media'}, {name: "aria-hidden", value: true}, {name: "role", value: "dialog"}, {name: "aria-label", value: "Media modal"}])
     const article = createDOMElement("article", ['media']);
     const mediaContainer = createDOMElement('div', ['media-container'])
     const title = createDOMElement("h1", "");
     
-    const closeBtutton = createDOMElement("button", ['modal-button', 'close-modal'], [{name: 'aria-label', value: 'Close medias modal'}]);
+    const closeBtutton = createDOMElement("button", ['modal-button', 'close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close medias modal'}]);
     closeBtutton.append(cross());
 
     const leftButton = createDOMElement("button", ['modal-button', 'left-button', 'slide-button'], [{name: 'data-direction', value: 'left'}, {name: 'aria-label', value: 'Next media'}]);
@@ -26,4 +26,4 @@ const lightbox = () => {
     main.insertAdjacentElement("afterend", modal);
 }
 
-export default lightbox;
+export default lightboxUI;

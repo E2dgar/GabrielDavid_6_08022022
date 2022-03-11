@@ -8,14 +8,14 @@ import submitForm from '../../../utils/contactForm'
  */
 const contact = photographer => {
   const main = document.querySelector('#main-content')
-  const closeModal = createDOMElement('button', ['close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close contact form'}])
+  const closeModalButton = createDOMElement('button', ['close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close contact form'}])
   const modal = createDOMElement('section', ['modal', 'modal-form'], [{name: 'aria-hidden', value: true}, {name: 'role', value: 'dialog'}, {name: 'aria-describedby', value: 'modal-title photographer-name'}])
   const form = createDOMElement('form', '')
   const title = createDOMElement('h1', '', [{name: 'id', value: 'modal-title'}], 'Contactez-moi')
   const subtitle = createDOMElement('h2', '', [{name: 'id', value: 'photographer-name'}], photographer)
 
-  closeModal.append(cross())
-  form.append(title, subtitle, closeModal)
+  closeModalButton.append(cross())
+  form.append(title, subtitle, closeModalButton)
 
   const inputs = [
       {id: 'firstname', type: 'text', label: 'Prénom'},
@@ -40,6 +40,8 @@ const contact = photographer => {
 
   modal.append(form)
   main.insertAdjacentElement('afterend', modal)
+
+  
 }
 
 export default contact

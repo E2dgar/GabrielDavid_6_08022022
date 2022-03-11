@@ -1,5 +1,6 @@
 import gallery from '../Views/components/profil/gallery'
 import gallerySort from './gallerySort'
+import lightbox from './mediaModal'
 
 const customSelect = (medias) => {
   const button = document.getElementById('selected-opt')

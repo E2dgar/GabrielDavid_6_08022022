@@ -354,14 +354,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var _components_profil_hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
 /* harmony import */ var _components_profil_gallery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
-/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
-/* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(23);
-/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24);
-/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
-/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(29);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(28);
+/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(29);
+/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(31);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(33);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_utils_modal__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(16);
-/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_utils_mediaModal__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(30);
+/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(17);
+/* harmony import */ var _utils_modalGlobal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(21);
+
+
 
 
 
@@ -390,11 +393,13 @@ const profil = (photographer, medias) => {
   const main = document.querySelector("#main-content");
   const counter = (0,_components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__["default"])(mediaSorted, photographer.price);
   main.append(heroSection, galleryPhotographer, counter);
-  (0,_components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name);
   (0,_utils_customSelect__WEBPACK_IMPORTED_MODULE_5__["default"])(medias);
+  (0,_components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name);
   (0,_components_profil_lightbox__WEBPACK_IMPORTED_MODULE_9__["default"])();
-  (0,_utils_modal__WEBPACK_IMPORTED_MODULE_7__["default"])(mediaSorted);
-  return main;
+  (0,_utils_mediaModal__WEBPACK_IMPORTED_MODULE_8__["default"])(mediaSorted);
+  /* modal(mediaSorted);*/
+
+  /*modalGlobal()*/
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (profil);
@@ -427,7 +432,10 @@ const hero = photographer => {
   const location = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", ["location"], "", photographer.city + ", " + photographer.country);
   const tagline = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("p", ["tagline"], "", photographer.tagline);
   wrapperDetails.append(name, location, tagline);
-  const contact = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ["contact-button"], [, {
+  const contact = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['contact-button', 'modal-trigger'], [{
+    name: 'type',
+    value: 'button'
+  }, {
     name: "data-modal",
     value: "modal-form"
   }], "Contactez-moi");
@@ -457,7 +465,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _mediaCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
 
 
 
@@ -492,7 +500,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_like__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _Models_mediaCardFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
 /* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
-/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_utils_mediaModal__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
@@ -500,11 +507,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const mediaCard = media => {
   const card = document.createElement('article');
-  card.className = 'media-card';
+  card.classList.add('media-card');
   /*const wrapperThumb = document.createElement('div')
   wrapperThumb.className = 'img-container'*/
 
-  const lightboxLink = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', ['lightbox-link'], [{
+  const lightboxLink = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', ['lightbox-link', 'modal-trigger'], [{
     name: 'data-type',
     value: media.type
   }, {
@@ -529,6 +536,7 @@ const mediaCard = media => {
   const img = document.createElement('img');
   img.setAttribute('alt', media.title);
   img.setAttribute('src', media.srcThumb);
+  img.setAttribute('data-modal', 'modal-media');
   lightboxLink.append(img);
   const legend = document.createElement('div');
   legend.className = 'media-legend';
@@ -626,9 +634,203 @@ const videoThumb = (title, image) => {
 
 /***/ }),
 /* 16 */
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _Views_components_profil_lightbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _modalGlobal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
 
 
+
+
+const lightbox = medias => {
+  console.log(medias);
+  (0,_modalGlobal__WEBPACK_IMPORTED_MODULE_2__.keyBoardEvents)();
+  const lightboxArticle = document.querySelector('.modal-media article');
+  const lightbox = document.querySelector('.modal-media article .media-container');
+  const mediaTitle = document.querySelector('h1');
+  const slideButton = document.querySelectorAll('.slide-button');
+  const leftArrow = document.querySelector('.left-button');
+  const rightArrow = document.querySelector('.right-button');
+  const cards = document.querySelectorAll('.lightbox-link');
+  const close = document.querySelector('.modal-media .close-modal');
+  console.log('c', close);
+  let modal = null;
+  let currentIndex = null;
+  let firstSlide = false;
+  let lastSlide = false;
+  /**
+   * Hide left/right arrow for first and last slide
+   * @param {integer} index 
+   */
+
+  const displayArrows = index => {
+    if (index === 0) {
+      leftArrow.classList.add('hidden');
+      firstSlide = true;
+      console.log(firstSlide);
+    } else {
+      firstSlide = false;
+    }
+
+    if (index === medias.length - 1) {
+      rightArrow.classList.add('hidden');
+      lastSlide = true;
+      console.log('me lenght', medias.length);
+    } else {
+      lastSlide = false;
+    }
+  };
+  /**
+   * Create DOM slide
+   * @param {Object} media 
+   */
+
+
+  const createSlide = ({
+    src,
+    type,
+    title
+  }) => {
+    let element = type === 'image' ? 'img' : 'video';
+    let attributesElement = [{
+      name: 'src',
+      value: src
+    }, {
+      name: 'alt',
+      value: title
+    }];
+
+    if (element === 'video') {
+      attributesElement.push({
+        name: 'controls',
+        value: true
+      });
+    }
+
+    mediaTitle.textContent = title;
+    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
+  };
+  /**
+   * Create slide on open modal depending on thumb clicked
+   * @param {event} e 
+   */
+
+
+  const mediaModal = target => {
+    const mediaLightbox = document.querySelector('.modal-media .media-current');
+
+    if (mediaLightbox) {
+      mediaLightbox.remove();
+      mediaTitle.remove();
+    }
+    /*Get media in medias based on article ID */
+
+
+    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
+    /*Get media index in medias */
+
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id));
+    lightboxArticle.setAttribute('data-id', target.id);
+    /*Setup arrows */
+
+    leftArrow.classList.remove('hidden');
+    rightArrow.classList.remove('hidden');
+    displayArrows(currentIndex);
+    lightbox.append(createSlide(media));
+  };
+
+  cards.forEach(card => {
+    card.addEventListener("click", e => {
+      (0,_modalGlobal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+      mediaModal(e.currentTarget);
+    });
+    card.addEventListener("keydown", e => {
+      console.log('keyboard', e);
+
+      if (e.code === "Enter") {
+        e.preventDefault();
+        (0,_modalGlobal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+        mediaModal(card);
+      }
+    });
+  });
+  /**
+   * Go to next slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
+
+  const nextSlide = (media, index) => {
+    document.querySelector('.left-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index + 1;
+    console.log('index in next', currentIndex);
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Go to previous slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
+
+
+  const prevSlide = (media, index) => {
+    document.querySelector('.right-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index - 1;
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Slider
+   * @param {string} direction 
+   */
+
+
+  const slider = direction => {
+    const currentMedia = document.querySelector('.media-current');
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
+
+    if (direction === "right") {
+      nextSlide(currentMedia, currentIndex);
+    }
+
+    if (direction === "left") {
+      prevSlide(currentMedia, currentIndex);
+    }
+
+    lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+    displayArrows(currentIndex);
+  };
+
+  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
+
+  const keyEvents = e => {
+    let key = e.which || e.keycode;
+
+    if (key === 39) {
+      e.preventDefault();
+      rightArrow.focus();
+      if (!lastSlide) slider('right');
+    }
+
+    if (key === 37) {
+      e.preventDefault();
+      leftArrow.focus();
+      if (!firstSlide) slider('left');
+    }
+  };
+
+  document.addEventListener('keydown', keyEvents);
+  close.addEventListener('click', _modalGlobal__WEBPACK_IMPORTED_MODULE_2__.closeModal);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
 
 /***/ }),
 /* 17 */
@@ -640,7 +842,189 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+
+
+
+
+
+const lightboxUI = () => {
+  const body = document.querySelector("body");
+  const main = document.querySelector("#main-content");
+  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-media'], [{
+    name: 'data-modal',
+    value: 'modal-media'
+  }, {
+    name: "aria-hidden",
+    value: true
+  }, {
+    name: "role",
+    value: "dialog"
+  }, {
+    name: "aria-label",
+    value: "Media modal"
+  }]);
+  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
+  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
+  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "");
+  const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-modal'], [{
+    name: 'type',
+    value: 'button'
+  }, {
+    name: 'aria-label',
+    value: 'Close medias modal'
+  }]);
+  closeBtutton.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"])());
+  const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button'], [{
+    name: 'data-direction',
+    value: 'left'
+  }, {
+    name: 'aria-label',
+    value: 'Next media'
+  }]);
+  leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
+  const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button'], [{
+    name: 'data-direction',
+    value: 'right'
+  }, {
+    name: 'aria-label',
+    value: 'Previous media'
+  }]);
+  rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
+  article.append(mediaContainer, title);
+  modal.append(article, leftButton, rightButton, closeBtutton);
+  main.insertAdjacentElement("afterend", modal);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightboxUI);
+
+/***/ }),
+/* 18 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const arrowLeft = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 30 48');
+  svg.setAttribute('width', 30);
+  svg.setAttribute('height', 48);
+  svg.setAttribute('fill', "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z");
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowLeft);
+
+/***/ }),
+/* 19 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const arrowRight = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 30 48');
+  svg.setAttribute('width', 30);
+  svg.setAttribute('height', 48);
+  svg.setAttribute('fill', "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z");
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowRight);
+
+/***/ }),
+/* 20 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const cross = () => {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 42 42');
+  svg.setAttribute('width', 42);
+  svg.setAttribute('height', 42);
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('aria-hidden', true);
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z');
+  svg.append(path);
+  return svg;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
+
+/***/ }),
+/* 21 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "openModal": () => (/* binding */ openModal),
+/* harmony export */   "closeModal": () => (/* binding */ closeModal),
+/* harmony export */   "keyBoardEvents": () => (/* binding */ keyBoardEvents)
+/* harmony export */ });
+const main = document.querySelector('#main-content');
+const body = document.querySelector('body');
+let modal = null;
+
+const openModal = modalContent => {
+  modal = document.querySelector('.' + modalContent);
+  main.setAttribute('aria-hidden', true);
+  modal.classList.add('display-modal');
+  modal.removeAttribute('aria-hidden');
+  document.querySelector('.display-modal .close-modal').focus();
+  body.classList.add('no-scroll');
+};
+
+const closeModal = () => {
+  console.log('close is triggered');
+  main.removeAttribute('aria-hidden');
+  modal.classList.remove('display-modal');
+  body.classList.remove('no-scroll');
+};
+
+const keyBoardEvents = () => {
+  const keyEvents = e => {
+    if (e.code === 'Escape') {
+      e.preventDefault();
+      closeModal();
+    }
+  };
+
+  document.addEventListener('keydown', keyEvents);
+};
+
+
+
+/***/ }),
+/* 22 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
 
 
 const mediasFilters = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['filter-container']);
@@ -701,7 +1085,7 @@ mediasFilters.append(listboxArea);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediasFilters);
 
 /***/ }),
-/* 18 */
+/* 23 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -725,7 +1109,7 @@ const arrow = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrow);
 
 /***/ }),
-/* 19 */
+/* 24 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -733,8 +1117,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-/* harmony import */ var _Video__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _Video__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 
 
 
@@ -751,7 +1135,7 @@ const mediaFactory = data => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediaFactory);
 
 /***/ }),
-/* 20 */
+/* 25 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -759,7 +1143,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -777,7 +1161,7 @@ class ImageMedia extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageMedia);
 
 /***/ }),
-/* 21 */
+/* 26 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -799,7 +1183,7 @@ class Media {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Media);
 
 /***/ }),
-/* 22 */
+/* 27 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -807,7 +1191,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -825,7 +1209,7 @@ class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Video);
 
 /***/ }),
-/* 23 */
+/* 28 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -852,7 +1236,7 @@ const likesCounter = (data, price) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (likesCounter);
 
 /***/ }),
-/* 24 */
+/* 29 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -861,7 +1245,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Views_components_profil_gallery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _gallerySort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var _gallerySort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+
 
 
 
@@ -1064,7 +1450,7 @@ const customSelect = medias => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (customSelect);
 
 /***/ }),
-/* 25 */
+/* 30 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1073,7 +1459,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+
 
 
 
@@ -1084,12 +1472,13 @@ const gallerySort = medias => {
   const mediaSorted = [];
   medias.forEach(media => mediaSorted.push((0,_Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
   mediaSorted.forEach(media => gallery.append((0,_Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__["default"])(media)));
+  (0,_mediaModal__WEBPACK_IMPORTED_MODULE_2__["default"])(mediaSorted);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gallerySort);
 
 /***/ }),
-/* 26 */
+/* 31 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1098,8 +1487,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
-/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
 
 
 
@@ -1110,7 +1499,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const contact = photographer => {
   const main = document.querySelector('#main-content');
-  const closeModal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['close-modal'], [{
+  const closeModalButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['close-modal'], [{
     name: 'type',
     value: 'button'
   }, {
@@ -1136,8 +1525,8 @@ const contact = photographer => {
     name: 'id',
     value: 'photographer-name'
   }], photographer);
-  closeModal.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"])());
-  form.append(title, subtitle, closeModal);
+  closeModalButton.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_1__["default"])());
+  form.append(title, subtitle, closeModalButton);
   const inputs = [{
     id: 'firstname',
     type: 'text',
@@ -1194,31 +1583,7 @@ const contact = photographer => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contact);
 
 /***/ }),
-/* 27 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const cross = () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 42 42');
-  svg.setAttribute('width', 42);
-  svg.setAttribute('height', 42);
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('aria-hidden', true);
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  path.setAttribute('d', 'M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z');
-  svg.append(path);
-  return svg;
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
-
-/***/ }),
-/* 28 */
+/* 32 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1239,349 +1604,10 @@ const submitForm = (e, inputs) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (submitForm);
 
 /***/ }),
-/* 29 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* 33 */
+/***/ (() => {
 
 
-const modal = medias => {
-  const main = document.querySelector('#main-content');
-  const lightboxArticle = document.querySelector('.modal-media article');
-  const lightbox = document.querySelector('.modal-media article .media-container');
-  const mediaTitle = document.querySelector('h1');
-  const contactButton = document.querySelector('.contact-button');
-  const body = document.querySelector('body');
-  const close = document.querySelectorAll('.close-modal');
-  const slideButton = document.querySelectorAll('.slide-button');
-  const leftArrow = document.querySelector('.left-button');
-  const rightArrow = document.querySelector('.right-button');
-  const cards = document.querySelectorAll('.lightbox-link');
-  let modal = null;
-  let currentIndex = null;
-  let firstSlide = false;
-  let lastSlide = false;
-  console.log('medias', medias);
-  /**
-   * Hide left/right arrow for first and last slide
-   * @param {integer} index 
-   */
-
-  const displayArrows = index => {
-    if (index === 0) {
-      leftArrow.classList.add('hidden');
-      firstSlide = true;
-      console.log(firstSlide);
-    } else {
-      firstSlide = false;
-    }
-
-    if (index === medias.length - 1) {
-      rightArrow.classList.add('hidden');
-      lastSlide = true;
-      console.log('me lenght', medias.length);
-    } else {
-      lastSlide = false;
-    }
-  };
-  /**
-   * Create DOM slide
-   * @param {Object} media 
-   */
-
-
-  const createSlide = ({
-    src,
-    type,
-    title
-  }) => {
-    let element = type === 'image' ? 'img' : 'video';
-    let attributesElement = [{
-      name: 'src',
-      value: src
-    }, {
-      name: 'alt',
-      value: title
-    }];
-
-    if (element === 'video') {
-      attributesElement.push({
-        name: 'controls',
-        value: true
-      });
-    }
-
-    mediaTitle.textContent = title;
-    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
-  };
-  /**
-   * Create slide on open modal depending on thumb clicked
-   * @param {event} e 
-   */
-
-
-  const mediaModal = target => {
-    const mediaLightbox = document.querySelector('.modal-media .media-current');
-
-    if (mediaLightbox) {
-      mediaLightbox.remove();
-      mediaTitle.remove();
-    }
-    /*
-    const targetLink = e instanceof KeyboardEvent ? e :  e.target.closest('a')*/
-
-    /*Get media in medias based on article ID */
-
-
-    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
-    lightboxArticle.setAttribute('data-id', parseInt(target.id));
-    /*Get media index in medias */
-
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
-    /*Setup arrows */
-
-    leftArrow.classList.remove('hidden');
-    rightArrow.classList.remove('hidden');
-    displayArrows(currentIndex);
-    lightbox.append(createSlide(media));
-  };
-
-  const modalConfig = e => {
-    console.log(e);
-    targetModal(e);
-    openModal();
-    mediaModal(e);
-  };
-
-  cards.forEach(card => {
-    card.addEventListener("click", e => modalConfig(e.target.closest('a')));
-    card.addEventListener("keyup", e => {
-      console.log('e   ', e);
-      console.log('code', e.code);
-
-      if (e.code === "Enter") {
-        modalConfig(card);
-      }
-    });
-  });
-
-  const targetModal = e => {
-    modal = document.querySelector("." + e.getAttribute("data-modal"));
-  };
-  /**
-   * Go to next slide
-   * @param {Object} media 
-   * @param {integer} index 
-   */
-
-
-  const nextSlide = (media, index) => {
-    document.querySelector('.left-button').classList.remove('hidden');
-    media.remove();
-    currentIndex = index + 1;
-    lightbox.append(createSlide(medias[currentIndex]));
-  };
-  /**
-   * Go to previous slide
-   * @param {Object} media 
-   * @param {integer} index 
-   */
-
-
-  const prevSlide = (media, index) => {
-    document.querySelector('.right-button').classList.remove('hidden');
-    media.remove();
-    currentIndex = index - 1;
-    lightbox.append(createSlide(medias[currentIndex]));
-  };
-  /**
-   * Slider
-   * @param {string} direction 
-   */
-
-
-  const slider = direction => {
-    const currentMedia = document.querySelector('.media-current');
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
-
-    if (direction === "right") {
-      nextSlide(currentMedia, currentIndex);
-    }
-
-    if (direction === "left") {
-      prevSlide(currentMedia, currentIndex);
-    }
-
-    lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
-    displayArrows(currentIndex);
-  };
-
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
-
-  const openModal = () => {
-    main.setAttribute('aria-hidden', true);
-    modal.classList.add('display-modal');
-    modal.removeAttribute('aria-hidden');
-    document.querySelector('.display-modal .close-modal').focus();
-    body.classList.add('no-scroll');
-  };
-  /* Open targeted modal */
-
-
-  contactButton.addEventListener('click', e => {
-    targetModal(e);
-    openModal();
-  });
-
-  const closeModal = () => {
-    console.log('close');
-    main.removeAttribute('aria-hidden');
-    modal.classList.remove('display-modal');
-    body.classList.remove('no-scroll');
-  };
-
-  close.forEach(button => button.addEventListener('click', closeModal));
-
-  const keyEvents = e => {
-    let key = e.which || e.keycode;
-
-    if (key === 27) {
-      e.preventDefault();
-      closeModal();
-    }
-
-    if (modal?.classList.contains('modal-media')) {
-      if (key === 39) {
-        e.preventDefault();
-        rightArrow.focus();
-        if (!lastSlide) slider('right');
-      }
-
-      if (key === 37) {
-        e.preventDefault();
-        leftArrow.focus();
-        if (!firstSlide) slider('left');
-      }
-    }
-  };
-
-  document.addEventListener('keydown', keyEvents);
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
-
-/***/ }),
-/* 30 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
-/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(27);
-
-
-
-
-
-const lightbox = () => {
-  const body = document.querySelector("body");
-  const main = document.querySelector("#main-content");
-  const modal = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ['modal', 'modal-media'], [{
-    name: "aria-hidden",
-    value: true
-  }, {
-    name: "role",
-    value: "dialog"
-  }, {
-    name: "aria-label",
-    value: "Media modal"
-  }]);
-  const article = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("article", ['media']);
-  const mediaContainer = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['media-container']);
-  const title = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("h1", "");
-  const closeBtutton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'close-modal'], [{
-    name: 'aria-label',
-    value: 'Close medias modal'
-  }]);
-  closeBtutton.append((0,_icons_cross__WEBPACK_IMPORTED_MODULE_3__["default"])());
-  const leftButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'left-button', 'slide-button'], [{
-    name: 'data-direction',
-    value: 'left'
-  }, {
-    name: 'aria-label',
-    value: 'Next media'
-  }]);
-  leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
-  const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("button", ['modal-button', 'right-button', 'slide-button'], [{
-    name: 'data-direction',
-    value: 'right'
-  }, {
-    name: 'aria-label',
-    value: 'Previous media'
-  }]);
-  rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
-  article.append(mediaContainer, title);
-  modal.append(article, leftButton, rightButton, closeBtutton);
-  main.insertAdjacentElement("afterend", modal);
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
-
-/***/ }),
-/* 31 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const arrowLeft = () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 30 48');
-  svg.setAttribute('width', 30);
-  svg.setAttribute('height', 48);
-  svg.setAttribute('fill', "none");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z");
-  svg.append(path);
-  return svg;
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowLeft);
-
-/***/ }),
-/* 32 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const arrowRight = () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 30 48');
-  svg.setAttribute('width', 30);
-  svg.setAttribute('height', 48);
-  svg.setAttribute('fill', "none");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z");
-  svg.append(path);
-  return svg;
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowRight);
 
 /***/ })
 /******/ 	]);

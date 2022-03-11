@@ -5,12 +5,12 @@ import mediaModal from '../../../utils/mediaModal'
 
 const mediaCard = media => {
     const card = document.createElement('article')
-    card.className = 'media-card'
+    card.classList.add('media-card')
 
     /*const wrapperThumb = document.createElement('div')
     wrapperThumb.className = 'img-container'*/
 
-    const lightboxLink = createDOMElement('a', ['lightbox-link'], [
+    const lightboxLink = createDOMElement('a', ['lightbox-link', 'modal-trigger'], [
       {name: 'data-type', value: media.type},
       {name: 'id', value: media.id},
       {name: 'role', value: 'button'}, 
@@ -22,6 +22,7 @@ const mediaCard = media => {
     const img = document.createElement('img')
     img.setAttribute('alt', media.title)
     img.setAttribute('src', media.srcThumb)
+    img.setAttribute('data-modal', 'modal-media')
     lightboxLink.append(img)
 
     const legend = document.createElement('div')

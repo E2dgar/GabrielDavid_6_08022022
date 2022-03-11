@@ -7,7 +7,9 @@ import customSelect from "../utils/customSelect";
 import contact from "./components/contactForm/contact";
 import modal from "../utils/modal";
 import mediaModal from "../utils/mediaModal";
-import lightbox from "./components/profil/lightbox";
+import lightbox from "../utils/mediaModal";
+import lightboxUI from "./components/profil/lightbox";
+import modalGlobal from "../utils/modalGlobal";
 
 const profil = (photographer, medias) => {
     document.title = `Fisheye | ${photographer.name}`;
@@ -31,16 +33,19 @@ const profil = (photographer, medias) => {
 
     
     main.append(heroSection, galleryPhotographer, counter);
-    contact(photographer.name)
+    
 
     customSelect(medias);
 
+    contact(photographer.name)
+    lightboxUI();
+    lightbox(mediaSorted)
+   /* modal(mediaSorted);*/
+   /*modalGlobal()*/
 
-    lightbox();
-    modal(mediaSorted);
    
-
-    return main;
+   
+    
 }
 
 export default profil;
