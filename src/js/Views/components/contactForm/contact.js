@@ -1,12 +1,13 @@
 import { createDOMElement } from '../../../services'
 import cross from '../icons/cross'
 import submitForm from '../../../utils/contactForm'
-
+import { openModal, closeModal, keyBoardEvents } from '../../../utils/modal'
 /**
  * Create contact form 
  * @param {string} photographer Photographer name
  */
 const contact = photographer => {
+  const contactButton = document.querySelector('.contact-button')
   const main = document.querySelector('#main-content')
   const closeModalButton = createDOMElement('button', ['close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close contact form'}])
   const modal = createDOMElement('section', ['modal', 'modal-form'], [{name: 'aria-hidden', value: true}, {name: 'role', value: 'dialog'}, {name: 'aria-describedby', value: 'modal-title photographer-name'}])
@@ -40,6 +41,17 @@ const contact = photographer => {
 
   modal.append(form)
   main.insertAdjacentElement('afterend', modal)
+
+  contactButton.addEventListener('click',() => openModal('modal-form'))
+  closeModalButton.addEventListener('click',closeModal)
+
+  contactButton.addEventListener("keydown", e => {
+    console.log('keyboard',e)
+    if(e.code === "Enter"){ 
+      e.preventDefault();
+      openModal('modal-form')
+    }
+  })
 
   
 }

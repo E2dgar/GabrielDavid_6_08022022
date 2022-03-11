@@ -1,10 +1,8 @@
 import { createDOMElement } from '../services'
-import lightboxUI from '../Views/components/profil/lightbox'
-import { openModal, closeModal, keyBoardEvents } from './modalGlobal'
+import { openModal, closeModal, keyBoardEvents } from './modal'
 
 
 const lightbox = (medias) => {
-  console.log(medias)
   keyBoardEvents();
 
   const lightboxArticle = document.querySelector('.modal-media article')
@@ -15,14 +13,11 @@ const lightbox = (medias) => {
   const rightArrow = document.querySelector('.right-button')
   const cards= document.querySelectorAll('.lightbox-link')
   const close = document.querySelector('.modal-media .close-modal')
-  console.log('c',close)
-  let modal = null
+  
   let currentIndex = null
   let firstSlide = false
   let lastSlide = false
-
  
-  
   /**
    * Hide left/right arrow for first and last slide
    * @param {integer} index 
@@ -144,7 +139,7 @@ const lightbox = (medias) => {
   const slider = (direction) => {
     const currentMedia = document.querySelector('.media-current')
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
-    
+    console.log(currentMedia)
     if(direction === "right") {
       nextSlide(currentMedia, currentIndex)
     }

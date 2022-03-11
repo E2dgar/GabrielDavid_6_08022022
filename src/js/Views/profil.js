@@ -5,11 +5,8 @@ import mediaFactory from "../Models/mediaFactory";
 import likesCounter from "./components/profil/likesCounter";
 import customSelect from "../utils/customSelect";
 import contact from "./components/contactForm/contact";
-import modal from "../utils/modal";
-import mediaModal from "../utils/mediaModal";
 import lightbox from "../utils/mediaModal";
 import lightboxUI from "./components/profil/lightbox";
-import modalGlobal from "../utils/modalGlobal";
 
 const profil = (photographer, medias) => {
     document.title = `Fisheye | ${photographer.name}`;
@@ -40,12 +37,6 @@ const profil = (photographer, medias) => {
     contact(photographer.name)
     lightboxUI();
     lightbox(mediaSorted)
-   /* modal(mediaSorted);*/
-   /*modalGlobal()*/
-
-   
-   
-    
 }
 
 export default profil;
