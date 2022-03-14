@@ -2,6 +2,22 @@ const main = document.querySelector('#main-content')
 const body = document.querySelector('body')
 let modal = null
 
+const keyEvents = (e) => {
+  console.log('remove dans modal')
+  let key = e.which || e.keycode;
+    if(key === 39){
+      e.preventDefault()
+      rightArrow.focus();
+      if(!lastSlide) slider('right')
+    }
+    if(key === 37){
+      e.preventDefault()
+      leftArrow.focus();
+      if(!firstSlide) slider('left')
+    }
+  
+}
+
 const openModal = modalContent => {
   modal = document.querySelector('.' + modalContent)
   main.setAttribute('aria-hidden', true);
@@ -9,10 +25,21 @@ const openModal = modalContent => {
   modal.removeAttribute('aria-hidden')
   document.querySelector('.display-modal .close-modal').focus()
   body.classList.add('no-scroll')
+
+ 
+ 
+    
+
+
 }
 
 
 const closeModal = () => {
+
+  
+
+  document.removeEventListener('keydown', keyEvents)
+  
   console.log('close is triggered')
   main.removeAttribute('aria-hidden')
   modal.classList.remove('display-modal')

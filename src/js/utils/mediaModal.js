@@ -3,7 +3,27 @@ import { openModal, closeModal, keyBoardEvents } from './modal'
 
 
 const lightbox = (medias) => {
-  keyBoardEvents();
+ /* let countListenr = 1;
+  let mesMedias = []
+  mesMedias = medias
+  keyBoardEvents();*/
+  const keyEvents = (e) => {
+    console.log(e.code)
+    let key = e.which || e.keycode;
+      if(key === 39){
+        e.preventDefault()
+        rightArrow.focus();
+        if(!lastSlide) slider('right')
+      }
+      if(key === 37){
+        e.preventDefault()
+        leftArrow.focus();
+        if(!firstSlide) slider('left')
+      }
+    
+  }
+  console.log('lightbox is fired')
+  document.removeEventListener('keydown', keyEvents)
 
   const lightboxArticle = document.querySelector('.modal-media article')
   const lightbox = document.querySelector('.modal-media article .media-container')
@@ -14,7 +34,7 @@ const lightbox = (medias) => {
   const cards= document.querySelectorAll('.lightbox-link')
   const close = document.querySelector('.modal-media .close-modal')
   
-  let currentIndex = null
+  let currentIndex = 0
   let firstSlide = false
   let lastSlide = false
  
@@ -33,7 +53,6 @@ const lightbox = (medias) => {
     if(index === medias.length - 1){
       rightArrow.classList.add('hidden')
       lastSlide = true
-      console.log('me lenght', medias.length)
     } else {
       lastSlide = false
     }
@@ -65,7 +84,7 @@ const lightbox = (medias) => {
         mediaLightbox.remove()
         mediaTitle.remove()
     }
-
+console.log('medias dans mediaModal()', medias)
     /*Get media in medias based on article ID */
     const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0]
 
@@ -112,7 +131,6 @@ const lightbox = (medias) => {
     media.remove()
 
     currentIndex = index + 1
-    console.log('index in next', currentIndex)
 
     lightbox.append(createSlide(medias[currentIndex]))
   }
@@ -137,40 +155,42 @@ const lightbox = (medias) => {
    * @param {string} direction 
    */
   const slider = (direction) => {
-    const currentMedia = document.querySelector('.media-current')
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
-    console.log(currentMedia)
-    if(direction === "right") {
-      nextSlide(currentMedia, currentIndex)
-    }
-    if(direction === "left") {
-      prevSlide(currentMedia, currentIndex)
-    }
+      const currentMedia = document.querySelector('.media-current')
+      currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
+      
+      if(direction === "right") {
+        nextSlide(currentMedia, currentIndex)
+      }
+      if(direction === "left") {
+        prevSlide(currentMedia, currentIndex)
+      }
 
-    lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
+      lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
 
-    displayArrows(currentIndex)
+      displayArrows(currentIndex)
   }
 
   slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))))
 
-  const keyEvents = (e) => {
-    let key = e.which || e.keycode;
-      if(key === 39){
-        e.preventDefault()
-        rightArrow.focus();
-        if(!lastSlide) slider('right')
-      }
-      if(key === 37){
-        e.preventDefault()
-        leftArrow.focus();
-        if(!firstSlide) slider('left')
-      }
-    
-  }
+  
+
+  /*A placer qu'une fois */
   document.addEventListener('keydown', keyEvents)
 
-  close.addEventListener('click',closeModal)
+  const escapeKey = e => {
+    if(e.code === 'Escape'){
+      e.preventDefault()
+      document.removeEventListener('keydown', keyEvents)
+      closeModal()
+    }
+  }
+  document.addEventListener('keydown', escapeKey)
+
+
+  close.addEventListener('click',() => {
+    document.removeEventListener('keydown', keyEvents)
+    closeModal()
+  })
 }
 
 export default lightbox;

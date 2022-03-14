@@ -114,7 +114,7 @@ const customSelect = (medias) => {
     listbox.classList.remove('hidden')
     button.setAttribute('aria-expanded', true)
     listbox.focus()
-    setUpFocus()
+    /*setUpFocus()*/
   }
   button.addEventListener('click', showList)
 
@@ -158,7 +158,7 @@ const customSelect = (medias) => {
         }
       })
 
-      gallerySort(mediaSorted)
+      gallerySort(mediaSorted)    
     } 
   }
    

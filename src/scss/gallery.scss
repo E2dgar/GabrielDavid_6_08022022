@@ -2,8 +2,8 @@
 
     .medias-wrapper {
         padding: 3rem 0;
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 350px);
         justify-content: space-between;
         gap: 1rem;
     

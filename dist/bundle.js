@@ -344,12 +344,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var _components_profil_hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
 /* harmony import */ var _components_profil_gallery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
-/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
-/* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
-/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(25);
-/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(27);
-/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(16);
-/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(30);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
+/* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
+/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(22);
+/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
+/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24);
+/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(29);
 
 
 
@@ -444,7 +444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _mediaCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
 
 
 
@@ -476,19 +476,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _icons_like__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-/* harmony import */ var _Models_mediaCardFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
-
-
 
 
 
 const mediaCard = media => {
   const card = document.createElement('article');
   card.classList.add('media-card');
-  /*const wrapperThumb = document.createElement('div')
-  wrapperThumb.className = 'img-container'*/
-
   const lightboxLink = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', ['lightbox-link', 'modal-trigger'], [{
     name: 'data-type',
     value: media.type
@@ -530,8 +523,12 @@ const mediaCard = media => {
 
   const updateCount = () => {
     const mainCounter = document.querySelector('aside span.counter');
-    likeCounter.textContent++;
-    mainCounter.textContent++;
+
+    if (!media._isLiked) {
+      likeCounter.textContent++;
+      mainCounter.textContent++;
+      media._isLiked = true;
+    }
   };
 
   likeIcon.addEventListener('click', updateCount);
@@ -571,291 +568,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-/**
- * Modify src depending on media type
- * @param {object} data 
- * @returns 
- */
-
-const MediaCardFactory = media => {
-  if (media.type === "image") {
-    return imageThumb(media.title, media);
-  } else if (media.type === "video") {
-    return videoThumb(media.title, media);
-  }
-
-  return "Format error";
-};
-
-const imageThumb = (title, image) => {
-  console.log('image', image);
-  const img = document.createElement("img");
-  img.setAttribute("alt", title);
-  img.setAttribute("src", image.srcThumb);
-  img.setAttribute("data-modal", "modal-media");
-  return img;
-};
-
-const videoThumb = (title, image) => {
-  const img = document.createElement("img");
-  img.setAttribute("alt", title);
-  img.setAttribute("src", _constants__WEBPACK_IMPORTED_MODULE_0__.path.MEDIA_VIDEO_THUMB + image.replace(".", "") + ".png");
-  img.setAttribute("data-modal", "modal-media");
-  return img;
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MediaCardFactory);
-
-/***/ }),
-/* 16 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
-
-
-
-const lightbox = medias => {
-  (0,_modal__WEBPACK_IMPORTED_MODULE_1__.keyBoardEvents)();
-  const lightboxArticle = document.querySelector('.modal-media article');
-  const lightbox = document.querySelector('.modal-media article .media-container');
-  const mediaTitle = document.querySelector('h1');
-  const slideButton = document.querySelectorAll('.slide-button');
-  const leftArrow = document.querySelector('.left-button');
-  const rightArrow = document.querySelector('.right-button');
-  const cards = document.querySelectorAll('.lightbox-link');
-  const close = document.querySelector('.modal-media .close-modal');
-  let currentIndex = null;
-  let firstSlide = false;
-  let lastSlide = false;
-  /**
-   * Hide left/right arrow for first and last slide
-   * @param {integer} index 
-   */
-
-  const displayArrows = index => {
-    if (index === 0) {
-      leftArrow.classList.add('hidden');
-      firstSlide = true;
-      console.log(firstSlide);
-    } else {
-      firstSlide = false;
-    }
-
-    if (index === medias.length - 1) {
-      rightArrow.classList.add('hidden');
-      lastSlide = true;
-      console.log('me lenght', medias.length);
-    } else {
-      lastSlide = false;
-    }
-  };
-  /**
-   * Create DOM slide
-   * @param {Object} media 
-   */
-
-
-  const createSlide = ({
-    src,
-    type,
-    title
-  }) => {
-    let element = type === 'image' ? 'img' : 'video';
-    let attributesElement = [{
-      name: 'src',
-      value: src
-    }, {
-      name: 'alt',
-      value: title
-    }];
-
-    if (element === 'video') {
-      attributesElement.push({
-        name: 'controls',
-        value: true
-      });
-    }
-
-    mediaTitle.textContent = title;
-    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
-  };
-  /**
-   * Create slide on open modal depending on thumb clicked
-   * @param {event} e 
-   */
-
-
-  const mediaModal = target => {
-    const mediaLightbox = document.querySelector('.modal-media .media-current');
-
-    if (mediaLightbox) {
-      mediaLightbox.remove();
-      mediaTitle.remove();
-    }
-    /*Get media in medias based on article ID */
-
-
-    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
-    /*Get media index in medias */
-
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id));
-    lightboxArticle.setAttribute('data-id', target.id);
-    /*Setup arrows */
-
-    leftArrow.classList.remove('hidden');
-    rightArrow.classList.remove('hidden');
-    displayArrows(currentIndex);
-    lightbox.append(createSlide(media));
-  };
-
-  cards.forEach(card => {
-    card.addEventListener("click", e => {
-      (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
-      mediaModal(e.currentTarget);
-    });
-    card.addEventListener("keydown", e => {
-      console.log('keyboard', e);
-
-      if (e.code === "Enter") {
-        e.preventDefault();
-        (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
-        mediaModal(card);
-      }
-    });
-  });
-  /**
-   * Go to next slide
-   * @param {Object} media 
-   * @param {integer} index 
-   */
-
-  const nextSlide = (media, index) => {
-    document.querySelector('.left-button').classList.remove('hidden');
-    media.remove();
-    currentIndex = index + 1;
-    console.log('index in next', currentIndex);
-    lightbox.append(createSlide(medias[currentIndex]));
-  };
-  /**
-   * Go to previous slide
-   * @param {Object} media 
-   * @param {integer} index 
-   */
-
-
-  const prevSlide = (media, index) => {
-    document.querySelector('.right-button').classList.remove('hidden');
-    media.remove();
-    currentIndex = index - 1;
-    lightbox.append(createSlide(medias[currentIndex]));
-  };
-  /**
-   * Slider
-   * @param {string} direction 
-   */
-
-
-  const slider = direction => {
-    const currentMedia = document.querySelector('.media-current');
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
-    console.log(currentMedia);
-
-    if (direction === "right") {
-      nextSlide(currentMedia, currentIndex);
-    }
-
-    if (direction === "left") {
-      prevSlide(currentMedia, currentIndex);
-    }
-
-    lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
-    displayArrows(currentIndex);
-  };
-
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
-
-  const keyEvents = e => {
-    let key = e.which || e.keycode;
-
-    if (key === 39) {
-      e.preventDefault();
-      rightArrow.focus();
-      if (!lastSlide) slider('right');
-    }
-
-    if (key === 37) {
-      e.preventDefault();
-      leftArrow.focus();
-      if (!firstSlide) slider('left');
-    }
-  };
-
-  document.addEventListener('keydown', keyEvents);
-  close.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__.closeModal);
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
-
-/***/ }),
-/* 17 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "openModal": () => (/* binding */ openModal),
-/* harmony export */   "closeModal": () => (/* binding */ closeModal),
-/* harmony export */   "keyBoardEvents": () => (/* binding */ keyBoardEvents)
-/* harmony export */ });
-const main = document.querySelector('#main-content');
-const body = document.querySelector('body');
-let modal = null;
-
-const openModal = modalContent => {
-  modal = document.querySelector('.' + modalContent);
-  main.setAttribute('aria-hidden', true);
-  modal.classList.add('display-modal');
-  modal.removeAttribute('aria-hidden');
-  document.querySelector('.display-modal .close-modal').focus();
-  body.classList.add('no-scroll');
-};
-
-const closeModal = () => {
-  console.log('close is triggered');
-  main.removeAttribute('aria-hidden');
-  modal.classList.remove('display-modal');
-  body.classList.remove('no-scroll');
-};
-
-const keyBoardEvents = () => {
-  const keyEvents = e => {
-    if (e.code === 'Escape') {
-      e.preventDefault();
-      closeModal();
-    }
-  };
-
-  document.addEventListener('keydown', keyEvents);
-};
-
-
-
-/***/ }),
-/* 18 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _icons_arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 const mediasFilters = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("div", ['filter-container']);
@@ -916,7 +630,7 @@ mediasFilters.append(listboxArea);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediasFilters);
 
 /***/ }),
-/* 19 */
+/* 16 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -939,15 +653,15 @@ const arrow = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrow);
 
 /***/ }),
-/* 20 */
+/* 17 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
-/* harmony import */ var _Video__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _Video__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
 
 
 
@@ -964,21 +678,21 @@ const mediaFactory = data => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mediaFactory);
 
 /***/ }),
-/* 21 */
+/* 18 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
 
 class ImageMedia extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(data) {
-    super(data);
+  constructor(data, isLiked) {
+    super(data, isLiked);
     this.type = "image";
     this.src = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_IMG_WIDE + data.image;
     this.srcThumb = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_IMG_THUMB + data.image;
@@ -989,7 +703,7 @@ class ImageMedia extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageMedia);
 
 /***/ }),
-/* 22 */
+/* 19 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1003,6 +717,15 @@ class Media {
     this.likes = data.likes;
     this.date = data.date;
     this.price = data.price;
+    this.isLiked = false;
+  }
+  /**
+   * @param {boolean} value
+   */
+
+
+  set isLiked(value) {
+    this._isLiked = value;
   }
 
 }
@@ -1010,21 +733,21 @@ class Media {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Media);
 
 /***/ }),
-/* 23 */
+/* 20 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _Media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
 
 class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(data) {
-    super(data);
+  constructor(data, isLiked) {
+    super(data, isLiked);
     this.type = 'video';
     this.src = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_WIDE + data.video;
     this.srcThumb = _constants__WEBPACK_IMPORTED_MODULE_1__.path.MEDIA_VIDEO_THUMB + data.video.replace('.mp4', 'mp4.png');
@@ -1035,7 +758,7 @@ class Video extends _Media__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Video);
 
 /***/ }),
-/* 24 */
+/* 21 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1048,12 +771,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const likesCounter = (data, price) => {
-  const aside = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("aside");
+  const aside = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('aside');
   let count = 0;
   data.forEach(like => count += like.likes);
-  const counter = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", ['counter'], "", count);
+  const counter = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('span', ['counter'], '', count);
   const likeButton = (0,_icons_like__WEBPACK_IMPORTED_MODULE_1__["default"])();
-  const tarif = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("span", ['price'], "", price + "€ / jour");
+  const tarif = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('span', ['price'], '', price + '€ / jour');
   aside.append(counter, likeButton, tarif);
   return aside;
 };
@@ -1061,7 +784,7 @@ const likesCounter = (data, price) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (likesCounter);
 
 /***/ }),
-/* 25 */
+/* 22 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1069,8 +792,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Views_components_profil_gallery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _gallerySort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
-/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _gallerySort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
 
 
 
@@ -1199,7 +922,7 @@ const customSelect = medias => {
     listbox.classList.remove('hidden');
     button.setAttribute('aria-expanded', true);
     listbox.focus();
-    setUpFocus();
+    /*setUpFocus()*/
   };
 
   button.addEventListener('click', showList);
@@ -1274,7 +997,7 @@ const customSelect = medias => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (customSelect);
 
 /***/ }),
-/* 26 */
+/* 23 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1282,8 +1005,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
-/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
 
 
 
@@ -1301,7 +1024,7 @@ const gallerySort = medias => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gallerySort);
 
 /***/ }),
-/* 27 */
+/* 24 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1309,9 +1032,283 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
-/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
-/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+
+
+
+const lightbox = medias => {
+  /* let countListenr = 1;
+   let mesMedias = []
+   mesMedias = medias
+   keyBoardEvents();*/
+  const keyEvents = e => {
+    console.log(e.code);
+    let key = e.which || e.keycode;
+
+    if (key === 39) {
+      e.preventDefault();
+      rightArrow.focus();
+      if (!lastSlide) slider('right');
+    }
+
+    if (key === 37) {
+      e.preventDefault();
+      leftArrow.focus();
+      if (!firstSlide) slider('left');
+    }
+  };
+
+  console.log('lightbox is fired');
+  document.removeEventListener('keydown', keyEvents);
+  const lightboxArticle = document.querySelector('.modal-media article');
+  const lightbox = document.querySelector('.modal-media article .media-container');
+  const mediaTitle = document.querySelector('h1');
+  const slideButton = document.querySelectorAll('.slide-button');
+  const leftArrow = document.querySelector('.left-button');
+  const rightArrow = document.querySelector('.right-button');
+  const cards = document.querySelectorAll('.lightbox-link');
+  const close = document.querySelector('.modal-media .close-modal');
+  let currentIndex = 0;
+  let firstSlide = false;
+  let lastSlide = false;
+  /**
+   * Hide left/right arrow for first and last slide
+   * @param {integer} index 
+   */
+
+  const displayArrows = index => {
+    if (index === 0) {
+      leftArrow.classList.add('hidden');
+      firstSlide = true;
+      console.log(firstSlide);
+    } else {
+      firstSlide = false;
+    }
+
+    if (index === medias.length - 1) {
+      rightArrow.classList.add('hidden');
+      lastSlide = true;
+    } else {
+      lastSlide = false;
+    }
+  };
+  /**
+   * Create DOM slide
+   * @param {Object} media 
+   */
+
+
+  const createSlide = ({
+    src,
+    type,
+    title
+  }) => {
+    let element = type === 'image' ? 'img' : 'video';
+    let attributesElement = [{
+      name: 'src',
+      value: src
+    }, {
+      name: 'alt',
+      value: title
+    }];
+
+    if (element === 'video') {
+      attributesElement.push({
+        name: 'controls',
+        value: true
+      });
+    }
+
+    mediaTitle.textContent = title;
+    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
+  };
+  /**
+   * Create slide on open modal depending on thumb clicked
+   * @param {event} e 
+   */
+
+
+  const mediaModal = target => {
+    const mediaLightbox = document.querySelector('.modal-media .media-current');
+
+    if (mediaLightbox) {
+      mediaLightbox.remove();
+      mediaTitle.remove();
+    }
+
+    console.log('medias dans mediaModal()', medias);
+    /*Get media in medias based on article ID */
+
+    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
+    /*Get media index in medias */
+
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id));
+    lightboxArticle.setAttribute('data-id', target.id);
+    /*Setup arrows */
+
+    leftArrow.classList.remove('hidden');
+    rightArrow.classList.remove('hidden');
+    displayArrows(currentIndex);
+    lightbox.append(createSlide(media));
+  };
+
+  cards.forEach(card => {
+    card.addEventListener("click", e => {
+      (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
+      mediaModal(e.currentTarget);
+    });
+    card.addEventListener("keydown", e => {
+      console.log('keyboard', e);
+
+      if (e.code === "Enter") {
+        e.preventDefault();
+        (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
+        mediaModal(card);
+      }
+    });
+  });
+  /**
+   * Go to next slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
+
+  const nextSlide = (media, index) => {
+    document.querySelector('.left-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index + 1;
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Go to previous slide
+   * @param {Object} media 
+   * @param {integer} index 
+   */
+
+
+  const prevSlide = (media, index) => {
+    document.querySelector('.right-button').classList.remove('hidden');
+    media.remove();
+    currentIndex = index - 1;
+    lightbox.append(createSlide(medias[currentIndex]));
+  };
+  /**
+   * Slider
+   * @param {string} direction 
+   */
+
+
+  const slider = direction => {
+    const currentMedia = document.querySelector('.media-current');
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
+
+    if (direction === "right") {
+      nextSlide(currentMedia, currentIndex);
+    }
+
+    if (direction === "left") {
+      prevSlide(currentMedia, currentIndex);
+    }
+
+    lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
+    displayArrows(currentIndex);
+  };
+
+  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
+  /*A placer qu'une fois */
+
+  document.addEventListener('keydown', keyEvents);
+
+  const escapeKey = e => {
+    if (e.code === 'Escape') {
+      e.preventDefault();
+      document.removeEventListener('keydown', keyEvents);
+      (0,_modal__WEBPACK_IMPORTED_MODULE_1__.closeModal)();
+    }
+  };
+
+  document.addEventListener('keydown', escapeKey);
+  close.addEventListener('click', () => {
+    document.removeEventListener('keydown', keyEvents);
+    (0,_modal__WEBPACK_IMPORTED_MODULE_1__.closeModal)();
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
+
+/***/ }),
+/* 25 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "openModal": () => (/* binding */ openModal),
+/* harmony export */   "closeModal": () => (/* binding */ closeModal),
+/* harmony export */   "keyBoardEvents": () => (/* binding */ keyBoardEvents)
+/* harmony export */ });
+const main = document.querySelector('#main-content');
+const body = document.querySelector('body');
+let modal = null;
+
+const keyEvents = e => {
+  console.log('remove dans modal');
+  let key = e.which || e.keycode;
+
+  if (key === 39) {
+    e.preventDefault();
+    rightArrow.focus();
+    if (!lastSlide) slider('right');
+  }
+
+  if (key === 37) {
+    e.preventDefault();
+    leftArrow.focus();
+    if (!firstSlide) slider('left');
+  }
+};
+
+const openModal = modalContent => {
+  modal = document.querySelector('.' + modalContent);
+  main.setAttribute('aria-hidden', true);
+  modal.classList.add('display-modal');
+  modal.removeAttribute('aria-hidden');
+  document.querySelector('.display-modal .close-modal').focus();
+  body.classList.add('no-scroll');
+};
+
+const closeModal = () => {
+  document.removeEventListener('keydown', keyEvents);
+  console.log('close is triggered');
+  main.removeAttribute('aria-hidden');
+  modal.classList.remove('display-modal');
+  body.classList.remove('no-scroll');
+};
+
+const keyBoardEvents = () => {
+  const keyEvents = e => {
+    if (e.code === 'Escape') {
+      e.preventDefault();
+      closeModal();
+    }
+  };
+
+  document.addEventListener('keydown', keyEvents);
+};
+
+
+
+/***/ }),
+/* 26 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
 
 
 
@@ -1418,7 +1415,7 @@ const contact = photographer => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contact);
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1441,7 +1438,7 @@ const cross = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1461,7 +1458,7 @@ const submitForm = (e, inputs) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (submitForm);
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1469,9 +1466,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
-/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
+/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(27);
 
 
 
@@ -1528,7 +1525,7 @@ const lightboxUI = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightboxUI);
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1550,7 +1547,7 @@ const arrowLeft = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowLeft);
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
