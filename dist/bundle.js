@@ -1104,23 +1104,41 @@ const lightbox = medias => {
     title
   }) => {
     let element = type === 'image' ? 'img' : 'video';
-    let attributesElement = [{
-      name: 'src',
-      value: src
-    }, {
-      name: 'alt',
-      value: title
-    }];
+    let attributes = [];
+    let mediaElement = null;
+
+    if (element === 'img') {
+      mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('img', ['media-current'], [{
+        name: 'alt',
+        value: title
+      }, {
+        name: 'src',
+        value: src
+      }]);
+    }
 
     if (element === 'video') {
-      attributesElement.push({
+      mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('video', ['media-current'], [{
         name: 'controls',
         value: true
-      });
+      }, {
+        name: 'title',
+        value: title
+      }]);
+      const source = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('source');
+      source.setAttribute('src', src);
+      source.setAttribute('type', 'video/mp4');
+      const notSupported = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('p', '', '', 'Votre navigateur ne supporte pas la vidéo HTML5.');
+      const videoLink = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('a', '', [{
+        name: 'href',
+        value: src
+      }], 'Lien vers la vidéo');
+      notSupported.append(videoLink);
+      mediaElement.append(source, notSupported);
     }
 
     mediaTitle.textContent = title;
-    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)(element, ['media-current'], attributesElement);
+    return mediaElement;
   };
   /**
    * Create slide on open modal depending on thumb clicked
@@ -1135,9 +1153,8 @@ const lightbox = medias => {
       mediaLightbox.remove();
       mediaTitle.remove();
     }
-
-    console.log('medias dans mediaModal()', medias);
     /*Get media in medias based on article ID */
+
 
     const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
     /*Get media index in medias */

@@ -64,14 +64,27 @@ const lightbox = (medias) => {
    */
   const createSlide = ({src, type, title}) => {
     let element = type === 'image' ? 'img' : 'video'
-    let attributesElement = [{name: 'src', value: src}, {name: 'alt', value: title}]
+    let attributes = []
+    let mediaElement = null
 
+    if(element === 'img'){
+      mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: title}, {name: 'src', value: src}])
+    }
     if(element === 'video'){
-      attributesElement.push({name: 'controls', value: true})
+      mediaElement = createDOMElement('video', ['media-current'], [{name: 'controls', value: true}, {name: 'title', value: title}])
+      const source = createDOMElement('source')
+      source.setAttribute('src', src)
+      source.setAttribute('type', 'video/mp4')
+
+      const notSupported = createDOMElement('p', '', '', 'Votre navigateur ne supporte pas la vidéo HTML5.')
+      const videoLink = createDOMElement('a', '', [{name: 'href', value: src}], 'Lien vers la vidéo')
+      notSupported.append(videoLink)
+
+      mediaElement.append(source, notSupported)
     }
 
     mediaTitle.textContent = title;
-    return createDOMElement(element, ['media-current'], attributesElement)
+    return mediaElement
   }
 
   /**
@@ -84,7 +97,7 @@ const lightbox = (medias) => {
         mediaLightbox.remove()
         mediaTitle.remove()
     }
-console.log('medias dans mediaModal()', medias)
+
     /*Get media in medias based on article ID */
     const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0]
 
