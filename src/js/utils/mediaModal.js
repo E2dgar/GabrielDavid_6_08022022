@@ -1,4 +1,5 @@
 import { createDOMElement } from '../services'
+import videoPlayer from '../Views/components/profil/lightbox/player'
 import { openModal, closeModal, keyBoardEvents } from './modal'
 
 
@@ -71,7 +72,9 @@ const lightbox = (medias) => {
       mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: title}, {name: 'src', value: src}])
     }
     if(element === 'video'){
-      mediaElement = createDOMElement('video', ['media-current'], [{name: 'controls', value: true}, {name: 'title', value: title}])
+      const player = createDOMElement('section', ['player'])
+
+      mediaElement = createDOMElement('video', ['media-current'], [{name: 'title', value: title}])
       const source = createDOMElement('source')
       source.setAttribute('src', src)
       source.setAttribute('type', 'video/mp4')
@@ -81,6 +84,18 @@ const lightbox = (medias) => {
       notSupported.append(videoLink)
 
       mediaElement.append(source, notSupported)
+
+      const customControls = createDOMElement('div', ['controls'])
+      const play = createDOMElement('button', ['playpause'], '', 'Play')
+      const stop = createDOMElement('button', ['stop'], '', 'Stop')
+      const rwd = createDOMElement('button', ['rwd'], '', 'Rwd')
+      const fwd = createDOMElement('button', ['fwd'], '', 'Fwd')
+      const time = createDOMElement('div', ['time'], '', '00:00')
+
+      customControls.append(play, stop, rwd, fwd, time)
+
+      player.append(mediaElement, customControls)
+      mediaElement = player
     }
 
     mediaTitle.textContent = title;
@@ -114,6 +129,8 @@ const lightbox = (medias) => {
     displayArrows(currentIndex)
 
     lightbox.append(createSlide(media))
+    
+    videoPlayer()
   }
 
   cards.forEach(card => {
@@ -146,6 +163,8 @@ const lightbox = (medias) => {
     currentIndex = index + 1
 
     lightbox.append(createSlide(medias[currentIndex]))
+    
+    videoPlayer()
   }
 
   /**
@@ -161,6 +180,8 @@ const lightbox = (medias) => {
     currentIndex = index - 1
 
     lightbox.append(createSlide(medias[currentIndex]))
+    
+    videoPlayer()
   }
 
   /**

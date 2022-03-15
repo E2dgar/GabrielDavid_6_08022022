@@ -4,6 +4,7 @@ import { path } from "../../../constants";
 const hero = (photographer) => {
     let heroSection = document.querySelector("section.hero-photographer");
     if(heroSection){
+        console.log('remove hero')
         heroSection.remove()
     } else {
         heroSection = createDOMElement("section", ["hero-photographer"]);

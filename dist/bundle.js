@@ -19,6 +19,10 @@ const {
 } = await (0,_services__WEBPACK_IMPORTED_MODULE_1__.getData)();
 
 window.onload = () => {
+  if (window.location.hash) {
+    (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, window.location.hash);
+  }
+
   history.pushState(null, null, window.location.pathname);
   const links = document.querySelectorAll('.data-link');
   let url = "";
@@ -33,6 +37,7 @@ window.onload = () => {
 };
 
 const renderPage = () => {
+  console.log('popstate');
   const hash = window.location.hash.substring(1);
 
   if (hash !== "" && hash !== "main-content") {
@@ -347,9 +352,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
 /* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
 /* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(22);
-/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
+/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(27);
 /* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24);
-/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(29);
+/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(30);
 
 
 
@@ -368,7 +373,11 @@ const profil = (photographer, medias) => {
   /* manage header and remove home lements */
 
   const homeList = document.querySelector("#list");
-  homeList.remove();
+
+  if (homeList) {
+    homeList.remove();
+  }
+
   const heroSection = (0,_components_profil_hero__WEBPACK_IMPORTED_MODULE_1__["default"])(photographer);
   const getMedias = medias;
   const mediaSorted = [];
@@ -402,6 +411,7 @@ const hero = photographer => {
   let heroSection = document.querySelector("section.hero-photographer");
 
   if (heroSection) {
+    console.log('remove hero');
     heroSection.remove();
   } else {
     heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)("section", ["hero-photographer"]);
@@ -1032,7 +1042,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var _Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+
 
 
 
@@ -1118,10 +1130,8 @@ const lightbox = medias => {
     }
 
     if (element === 'video') {
+      const player = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['player']);
       mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('video', ['media-current'], [{
-        name: 'controls',
-        value: true
-      }, {
         name: 'title',
         value: title
       }]);
@@ -1135,6 +1145,15 @@ const lightbox = medias => {
       }], 'Lien vers la vidéo');
       notSupported.append(videoLink);
       mediaElement.append(source, notSupported);
+      const customControls = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['controls']);
+      const play = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['playpause'], '', 'Play');
+      const stop = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['stop'], '', 'Stop');
+      const rwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['rwd'], '', 'Rwd');
+      const fwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['fwd'], '', 'Fwd');
+      const time = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['time'], '', '00:00');
+      customControls.append(play, stop, rwd, fwd, time);
+      player.append(mediaElement, customControls);
+      mediaElement = player;
     }
 
     mediaTitle.textContent = title;
@@ -1167,11 +1186,12 @@ const lightbox = medias => {
     rightArrow.classList.remove('hidden');
     displayArrows(currentIndex);
     lightbox.append(createSlide(media));
+    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
 
   cards.forEach(card => {
     card.addEventListener("click", e => {
-      (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
+      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
       mediaModal(e.currentTarget);
     });
     card.addEventListener("keydown", e => {
@@ -1179,7 +1199,7 @@ const lightbox = medias => {
 
       if (e.code === "Enter") {
         e.preventDefault();
-        (0,_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('modal-media');
+        (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
         mediaModal(card);
       }
     });
@@ -1195,6 +1215,7 @@ const lightbox = medias => {
     media.remove();
     currentIndex = index + 1;
     lightbox.append(createSlide(medias[currentIndex]));
+    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
   /**
    * Go to previous slide
@@ -1208,6 +1229,7 @@ const lightbox = medias => {
     media.remove();
     currentIndex = index - 1;
     lightbox.append(createSlide(medias[currentIndex]));
+    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
   /**
    * Slider
@@ -1240,14 +1262,14 @@ const lightbox = medias => {
     if (e.code === 'Escape') {
       e.preventDefault();
       document.removeEventListener('keydown', keyEvents);
-      (0,_modal__WEBPACK_IMPORTED_MODULE_1__.closeModal)();
+      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)();
     }
   };
 
   document.addEventListener('keydown', escapeKey);
   close.addEventListener('click', () => {
     document.removeEventListener('keydown', keyEvents);
-    (0,_modal__WEBPACK_IMPORTED_MODULE_1__.closeModal)();
+    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)();
   });
 };
 
@@ -1255,6 +1277,76 @@ const lightbox = medias => {
 
 /***/ }),
 /* 25 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const videoPlayer = () => {
+  const video = document.querySelector('video');
+  const play = document.querySelector('.playpause');
+  const stop = document.querySelector('.stop');
+  const rwd = document.querySelector('.rwd');
+  const fwd = document.querySelector('.fwd');
+  const time = document.querySelector('.time');
+
+  play.onclick = () => {
+    if (video.paused) {
+      video.play();
+      play.textContent = 'Pause';
+    } else {
+      video.pause();
+      play.textContent = 'Play';
+    }
+  };
+
+  stop.onclick = () => {
+    video.pause();
+    video.currentTime = 0;
+    play.textContent = 'Play';
+  };
+
+  rwd.onclick = () => {
+    video.currentTime -= 3;
+  };
+
+  fwd.onclick = () => {
+    video.currentTime += 3;
+
+    if (video.currentTime >= video.duration || video.paused) {
+      video.pause();
+      video.currentTime = 0;
+      play.textContent = 'Play';
+    }
+  };
+
+  video.ontimeupdate = () => {
+    let min = Math.floor(video.currentTime / 60);
+    let sec = Math.floor(video.currentTime - min * 60);
+    let minValue;
+    let secValue;
+
+    if (min < 10) {
+      minValue = "0" + min;
+    } else {
+      minValue = min;
+    }
+
+    if (sec < 10) {
+      secValue = "0" + sec;
+    } else {
+      secValue = sec;
+    }
+
+    time.textContent = minValue + ':' + secValue;
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (videoPlayer);
+
+/***/ }),
+/* 26 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1267,23 +1359,6 @@ const main = document.querySelector('#main-content');
 const body = document.querySelector('body');
 let modal = null;
 
-const keyEvents = e => {
-  console.log('remove dans modal');
-  let key = e.which || e.keycode;
-
-  if (key === 39) {
-    e.preventDefault();
-    rightArrow.focus();
-    if (!lastSlide) slider('right');
-  }
-
-  if (key === 37) {
-    e.preventDefault();
-    leftArrow.focus();
-    if (!firstSlide) slider('left');
-  }
-};
-
 const openModal = modalContent => {
   modal = document.querySelector('.' + modalContent);
   main.setAttribute('aria-hidden', true);
@@ -1294,8 +1369,6 @@ const openModal = modalContent => {
 };
 
 const closeModal = () => {
-  document.removeEventListener('keydown', keyEvents);
-  console.log('close is triggered');
   main.removeAttribute('aria-hidden');
   modal.classList.remove('display-modal');
   body.classList.remove('no-scroll');
@@ -1315,7 +1388,7 @@ const keyBoardEvents = () => {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1323,9 +1396,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
-/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
-/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
 
 
 
@@ -1432,7 +1505,7 @@ const contact = photographer => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contact);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1455,7 +1528,7 @@ const cross = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cross);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1475,7 +1548,7 @@ const submitForm = (e, inputs) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (submitForm);
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1483,9 +1556,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
-/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
-/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(27);
+/* harmony import */ var _icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
+/* harmony import */ var _icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
+/* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
 
 
 
@@ -1542,7 +1615,7 @@ const lightboxUI = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightboxUI);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1564,7 +1637,7 @@ const arrowLeft = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (arrowLeft);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);

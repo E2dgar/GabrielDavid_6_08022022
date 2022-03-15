@@ -7,7 +7,11 @@ import ProfilController from "./Controller/ProfilController";
 
 const { photographers } = await getData();
 
+
 window.onload = () => {
+  if(window.location.hash){
+    ProfilController(photographers, window.location.hash)
+  }
     history.pushState(null, null,  window.location.pathname );
 
     const links = document.querySelectorAll('.data-link');
@@ -24,6 +28,7 @@ window.onload = () => {
 }
 
 const renderPage = () => {
+  console.log('popstate')
   const hash = window.location.hash.substring(1);
 
   if(hash !== "" && hash !== "main-content"){

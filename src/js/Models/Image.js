@@ -8,6 +8,8 @@ class ImageMedia extends Media {
     this.src = path.MEDIA_IMG_WIDE + data.image
     this.srcThumb = path.MEDIA_IMG_THUMB + data.image
   }
+
+
 }
 
 export default ImageMedia

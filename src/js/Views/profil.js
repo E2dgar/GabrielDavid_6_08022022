@@ -15,7 +15,9 @@ const profil = (photographer, medias) => {
     header();
     /* manage header and remove home lements */
     const homeList = document.querySelector("#list");
-    homeList.remove();
+    if(homeList){
+        homeList.remove();
+    }
     const heroSection = hero(photographer);
 
     const getMedias =  medias;
