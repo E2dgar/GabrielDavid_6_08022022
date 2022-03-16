@@ -545,7 +545,7 @@ const mediaCard = media => {
     value: 'modal-media'
   }]);
   const img = document.createElement('img');
-  img.setAttribute('alt', media.title);
+  img.setAttribute('alt', media.alt ?? media.title);
   img.setAttribute('src', media.srcThumb);
   img.setAttribute('data-modal', 'modal-media');
   lightboxLink.append(img);
@@ -733,6 +733,7 @@ class Media {
     this.date = data.date;
     this.price = data.price;
     this.isLiked = false;
+    this.alt = data.alt ?? null;
   }
   /**
    * @param {boolean} value
@@ -1113,7 +1114,8 @@ const lightbox = medias => {
   const createSlide = ({
     src,
     type,
-    title
+    title,
+    alt
   }) => {
     let element = type === 'image' ? 'img' : 'video';
     let mediaElement = null;
@@ -1121,7 +1123,7 @@ const lightbox = medias => {
     if (element === 'img') {
       mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('img', ['media-current'], [{
         name: 'alt',
-        value: title
+        value: alt
       }, {
         name: 'src',
         value: src

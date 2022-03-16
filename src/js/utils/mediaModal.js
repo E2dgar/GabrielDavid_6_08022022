@@ -61,13 +61,13 @@ const lightbox = (medias) => {
    * Create DOM slide
    * @param {Object} media 
    */
-  const createSlide = ({src, type, title}) => {
+  const createSlide = ({src, type, title, alt}) => {
     let element = type === 'image' ? 'img' : 'video'
   
     let mediaElement = null
 
     if(element === 'img'){
-      mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: title}, {name: 'src', value: src}])
+      mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: alt}, {name: 'src', value: src}])
     }
     if(element === 'video'){
       const player = createDOMElement('section', ['player'])

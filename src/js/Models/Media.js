@@ -6,6 +6,7 @@ class Media {
     this.date = data.date
     this.price = data.price
     this.isLiked = false
+    this.alt = data.alt ?? null
   }
 
   /**

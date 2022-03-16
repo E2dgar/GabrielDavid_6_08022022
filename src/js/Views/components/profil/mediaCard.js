@@ -16,7 +16,7 @@ const mediaCard = media => {
   ])
 
   const img = document.createElement('img')
-  img.setAttribute('alt', media.title)
+  img.setAttribute('alt', media.alt ?? media.title)
   img.setAttribute('src', media.srcThumb)
   img.setAttribute('data-modal', 'modal-media')
   lightboxLink.append(img)
