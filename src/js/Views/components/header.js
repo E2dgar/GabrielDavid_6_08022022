@@ -8,7 +8,8 @@ const header = (title) => {
     const link = createDOMElement('a', ['data-link', 'logo-link'], [{name: 'href', value: '#'}])
 
     const logo = createDOMElement("img", ['logo'], [ {name: 'alt', value: 'Fisheye Home page'},
-                                                    {name: 'src', value: 'assets/images/logo.png'}])
+                                                     {name: 'src', value: 'assets/images/logo.png'},
+                                                     {name: 'lang', value: 'en'}])
     
     link.append(logo)
     header.append(link)

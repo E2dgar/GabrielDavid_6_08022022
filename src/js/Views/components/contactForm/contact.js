@@ -45,17 +45,14 @@ const contact = photographer => {
   button.addEventListener('click', (e, fields = inputs) => submitForm(e, fields))
 
   contactButton.addEventListener('click',() => openModal('modal-form'))
-  closeModalButton.addEventListener('click',closeModal)
+  closeModalButton.addEventListener('click', closeModal)
 
   contactButton.addEventListener("keydown", e => {
-    console.log('keyboard',e)
     if(e.code === "Enter"){ 
       e.preventDefault();
       openModal('modal-form')
     }
   })
-
-  
 }
 
 export default contact

@@ -19,7 +19,7 @@ const lightbox = (medias) => {
       if(key === 37){
         e.preventDefault()
         
-        console.log("ecode",e.code)
+        console.log("ecode", e.code)
         leftArrow.focus();
         if(!firstSlide) slider('left')
       }
@@ -35,6 +35,28 @@ const lightbox = (medias) => {
   const rightArrow = document.querySelector('.right-button')
   const cards= document.querySelectorAll('.lightbox-link')
   const close = document.querySelector('.modal-media .close-modal')
+
+  cards.forEach(card => {
+    card.removeEventListener("click", e => {
+      openModal('modal-media')
+      console.log('target',e.currentTarget)
+      console.log('data', medias)
+      mediaModal(e.currentTarget, medias)
+      document.addEventListener('keydown', keyEvents)
+    })
+
+    card.removeEventListener("keydown", e => {
+      if(e.code === "Enter"){ 
+        console.log('e',e)
+        console.log('target',e.currentTarget)
+        e.preventDefault()
+        openModal('modal-media')
+        mediaModal(card, medias)
+        document.addEventListener('keydown', keyEvents)
+      }
+    })
+  })
+
   
   let currentIndex = 0
   let firstSlide = false
@@ -70,7 +92,7 @@ const lightbox = (medias) => {
     let mediaElement = null
 
     if(element === 'img'){
-      mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: alt}, {name: 'src', value: src}])
+      mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: alt}, {name: 'src', value: src}, {name: 'tabindex', value: 0}])
       if(document.querySelector('.player')){
         document.querySelector('.player').remove()
       }
@@ -110,17 +132,18 @@ const lightbox = (medias) => {
    * Create slide on open modal depending on thumb clicked
    * @param {event} e 
    */
-  const mediaModal = target => {
+  const mediaModal = (target) => {
     const mediaLightbox = document.querySelector('.modal-media .media-current')
+    console.log('ismedialightbox', document.querySelector('.modal-media .media-current'))
     if(mediaLightbox) {
-        mediaLightbox.remove()
-        mediaTitle.remove()
+      mediaLightbox.remove()
+      mediaTitle.remove()
     }
-
+console.log('the targte', target)
     /*Get media in medias based on article ID */
     const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0]
 
-
+console.log('media inmediaModal', media)
     /*Get media index in medias */
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id))
 
@@ -133,6 +156,7 @@ const lightbox = (medias) => {
     displayArrows(currentIndex)
 
     lightbox.append(createSlide(media))
+    document.querySelector('.media-current').focus()
     
     videoPlayer()
   }
@@ -140,15 +164,19 @@ const lightbox = (medias) => {
   cards.forEach(card => {
     card.addEventListener("click", e => {
       openModal('modal-media')
-      mediaModal(e.currentTarget)
+      console.log('target',e.currentTarget)
+      console.log('data', medias)
+      mediaModal(e.currentTarget, medias)
       document.addEventListener('keydown', keyEvents)
     })
 
     card.addEventListener("keydown", e => {
       if(e.code === "Enter"){ 
+        console.log('e',e)
+        console.log('target',e.currentTarget)
         e.preventDefault()
         openModal('modal-media')
-        mediaModal(card)
+        mediaModal(card, medias)
         document.addEventListener('keydown', keyEvents)
       }
     })
@@ -162,10 +190,12 @@ const lightbox = (medias) => {
    */
   const nextSlide = (media, index) => {
     document.querySelector('.left-button').classList.remove('hidden')
-
+console.log('med',media)
     media.remove()
+console.log(medias)
 
     currentIndex = index + 1
+   /* currentIndex = medias.findIndex(currentMedia => parseInt(media.id) === parseInt(currentMedia.id)) + 1*/
 
     lightbox.append(createSlide(medias[currentIndex]))
     
@@ -194,6 +224,7 @@ const lightbox = (medias) => {
    * @param {string} direction 
    */
   const slider = (direction) => {
+    console.log('medias slider')
       const currentMedia = document.querySelector('.media-current')
       currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
       
@@ -211,16 +242,11 @@ const lightbox = (medias) => {
 
   slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))))
 
-  
-
-  /*A placer qu'une fois */
-  
-
   const escapeKey = e => {
     if(e.code === 'Escape'){
       e.preventDefault()
       document.removeEventListener('keydown', keyEvents)
-      closeModal()
+      closeModal(document.querySelector('.media').getAttribute('data-id'))
     }
   }
   document.addEventListener('keydown', escapeKey)
@@ -228,7 +254,7 @@ const lightbox = (medias) => {
 
   close.addEventListener('click',() => {
     document.removeEventListener('keydown', keyEvents)
-    closeModal()
+    closeModal(document.querySelector('.media').getAttribute('data-id'))
   })
 }
 

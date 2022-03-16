@@ -17,7 +17,7 @@ const list = createDOMElement('ul', ['hidden'], [{name: 'id', value: 'options-li
 
 
 for (const [key, value] of Object.entries(options)){
-  let optionLi = createDOMElement('li', '', [{name: 'id', value: key}, {name: 'role', value: 'option'}], value)
+  let optionLi = createDOMElement('li', '', [{name: 'id', value: key}, {name: 'role', value: 'option'}, {name: 'tabindex', value: 0}], value)
   list.append(optionLi)
 }
 

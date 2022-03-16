@@ -225,6 +225,9 @@ const header = title => {
     }, {
       name: 'src',
       value: 'assets/images/logo.png'
+    }, {
+      name: 'lang',
+      value: 'en'
     }]);
     link.append(logo);
     header.append(link);
@@ -657,6 +660,9 @@ for (const [key, value] of Object.entries(options)) {
   }, {
     name: 'role',
     value: 'option'
+  }, {
+    name: 'tabindex',
+    value: 0
   }], value);
   list.append(optionLi);
 }
@@ -931,10 +937,20 @@ const customSelect = medias => {
 
 
   const showList = () => {
+    console.log('list is open');
     listbox.classList.remove('hidden');
     button.setAttribute('aria-expanded', true);
-    listbox.focus();
+
+    if (listbox.getAttribute('aria-activedescendant')) {
+      document.getElementById(listbox.getAttribute('aria-activedescendant')).focus();
+    } else {
+      document.querySelector('li').focus();
+    }
+    /* focusFirstItem()
+     listbox.focus()*/
+
     /*setUpFocus()*/
+
   };
 
   button.addEventListener('click', showList);
@@ -960,12 +976,6 @@ const customSelect = medias => {
       mediaSorted = medias.sort((a, b) => {
         if (sortFilter === 'popular') {
           return b.likes - a.likes;
-        }
-
-        if (sortFilter === 'date') {
-          let da = new Date(a.date);
-          let db = new Date(b.date);
-          return db - da;
         }
 
         if (sortFilter === 'title') {
@@ -1000,11 +1010,16 @@ const customSelect = medias => {
   /* Focus item and select on mouse click    */
 
   const clickItem = e => {
-    focusItem(e.target);
+    focusItem(e);
     selectItem();
   };
 
-  options.forEach(option => option.addEventListener("click", e => clickItem(e)));
+  options.forEach(option => option.addEventListener("click", e => clickItem(e.target)));
+  options.forEach(option => option.addEventListener("keydown", e => {
+    if (e.code === 'Enter') {
+      clickItem(option);
+    }
+  }));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (customSelect);
@@ -1025,6 +1040,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const gallerySort = medias => {
+  console.log('medias in sort', medias);
   const gallery = document.querySelector('.medias-wrapper');
   const cards = document.querySelectorAll('.media-card');
   cards.forEach(card => card.remove());
@@ -1083,6 +1099,25 @@ const lightbox = medias => {
   const rightArrow = document.querySelector('.right-button');
   const cards = document.querySelectorAll('.lightbox-link');
   const close = document.querySelector('.modal-media .close-modal');
+  cards.forEach(card => {
+    card.removeEventListener("click", e => {
+      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+      console.log('target', e.currentTarget);
+      console.log('data', medias);
+      mediaModal(e.currentTarget, medias);
+      document.addEventListener('keydown', keyEvents);
+    });
+    card.removeEventListener("keydown", e => {
+      if (e.code === "Enter") {
+        console.log('e', e);
+        console.log('target', e.currentTarget);
+        e.preventDefault();
+        (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+        mediaModal(card, medias);
+        document.addEventListener('keydown', keyEvents);
+      }
+    });
+  });
   let currentIndex = 0;
   let firstSlide = false;
   let lastSlide = false;
@@ -1129,6 +1164,9 @@ const lightbox = medias => {
       }, {
         name: 'src',
         value: src
+      }, {
+        name: 'tabindex',
+        value: 0
       }]);
 
       if (document.querySelector('.player')) {
@@ -1174,15 +1212,18 @@ const lightbox = medias => {
 
   const mediaModal = target => {
     const mediaLightbox = document.querySelector('.modal-media .media-current');
+    console.log('ismedialightbox', document.querySelector('.modal-media .media-current'));
 
     if (mediaLightbox) {
       mediaLightbox.remove();
       mediaTitle.remove();
     }
+
+    console.log('the targte', target);
     /*Get media in medias based on article ID */
 
-
     const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
+    console.log('media inmediaModal', media);
     /*Get media index in medias */
 
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id));
@@ -1193,20 +1234,25 @@ const lightbox = medias => {
     rightArrow.classList.remove('hidden');
     displayArrows(currentIndex);
     lightbox.append(createSlide(media));
+    document.querySelector('.media-current').focus();
     (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
 
   cards.forEach(card => {
     card.addEventListener("click", e => {
       (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-      mediaModal(e.currentTarget);
+      console.log('target', e.currentTarget);
+      console.log('data', medias);
+      mediaModal(e.currentTarget, medias);
       document.addEventListener('keydown', keyEvents);
     });
     card.addEventListener("keydown", e => {
       if (e.code === "Enter") {
+        console.log('e', e);
+        console.log('target', e.currentTarget);
         e.preventDefault();
         (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-        mediaModal(card);
+        mediaModal(card, medias);
         document.addEventListener('keydown', keyEvents);
       }
     });
@@ -1219,8 +1265,12 @@ const lightbox = medias => {
 
   const nextSlide = (media, index) => {
     document.querySelector('.left-button').classList.remove('hidden');
+    console.log('med', media);
     media.remove();
+    console.log(medias);
     currentIndex = index + 1;
+    /* currentIndex = medias.findIndex(currentMedia => parseInt(media.id) === parseInt(currentMedia.id)) + 1*/
+
     lightbox.append(createSlide(medias[currentIndex]));
     (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
@@ -1245,6 +1295,7 @@ const lightbox = medias => {
 
 
   const slider = direction => {
+    console.log('medias slider');
     const currentMedia = document.querySelector('.media-current');
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
 
@@ -1261,20 +1312,19 @@ const lightbox = medias => {
   };
 
   slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
-  /*A placer qu'une fois */
 
   const escapeKey = e => {
     if (e.code === 'Escape') {
       e.preventDefault();
       document.removeEventListener('keydown', keyEvents);
-      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)();
+      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
     }
   };
 
   document.addEventListener('keydown', escapeKey);
   close.addEventListener('click', () => {
     document.removeEventListener('keydown', keyEvents);
-    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)();
+    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
   });
 };
 
@@ -1374,12 +1424,20 @@ const openModal = modalContent => {
   document.querySelector('.display-modal .close-modal').focus();
   body.classList.add('no-scroll');
 };
+/* Ferme les modales. Si c'est la lightbox in récupère l'id du média pour set le focus sur lapage profil*/
 
-const closeModal = () => {
+
+const closeModal = id => {
+  console.log('is id', id);
   main.removeAttribute('aria-hidden');
   modal.classList.remove('display-modal');
   body.classList.remove('no-scroll');
-  body.focus();
+
+  if (id) {
+    document.getElementById(id).focus();
+  } else {
+    document.querySelector('.contact-button').focus();
+  }
 };
 
 const keyBoardEvents = () => {
@@ -1510,8 +1568,6 @@ const contact = photographer => {
   contactButton.addEventListener('click', () => (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('modal-form'));
   closeModalButton.addEventListener('click', _utils_modal__WEBPACK_IMPORTED_MODULE_3__.closeModal);
   contactButton.addEventListener("keydown", e => {
-    console.log('keyboard', e);
-
     if (e.code === "Enter") {
       e.preventDefault();
       (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('modal-form');

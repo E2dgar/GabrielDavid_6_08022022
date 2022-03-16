@@ -109,9 +109,16 @@ const customSelect = (medias) => {
    * Show the list of options
    */
   const showList = () => {
+    console.log('list is open')
     listbox.classList.remove('hidden')
     button.setAttribute('aria-expanded', true)
-    listbox.focus()
+    if(listbox.getAttribute('aria-activedescendant')){
+      document.getElementById(listbox.getAttribute('aria-activedescendant')).focus()
+    } else {
+      document.querySelector('li').focus()
+    }
+   /* focusFirstItem()
+    listbox.focus()*/
     /*setUpFocus()*/
   }
   button.addEventListener('click', showList)
@@ -135,13 +142,6 @@ const customSelect = (medias) => {
         if(sortFilter === 'popular'){
           return b.likes - a.likes
         }
-
-        if(sortFilter === 'date'){
-          let da = new Date(a.date)
-          let db = new Date(b.date)
-          return db - da
-        }
-
         if(sortFilter === 'title'){
           let titleA = a.title.toLowerCase()
           let titleB = b.title.toLowerCase()
@@ -171,10 +171,15 @@ const customSelect = (medias) => {
 
   /* Focus item and select on mouse click    */
   const clickItem = e => {
-      focusItem(e.target)
+      focusItem(e)
       selectItem()
   }
-  options.forEach(option =>  option.addEventListener("click", (e) =>clickItem(e)))
+  options.forEach(option =>  option.addEventListener("click", (e) => clickItem(e.target)))
+  options.forEach(option =>  option.addEventListener("keydown", (e) => {
+   if(e.code === 'Enter'){
+      clickItem(option)
+   }
+  }))
 }
 
 export default customSelect;

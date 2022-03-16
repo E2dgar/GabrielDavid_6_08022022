@@ -64,3 +64,8 @@ main {
 .modal.display-modal {
     display: flex;
 }
+
+*:focus-visible {
+    outline: 3px solid $primary;
+    outline-offset: 3px;;
+}

@@ -11,10 +11,17 @@ const openModal = modalContent => {
   body.classList.add('no-scroll')
 }
 
-const closeModal = () => {
+/* Ferme les modales. Si c'est la lightbox in récupère l'id du média pour set le focus sur lapage profil*/
+const closeModal = (id) => {
+  console.log('is id', id)
   main.removeAttribute('aria-hidden')
   modal.classList.remove('display-modal')
   body.classList.remove('no-scroll')
+  if(id){
+    document.getElementById(id).focus()
+  } else {
+    document.querySelector('.contact-button').focus()
+  }
 }
 
 const keyBoardEvents = () => {

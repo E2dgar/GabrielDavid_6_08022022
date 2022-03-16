@@ -2,8 +2,9 @@ import mediaCard from '../Views/components/profil/mediaCard'
 import mediaFactory from '../Models/mediaFactory'
 import lightbox from './mediaModal'
 
-
 const gallerySort = medias => {
+  
+  console.log('medias in sort', medias)
   const gallery = document.querySelector('.medias-wrapper')
   const cards = document.querySelectorAll('.media-card')
 
@@ -11,7 +12,7 @@ const gallerySort = medias => {
 
   const mediaSorted = []
   medias.forEach(media => mediaSorted.push(mediaFactory(media)))
-  mediaSorted.forEach( media =>  gallery.append(mediaCard(media)))
+  mediaSorted.forEach( media => gallery.append(mediaCard(media)))
   
   lightbox(mediaSorted)
 }
