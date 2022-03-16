@@ -1,44 +1,60 @@
-import header from "./components/header";
-import hero from "./components/profil/hero";
-import gallery from "./components/profil/gallery";
-import mediaFactory from "../Models/mediaFactory";
-import likesCounter from "./components/profil/likesCounter";
-import customSelect from "../utils/customSelect";
-import contact from "./components/contactForm/contact";
-import lightbox from "../utils/mediaModal";
-import lightboxUI from "./components/profil/lightbox";
+import header from './components/header'
+import hero from './components/profil/hero'
+import gallery from './components/profil/gallery'
+import mediaFactory from '../Models/mediaFactory'
+import likesCounter from './components/profil/likesCounter'
+import customSelect from '../utils/customSelect'
+import contact from './components/contactForm/contact'
+import lightbox from '../utils/mediaModal'
+import lightboxUI from './components/profil/lightbox'
 
 const profil = (photographer, medias) => {
-    document.title = `Fisheye | ${photographer.name}`;
-    document.querySelector("body").className = "photographer-page";
-    const cards = document.querySelectorAll("article");
-    header();
-    /* manage header and remove home lements */
-    const homeList = document.querySelector("#list");
-    if(homeList){
-        homeList.remove();
+  /*Update title document and add class on body*/
+  document.title = `Fisheye | ${photographer.name}`
+  document.querySelector("body").className = 'photographer-page'
+
+  /*Create header */
+  header()
+
+  /* Remove elements */
+  const eltToRemove = [
+    document.querySelector("#list"),
+    document.querySelector('.hero-photographer')
+  ]
+  
+  eltToRemove.forEach( elt => {
+    if(elt){
+      elt.remove()
     }
-    const heroSection = hero(photographer);
+  })
 
-    const getMedias =  medias;
-    const mediaSorted = [];
-    getMedias.forEach(media => mediaSorted.push(mediaFactory(media)));
+  /*Create hero with photographer */
+  const heroSection = hero(photographer)
+
+  /*Get and sort medias */
+  const getMedias =  medias
+  const mediaSorted = []
+  getMedias.forEach(media => mediaSorted.push(mediaFactory(media)))
+  /*Send media to gallery */  
+  const galleryPhotographer = gallery(mediaSorted);
+
+  const main = document.querySelector('#main-content')
+
+  /*Set aside with counter & price */
+  const counter = likesCounter(mediaSorted, photographer.price)
+
+  main.append(heroSection, galleryPhotographer, counter)
     
-    const galleryPhotographer = gallery(mediaSorted);
+  /*Add select for filter */
+  customSelect(medias)
 
-    const main = document.querySelector("#main-content");
+  /*Create modals (contact and lightbox) */
+  contact(photographer.name)
+  lightboxUI()
+  lightbox(mediaSorted)
 
-    const counter = likesCounter(mediaSorted, photographer.price);
-
-    
-    main.append(heroSection, galleryPhotographer, counter);
-    
-
-    customSelect(medias);
-
-    contact(photographer.name)
-    lightboxUI();
-    lightbox(mediaSorted)
+  /*Set focus on h1 for accessibility */
+  document.querySelector('.hero-photographer h1').focus()
 }
 
 export default profil;

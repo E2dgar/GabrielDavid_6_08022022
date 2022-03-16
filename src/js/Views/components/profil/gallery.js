@@ -1,22 +1,22 @@
-import { createDOMElement } from "../../../services";
-import mediaCard from "./mediaCard";
-import mediasFilters from "./mediasFilters";
+import { createDOMElement } from '../../../services'
+import mediaCard from './mediaCard'
+import mediasFilters from './mediasFilters'
 
-const gallery = (medias) => {
+const gallery = medias => {
     /* Remove potential previous gallery */
-    let gallerySection = document.querySelector("section.medias-section");
+    let gallerySection = document.querySelector('section.medias-section')
     if(gallerySection){
         gallerySection.remove()
     }
-    gallerySection = createDOMElement("section", ['medias-section']);
+    gallerySection = createDOMElement('section', ['medias-section'])
 
-    const mediasWrapper = createDOMElement("div", ['medias-wrapper']);
+    const mediasWrapper = createDOMElement('div', ['medias-wrapper'])
 
-    medias.forEach( media =>  mediasWrapper.append(mediaCard(media)));
+    medias.forEach( media =>  mediasWrapper.append(mediaCard(media)))
 
-    gallerySection.append(mediasFilters, mediasWrapper);
+    gallerySection.append(mediasFilters, mediasWrapper)
 
-    return gallerySection;
+    return gallerySection
 }
 
-export default gallery;
+export default gallery

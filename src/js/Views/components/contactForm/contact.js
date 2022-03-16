@@ -1,7 +1,7 @@
 import { createDOMElement } from '../../../services'
 import cross from '../icons/cross'
 import submitForm from '../../../utils/contactForm'
-import { openModal, closeModal, keyBoardEvents } from '../../../utils/modal'
+import { openModal, closeModal } from '../../../utils/modal'
 /**
  * Create contact form 
  * @param {string} photographer Photographer name

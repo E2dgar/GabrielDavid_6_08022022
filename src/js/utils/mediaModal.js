@@ -1,6 +1,6 @@
 import { createDOMElement } from '../services'
 import videoPlayer from '../Views/components/profil/lightbox/player'
-import { openModal, closeModal, keyBoardEvents } from './modal'
+import { openModal, closeModal } from './modal'
 
 
 const lightbox = (medias) => {
@@ -9,7 +9,6 @@ const lightbox = (medias) => {
   mesMedias = medias
   keyBoardEvents();*/
   const keyEvents = (e) => {
-    console.log(e.code)
     let key = e.which || e.keycode;
       if(key === 39){
         e.preventDefault()
@@ -23,7 +22,6 @@ const lightbox = (medias) => {
       }
     
   }
-  console.log('lightbox is fired')
   document.removeEventListener('keydown', keyEvents)
 
   const lightboxArticle = document.querySelector('.modal-media article')
@@ -65,7 +63,7 @@ const lightbox = (medias) => {
    */
   const createSlide = ({src, type, title}) => {
     let element = type === 'image' ? 'img' : 'video'
-    let attributes = []
+  
     let mediaElement = null
 
     if(element === 'img'){

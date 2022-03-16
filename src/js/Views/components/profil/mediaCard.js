@@ -35,6 +35,7 @@ const mediaCard = media => {
 
   const updateCount = () => {
     const mainCounter = document.querySelector('aside span.counter')
+    /*User can like only one time */
     if(!media._isLiked){
       likeCounter.textContent++
       mainCounter.textContent++
