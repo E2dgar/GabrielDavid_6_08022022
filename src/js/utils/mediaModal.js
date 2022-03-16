@@ -13,10 +13,13 @@ const lightbox = (medias) => {
       if(key === 39){
         e.preventDefault()
         rightArrow.focus();
+        console.log("ecode",e.code)
         if(!lastSlide) slider('right')
       }
       if(key === 37){
         e.preventDefault()
+        
+        console.log("ecode",e.code)
         leftArrow.focus();
         if(!firstSlide) slider('left')
       }
@@ -26,7 +29,7 @@ const lightbox = (medias) => {
 
   const lightboxArticle = document.querySelector('.modal-media article')
   const lightbox = document.querySelector('.modal-media article .media-container')
-  const mediaTitle = document.querySelector('h1')
+  const mediaTitle = document.querySelector('.modal-media h1')
   const slideButton = document.querySelectorAll('.slide-button')
   const leftArrow = document.querySelector('.left-button')
   const rightArrow = document.querySelector('.right-button')
@@ -68,6 +71,9 @@ const lightbox = (medias) => {
 
     if(element === 'img'){
       mediaElement = createDOMElement('img', ['media-current'], [{name: 'alt', value: alt}, {name: 'src', value: src}])
+      if(document.querySelector('.player')){
+        document.querySelector('.player').remove()
+      }
     }
     if(element === 'video'){
       const player = createDOMElement('section', ['player'])
@@ -135,14 +141,15 @@ const lightbox = (medias) => {
     card.addEventListener("click", e => {
       openModal('modal-media')
       mediaModal(e.currentTarget)
+      document.addEventListener('keydown', keyEvents)
     })
 
     card.addEventListener("keydown", e => {
-      console.log('keyboard',e)
       if(e.code === "Enter"){ 
-        e.preventDefault();
+        e.preventDefault()
         openModal('modal-media')
         mediaModal(card)
+        document.addEventListener('keydown', keyEvents)
       }
     })
   })
@@ -207,7 +214,7 @@ const lightbox = (medias) => {
   
 
   /*A placer qu'une fois */
-  document.addEventListener('keydown', keyEvents)
+  
 
   const escapeKey = e => {
     if(e.code === 'Escape'){

@@ -1062,11 +1062,13 @@ const lightbox = medias => {
     if (key === 39) {
       e.preventDefault();
       rightArrow.focus();
+      console.log("ecode", e.code);
       if (!lastSlide) slider('right');
     }
 
     if (key === 37) {
       e.preventDefault();
+      console.log("ecode", e.code);
       leftArrow.focus();
       if (!firstSlide) slider('left');
     }
@@ -1075,7 +1077,7 @@ const lightbox = medias => {
   document.removeEventListener('keydown', keyEvents);
   const lightboxArticle = document.querySelector('.modal-media article');
   const lightbox = document.querySelector('.modal-media article .media-container');
-  const mediaTitle = document.querySelector('h1');
+  const mediaTitle = document.querySelector('.modal-media h1');
   const slideButton = document.querySelectorAll('.slide-button');
   const leftArrow = document.querySelector('.left-button');
   const rightArrow = document.querySelector('.right-button');
@@ -1128,6 +1130,10 @@ const lightbox = medias => {
         name: 'src',
         value: src
       }]);
+
+      if (document.querySelector('.player')) {
+        document.querySelector('.player').remove();
+      }
     }
 
     if (element === 'video') {
@@ -1194,14 +1200,14 @@ const lightbox = medias => {
     card.addEventListener("click", e => {
       (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
       mediaModal(e.currentTarget);
+      document.addEventListener('keydown', keyEvents);
     });
     card.addEventListener("keydown", e => {
-      console.log('keyboard', e);
-
       if (e.code === "Enter") {
         e.preventDefault();
         (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
         mediaModal(card);
+        document.addEventListener('keydown', keyEvents);
       }
     });
   });
@@ -1257,8 +1263,6 @@ const lightbox = medias => {
   slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
   /*A placer qu'une fois */
 
-  document.addEventListener('keydown', keyEvents);
-
   const escapeKey = e => {
     if (e.code === 'Escape') {
       e.preventDefault();
@@ -1285,63 +1289,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const videoPlayer = () => {
-  const video = document.querySelector('video');
-  const play = document.querySelector('.playpause');
-  const stop = document.querySelector('.stop');
-  const rwd = document.querySelector('.rwd');
-  const fwd = document.querySelector('.fwd');
-  const time = document.querySelector('.time');
+  if (document.querySelector('.player')) {
+    const video = document.querySelector('video');
+    const play = document.querySelector('.playpause');
+    const stop = document.querySelector('.stop');
+    const rwd = document.querySelector('.rwd');
+    const fwd = document.querySelector('.fwd');
+    const time = document.querySelector('.time');
 
-  play.onclick = () => {
-    if (video.paused) {
-      video.play();
-      play.textContent = 'Pause';
-    } else {
-      video.pause();
-      play.textContent = 'Play';
-    }
-  };
+    play.onclick = () => {
+      if (video.paused) {
+        video.play();
+        play.textContent = 'Pause';
+      } else {
+        video.pause();
+        play.textContent = 'Play';
+      }
+    };
 
-  stop.onclick = () => {
-    video.pause();
-    video.currentTime = 0;
-    play.textContent = 'Play';
-  };
-
-  rwd.onclick = () => {
-    video.currentTime -= 3;
-  };
-
-  fwd.onclick = () => {
-    video.currentTime += 3;
-
-    if (video.currentTime >= video.duration || video.paused) {
+    stop.onclick = () => {
       video.pause();
       video.currentTime = 0;
       play.textContent = 'Play';
-    }
-  };
+    };
 
-  video.ontimeupdate = () => {
-    let min = Math.floor(video.currentTime / 60);
-    let sec = Math.floor(video.currentTime - min * 60);
-    let minValue;
-    let secValue;
+    rwd.onclick = () => {
+      video.currentTime -= 3;
+    };
 
-    if (min < 10) {
-      minValue = "0" + min;
-    } else {
-      minValue = min;
-    }
+    fwd.onclick = () => {
+      video.currentTime += 3;
 
-    if (sec < 10) {
-      secValue = "0" + sec;
-    } else {
-      secValue = sec;
-    }
+      if (video.currentTime >= video.duration || video.paused) {
+        video.pause();
+        video.currentTime = 0;
+        play.textContent = 'Play';
+      }
+    };
 
-    time.textContent = minValue + ':' + secValue;
-  };
+    video.ontimeupdate = () => {
+      let min = Math.floor(video.currentTime / 60);
+      let sec = Math.floor(video.currentTime - min * 60);
+      let minValue;
+      let secValue;
+
+      if (min < 10) {
+        minValue = "0" + min;
+      } else {
+        minValue = min;
+      }
+
+      if (sec < 10) {
+        secValue = "0" + sec;
+      } else {
+        secValue = sec;
+      }
+
+      time.textContent = minValue + ':' + secValue;
+    };
+  }
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (videoPlayer);
@@ -1373,6 +1379,7 @@ const closeModal = () => {
   main.removeAttribute('aria-hidden');
   modal.classList.remove('display-modal');
   body.classList.remove('no-scroll');
+  body.focus();
 };
 
 const keyBoardEvents = () => {
