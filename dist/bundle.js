@@ -442,7 +442,6 @@ const hero = photographer => {
 
   if (heroSection) {
     heroSection.remove();
-    console.log('remove');
   } else {
     heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['hero-photographer']);
   }
@@ -820,29 +819,6 @@ const customSelect = medias => {
   const button = document.getElementById('selected-opt');
   const listbox = document.getElementById('options-list');
   const options = document.querySelectorAll('[role=option]');
-  /*const firstItem = document.querySelector('[role=option]')*/
-
-  /**
-   * Set focus on the first item if no aria-activedescendant
-   */
-
-  /*const setUpFocus = () => {
-    if(listbox.getAttribute('aria-activedescendant')){
-      return
-    }
-    focusFirstItem()
-  }*/
-
-  /**
-   * Execute focusItem on first item
-   */
-
-  /*const focusFirstItem = () => {
-    if(firstItem){
-      focusItem(firstItem)
-    }
-  }*/
-
   /**
    * Set focus on an item. Class focus on item & aria-activedescendant on listbox
    * @param {object} item 
@@ -937,7 +913,6 @@ const customSelect = medias => {
 
 
   const showList = () => {
-    console.log('list is open');
     listbox.classList.remove('hidden');
     button.setAttribute('aria-expanded', true);
 
@@ -946,11 +921,6 @@ const customSelect = medias => {
     } else {
       document.querySelector('li').focus();
     }
-    /* focusFirstItem()
-     listbox.focus()*/
-
-    /*setUpFocus()*/
-
   };
 
   button.addEventListener('click', showList);
@@ -967,12 +937,9 @@ const customSelect = medias => {
 
   const sortMedias = (records, medias) => {
     let mediaSorted = medias;
-    /*let sort = false*/
-
     let sortFilter = document.querySelector('#options-list').getAttribute('aria-activedescendant');
 
     if (records[0].oldValue !== sortFilter) {
-      /*sort = true*/
       mediaSorted = medias.sort((a, b) => {
         if (sortFilter === 'popular') {
           return b.likes - a.likes;
@@ -1013,6 +980,8 @@ const customSelect = medias => {
     focusItem(e);
     selectItem();
   };
+  /*Add listeners on options */
+
 
   options.forEach(option => option.addEventListener("click", e => clickItem(e.target)));
   options.forEach(option => option.addEventListener("keydown", e => {
@@ -1038,6 +1007,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * Reinit lightbox with medias filtered
+ * @param {Array} medias 
+ */
 
 const gallerySort = medias => {
   const gallery = document.querySelector('.medias-wrapper');
@@ -1243,7 +1216,6 @@ const lightbox = medias => {
       customControls.append(play, stop, rwd, fwd, time);
       player.append(mediaElement, customControls);
       mediaElement = player;
-      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
 
     mediaTitle.textContent = title;
@@ -1300,6 +1272,11 @@ const lightbox = medias => {
     currentIndex = index - 1;
     lightbox.append(createSlide(medias[currentIndex]));
     document.querySelector('.media-current').focus();
+    console.log(medias[currentIndex]);
+
+    if (medias[currentIndex].type === 'video') {
+      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    }
   };
   /**
    * Slider
@@ -1405,8 +1382,7 @@ const videoPlayer = () => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "openModal": () => (/* binding */ openModal),
-/* harmony export */   "closeModal": () => (/* binding */ closeModal),
-/* harmony export */   "keyBoardEvents": () => (/* binding */ keyBoardEvents)
+/* harmony export */   "closeModal": () => (/* binding */ closeModal)
 /* harmony export */ });
 const main = document.querySelector('#main-content');
 const body = document.querySelector('body');
@@ -1431,20 +1407,8 @@ const closeModal = id => {
   if (id) {
     document.getElementById(id).focus();
   } else {
-    console.log('focus on', document.querySelector('.contact-button'));
     document.querySelector('.contact-button').focus();
   }
-};
-
-const keyBoardEvents = () => {
-  const keyEvents = e => {
-    if (e.code === 'Escape') {
-      e.preventDefault();
-      closeModal(null);
-    }
-  };
-
-  document.addEventListener('keydown', keyEvents);
 };
 
 

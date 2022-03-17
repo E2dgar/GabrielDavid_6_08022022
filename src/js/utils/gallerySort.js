@@ -2,6 +2,10 @@ import mediaCard from '../Views/components/profil/mediaCard'
 import mediaFactory from '../Models/mediaFactory'
 import lightbox from './mediaModal'
 
+/**
+ * Reinit lightbox with medias filtered
+ * @param {Array} medias 
+ */
 const gallerySort = medias => {
   const gallery = document.querySelector('.medias-wrapper')
   const cards = document.querySelectorAll('.media-card')

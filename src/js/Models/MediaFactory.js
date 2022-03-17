@@ -1,5 +1,5 @@
-import ImageMedia from './Image';
-import Video from './Video';
+import ImageMedia from './Image'
+import Video from './Video'
 
 const mediaFactory = (data) => {
   if(data.image){
@@ -11,4 +11,4 @@ const mediaFactory = (data) => {
   }
 }
 
-export default mediaFactory;
+export default mediaFactory

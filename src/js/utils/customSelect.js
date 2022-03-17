@@ -4,26 +4,6 @@ const customSelect = (medias) => {
   const button = document.getElementById('selected-opt')
   const listbox = document.getElementById('options-list')
   const options = document.querySelectorAll('[role=option]')
-  /*const firstItem = document.querySelector('[role=option]')*/
-
-  /**
-   * Set focus on the first item if no aria-activedescendant
-   */
-  /*const setUpFocus = () => {
-    if(listbox.getAttribute('aria-activedescendant')){
-      return
-    }
-    focusFirstItem()
-  }*/
-    
-  /**
-   * Execute focusItem on first item
-   */
-  /*const focusFirstItem = () => {
-    if(firstItem){
-      focusItem(firstItem)
-    }
-  }*/
 
   /**
    * Set focus on an item. Class focus on item & aria-activedescendant on listbox
@@ -109,7 +89,6 @@ const customSelect = (medias) => {
    * Show the list of options
    */
   const showList = () => {
-    console.log('list is open')
     listbox.classList.remove('hidden')
     button.setAttribute('aria-expanded', true)
     if(listbox.getAttribute('aria-activedescendant')){
@@ -117,9 +96,6 @@ const customSelect = (medias) => {
     } else {
       document.querySelector('li').focus()
     }
-   /* focusFirstItem()
-    listbox.focus()*/
-    /*setUpFocus()*/
   }
   button.addEventListener('click', showList)
 
@@ -132,12 +108,9 @@ const customSelect = (medias) => {
 
   const sortMedias = (records, medias) => {
     let mediaSorted = medias
-    /*let sort = false*/
     let sortFilter = document.querySelector('#options-list').getAttribute('aria-activedescendant')
 
     if(records[0].oldValue !== sortFilter){
-      /*sort = true*/
-
       mediaSorted = medias.sort((a, b) => {
         if(sortFilter === 'popular'){
           return b.likes - a.likes
@@ -171,16 +144,17 @@ const customSelect = (medias) => {
 
   /* Focus item and select on mouse click    */
   const clickItem = e => {
-      focusItem(e)
-      selectItem()
+    focusItem(e)
+    selectItem()
   }
-  options.forEach(option =>  option.addEventListener("click", (e) => clickItem(e.target)))
-  options.forEach(option =>  option.addEventListener("keydown", (e) => {
+
+  /*Add listeners on options */
+  options.forEach(option =>  option.addEventListener("click", e => clickItem(e.target)))
+  options.forEach(option =>  option.addEventListener("keydown", e => {
    if(e.code === 'Enter'){
       clickItem(option)
    }
   }))
 }
 
-export default customSelect;
-    
+export default customSelect

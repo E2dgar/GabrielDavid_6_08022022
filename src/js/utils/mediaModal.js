@@ -158,8 +158,6 @@ const lightbox = (medias) => {
 
       player.append(mediaElement, customControls)
       mediaElement = player
-
-      videoPlayer()
     }
 
     mediaTitle.textContent = title
@@ -207,6 +205,10 @@ const lightbox = (medias) => {
 
     lightbox.append(createSlide(medias[currentIndex]))
     document.querySelector('.media-current').focus()
+
+    if(medias[currentIndex].type ===  'video'){
+      videoPlayer()
+    }
   }
 
   /**
@@ -220,6 +222,10 @@ const lightbox = (medias) => {
 
     lightbox.append(createSlide(medias[currentIndex]))
     document.querySelector('.media-current').focus()
+
+    if(medias[currentIndex].type ===  'video'){
+      videoPlayer()
+    }
   }
 
   /**
@@ -238,6 +244,7 @@ const lightbox = (medias) => {
     }
 
     lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
+    
 
     displayArrows(currentIndex)
   }
