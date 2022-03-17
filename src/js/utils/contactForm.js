@@ -1,6 +1,9 @@
+import { closeModal } from "./modal"
+
 const submitForm = (e, inputs) => {
 	e.preventDefault()
 
+	const contactForm = document.getElementById('contact-form')
 	const firstName = document.getElementById('firstname')
 	const lastName = document.getElementById('lastname')
 	const mail = document.getElementById('email')
@@ -139,8 +142,10 @@ const submitForm = (e, inputs) => {
 		return
 	}
 
+	closeModal(null)
 	//Si ok on log les data
 	console.table(data)
+	contactForm.reset() 
 }
 
 export default submitForm

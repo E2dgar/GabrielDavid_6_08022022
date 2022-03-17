@@ -1,7 +1,6 @@
 import { createDOMElement } from '../../../services'
 import likeSvg from '../icons/like'
 
-
 const likesCounter = (data, price) => {
   const aside = createDOMElement('aside')
 

@@ -1,12 +1,9 @@
-import "../scss/main.scss";
+import '../scss/main.scss'
+import { getData } from './services'
+import HomeController from './Controller/HomeController'
+import ProfilController from './Controller/ProfilController'
 
-import { getData } from "./services";
-import HomeController from "./Controller/HomeController";
-import ProfilController from "./Controller/ProfilController";
-
-
-const { photographers } = await getData();
-
+const { photographers } = await getData()
 
 window.onload = () => {
   if(window.location.hash){
@@ -28,13 +25,13 @@ window.onload = () => {
 }
 
 const renderPage = () => {
-  const hash = window.location.hash.substring(1);
+  const hash = window.location.hash.substring(1)
 
-  if(hash !== "" && hash !== "main-content"){
+  if(hash !== '' && hash !== 'main-content'){
     ProfilController(photographers, hash)
   }else {
-    HomeController(photographers);
+    HomeController(photographers)
   }
 }
 
-window.onpopstate = renderPage;
+window.onpopstate = renderPage

@@ -43,13 +43,13 @@ const videoPlayer = () => {
       let secValue
   
       if(min < 10){
-        minValue = "0" + min
+        minValue = '0' + min
       } else {
         minValue = min
       }
   
       if(sec < 10){
-        secValue = "0" + sec
+        secValue = '0' + sec
       } else {
         secValue = sec
       }

@@ -1,4 +1,4 @@
-import { path } from "./constants"
+import { path } from './constants'
 
 /**
  * 
@@ -44,8 +44,7 @@ const getData = async () => {
     DOMElement.textContent = textContent
   }
   
-  return DOMElement;
-};
+  return DOMElement
+}
 
-
-export { getData, createDOMElement }
+export {getData, createDOMElement}

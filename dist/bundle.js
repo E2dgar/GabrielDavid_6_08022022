@@ -39,7 +39,7 @@ window.onload = () => {
 const renderPage = () => {
   const hash = window.location.hash.substring(1);
 
-  if (hash !== "" && hash !== "main-content") {
+  if (hash !== '' && hash !== 'main-content') {
     (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, hash);
   } else {
     (0,_Controller_HomeController__WEBPACK_IMPORTED_MODULE_2__["default"])(photographers);
@@ -595,8 +595,8 @@ const likeSvg = () => {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 20 20');
   svg.setAttribute('aria-hidden', true);
-  const likePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  likePath.setAttribute("d", "M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z");
+  const likePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  likePath.setAttribute('d', 'M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z');
   svg.append(likePath);
   return svg;
 };
@@ -1260,6 +1260,10 @@ const lightbox = medias => {
     currentIndex = index + 1;
     lightbox.append(createSlide(medias[currentIndex]));
     document.querySelector('.media-current').focus();
+
+    if (medias[currentIndex].type === 'video') {
+      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    }
   };
   /**
    * Go to previous slide
@@ -1272,7 +1276,6 @@ const lightbox = medias => {
     currentIndex = index - 1;
     lightbox.append(createSlide(medias[currentIndex]));
     document.querySelector('.media-current').focus();
-    console.log(medias[currentIndex]);
 
     if (medias[currentIndex].type === 'video') {
       (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
@@ -1357,13 +1360,13 @@ const videoPlayer = () => {
       let secValue;
 
       if (min < 10) {
-        minValue = "0" + min;
+        minValue = '0' + min;
       } else {
         minValue = min;
       }
 
       if (sec < 10) {
-        secValue = "0" + sec;
+        secValue = '0' + sec;
       } else {
         secValue = sec;
       }
@@ -1568,8 +1571,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+
+
 const submitForm = (e, inputs) => {
   e.preventDefault();
+  const contactForm = document.getElementById('contact-form');
   const firstName = document.getElementById('firstname');
   const lastName = document.getElementById('lastname');
   const mail = document.getElementById('email');
@@ -1706,10 +1713,12 @@ const submitForm = (e, inputs) => {
   if (errors.length > 0) {
     manageErrorMessage(errors);
     return;
-  } //Si ok on log les data
+  }
 
+  (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)(null); //Si ok on log les data
 
   console.table(data);
+  contactForm.reset();
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (submitForm);
@@ -1794,8 +1803,9 @@ const arrowLeft = () => {
   svg.setAttribute('width', 30);
   svg.setAttribute('height', 48);
   svg.setAttribute('fill', "none");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z");
+  svg.setAttribute('aria-hidden', true);
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M29.6399 42.36L11.3199 24L29.6399 5.64L23.9999 -2.46532e-07L-0.000107861 24L23.9999 48L29.6399 42.36Z');
   svg.append(path);
   return svg;
 };
@@ -1816,8 +1826,9 @@ const arrowRight = () => {
   svg.setAttribute('width', 30);
   svg.setAttribute('height', 48);
   svg.setAttribute('fill', "none");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", "M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z");
+  svg.setAttribute('aria-hidden', true);
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z');
   svg.append(path);
   return svg;
 };

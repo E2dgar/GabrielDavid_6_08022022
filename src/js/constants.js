@@ -5,4 +5,4 @@ export const path = {
     MEDIA_IMG_WIDE: "assets/medias/img/wide/",
     MEDIA_VIDEO_THUMB: "assets/medias/video/thumbs/",
     MEDIA_VIDEO_WIDE: "assets/medias/video/wide/",
-};
+}
