@@ -845,36 +845,6 @@ const customSelect = medias => {
     hideList();
   };
   /**
-   * Get previous item when use down arrow
-   */
-
-
-  const getPreviousItem = () => {
-    let focusedItem = document.querySelector('.focused');
-
-    if (!focusedItem.previousSibling) {
-      return;
-    }
-
-    let nextItem = focusedItem.previousSibling;
-    focusItem(nextItem);
-  };
-  /**
-   * Get next item when use up arrow 
-   */
-
-
-  const getNextItem = () => {
-    let focusedItem = document.querySelector('.focused');
-
-    if (!focusedItem.nextSibling) {
-      return;
-    }
-
-    let nextItem = focusedItem.nextSibling;
-    focusItem(nextItem);
-  };
-  /**
    * Add listener on keyboard
    */
 
@@ -892,18 +862,9 @@ const customSelect = medias => {
    */
 
   const keyEvents = e => {
-    let key = e.which || e.keycode;
     e.preventDefault();
 
-    if (key === 40) {
-      getNextItem();
-    }
-
-    if (key === 38) {
-      getPreviousItem();
-    }
-
-    if (key === 13 || key === 32) {
+    if (e.code === 'Enter' || e.code === 'Space') {
       selectItem();
     }
   };
@@ -1119,15 +1080,13 @@ const lightbox = medias => {
 
 
   const keyEvents = e => {
-    let key = e.which || e.keycode;
-
     if (e.code === 'ArrowRight') {
       e.preventDefault();
       rightArrow.focus();
       if (!lastSlide) slider('right', document.querySelector('.media-current'));
     }
 
-    if (key === 37) {
+    if (e.code === 'ArrowLeft') {
       e.preventDefault();
       leftArrow.focus();
       if (!firstSlide) slider('left', document.querySelector('.media-current'));

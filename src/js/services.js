@@ -26,11 +26,11 @@ const getData = async () => {
  * @returns {object} DOM Element
  */
  const createDOMElement = (tag, className, attributes, textContent) => {
-  const DOMElement = document.createElement(tag);
+  const DOMElement = document.createElement(tag)
 
   if(className?.length > 0){
     className.forEach(classe => {
-      DOMElement.classList.add(classe);
+      DOMElement.classList.add(classe)
     })
   }
 

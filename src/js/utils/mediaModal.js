@@ -84,17 +84,16 @@ const lightbox = (medias) => {
 
   /*Arrow keys events */
   const keyEvents = e => {
-    let key = e.which || e.keycode
-      if(e.code === 'ArrowRight'){
-        e.preventDefault()
-        rightArrow.focus()
-        if(!lastSlide) slider('right', document.querySelector('.media-current'))
-      }
-      if(key === 37){
-        e.preventDefault()
-        leftArrow.focus()
-        if(!firstSlide) slider('left', document.querySelector('.media-current'))
-      } 
+    if(e.code === 'ArrowRight'){
+      e.preventDefault()
+      rightArrow.focus()
+      if(!lastSlide) slider('right', document.querySelector('.media-current'))
+    }
+    if(e.code === 'ArrowLeft'){
+      e.preventDefault()
+      leftArrow.focus()
+      if(!firstSlide) slider('left', document.querySelector('.media-current'))
+    } 
   }
  
   /**
@@ -223,7 +222,7 @@ const lightbox = (medias) => {
     lightbox.append(createSlide(medias[currentIndex]))
     document.querySelector('.media-current').focus()
 
-    if(medias[currentIndex].type ===  'video'){
+    if(medias[currentIndex].type === 'video'){
       videoPlayer()
     }
   }
@@ -245,7 +244,6 @@ const lightbox = (medias) => {
 
     lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
     
-
     displayArrows(currentIndex)
   }
 }
