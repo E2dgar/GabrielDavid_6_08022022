@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-	publicPath: '/GabrielDavid_6_08022022/dist/'
+		publicPath: '/GabrielDavid_6_08022022/dist/'
   },
   experiments: {
     topLevelAwait: true
