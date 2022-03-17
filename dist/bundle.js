@@ -23,7 +23,7 @@ window.onload = () => {
     (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, window.location.hash.substring(1));
   }
 
-  history.pushState(null, null, window.location.pathname);
+  history.pushState(null, null, window.location.pathname + window.location.hash);
   const links = document.querySelectorAll('.data-link');
   let url = '';
   links.forEach(element => {
@@ -1206,6 +1206,11 @@ const lightbox = medias => {
     /*Append media and focus on */
 
     lightbox.append(createSlide(media));
+
+    if (media.type === 'video') {
+      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    }
+
     document.querySelector('.media-current').focus();
   };
   /**

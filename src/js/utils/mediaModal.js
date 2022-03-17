@@ -189,7 +189,7 @@ const lightbox = (medias) => {
 
     /*Append media and focus on */
     lightbox.append(createSlide(media))
-    if(medias[currentIndex].type ===  'video'){
+    if(media.type ===  'video'){
       videoPlayer()
     }
     document.querySelector('.media-current').focus()
