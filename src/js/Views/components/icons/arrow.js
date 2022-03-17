@@ -16,5 +16,4 @@ const arrow = () => {
     return svg;
 }
     
-
 export default arrow;

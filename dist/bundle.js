@@ -20,12 +20,12 @@ const {
 
 window.onload = () => {
   if (window.location.hash) {
-    (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, window.location.hash);
+    (0,_Controller_ProfilController__WEBPACK_IMPORTED_MODULE_3__["default"])(photographers, window.location.hash.substring(1));
   }
 
   history.pushState(null, null, window.location.pathname);
   const links = document.querySelectorAll('.data-link');
-  let url = "";
+  let url = '';
   links.forEach(element => {
     element.addEventListener('click', e => {
       e.preventDefault();
@@ -37,7 +37,6 @@ window.onload = () => {
 };
 
 const renderPage = () => {
-  console.log('popstate');
   const hash = window.location.hash.substring(1);
 
   if (hash !== "" && hash !== "main-content") {
@@ -242,7 +241,7 @@ const header = title => {
   /*Remove homepage header h1 when navigate to profil page */
 
 
-  if (!document.querySelector('body').classList.contains('home-page')) {
+  if (!document.querySelector('body').classList.contains('home-page') && document.querySelector('header h1')) {
     document.querySelector('header h1').remove();
   }
 };
@@ -443,6 +442,7 @@ const hero = photographer => {
 
   if (heroSection) {
     heroSection.remove();
+    console.log('remove');
   } else {
     heroSection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['hero-photographer']);
   }
@@ -575,7 +575,7 @@ const mediaCard = media => {
     }
   };
 
-  likeIcon.addEventListener('click', updateCount);
+  likeButton.addEventListener('click', updateCount);
   likeButton.append(likeIcon);
   legend.append(title, likeCounter, likeButton);
   card.append(lightboxLink, legend);
@@ -1040,7 +1040,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const gallerySort = medias => {
-  console.log('medias in sort', medias);
   const gallery = document.querySelector('.medias-wrapper');
   const cards = document.querySelectorAll('.media-card');
   cards.forEach(card => card.remove());
@@ -1068,29 +1067,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const lightbox = medias => {
-  /* let countListenr = 1;
-   let mesMedias = []
-   mesMedias = medias
-   keyBoardEvents();*/
-  const keyEvents = e => {
-    let key = e.which || e.keycode;
-
-    if (key === 39) {
-      e.preventDefault();
-      rightArrow.focus();
-      console.log("ecode", e.code);
-      if (!lastSlide) slider('right');
-    }
-
-    if (key === 37) {
-      e.preventDefault();
-      console.log("ecode", e.code);
-      leftArrow.focus();
-      if (!firstSlide) slider('left');
-    }
-  };
-
-  document.removeEventListener('keydown', keyEvents);
+  /*DOM Elements */
   const lightboxArticle = document.querySelector('.modal-media article');
   const lightbox = document.querySelector('.modal-media article .media-container');
   const mediaTitle = document.querySelector('.modal-media h1');
@@ -1099,38 +1076,100 @@ const lightbox = medias => {
   const rightArrow = document.querySelector('.right-button');
   const cards = document.querySelectorAll('.lightbox-link');
   const close = document.querySelector('.modal-media .close-modal');
-  cards.forEach(card => {
-    card.removeEventListener("click", e => {
-      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-      console.log('target', e.currentTarget);
-      console.log('data', medias);
-      mediaModal(e.currentTarget, medias);
-      document.addEventListener('keydown', keyEvents);
-    });
-    card.removeEventListener("keydown", e => {
-      if (e.code === "Enter") {
-        console.log('e', e);
-        console.log('target', e.currentTarget);
-        e.preventDefault();
-        (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-        mediaModal(card, medias);
-        document.addEventListener('keydown', keyEvents);
-      }
-    });
-  });
+  /*Init variables */
+
   let currentIndex = 0;
   let firstSlide = false;
   let lastSlide = false;
+  /*Init lightbox on click in gallery*/
+
+  const onEnterCard = (e, card) => {
+    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+    mediaModal(card ?? e.currentTarget, medias);
+    document.addEventListener('keydown', keyEvents);
+  };
+  /*Add listener on each media card when lightbox is loaded*/
+
+
+  cards.forEach(card => {
+    card.addEventListener('click', e => onEnterCard(e));
+    card.addEventListener('keydown', e => {
+      if (e.code === 'Enter') {
+        e.preventDefault;
+        onEnterCard(null, card);
+      }
+    });
+  });
+  /*Add listener on Escape*/
+
+  const escapeKey = e => {
+    if (e.code === 'Escape') {
+      e.preventDefault();
+      document.removeEventListener('keydown', keyEvents);
+      cards.forEach(card => {
+        card.removeEventListener('click', e => onEnterCard(e));
+        card.removeEventListener('keydown', e => {
+          if (e.code === 'Enter') {
+            e.preventDefault;
+            onEnterCard(null, card);
+          }
+        });
+      });
+      slideButton.forEach(button => button.removeEventListener('click', sliderOnclick));
+      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
+    }
+  };
+
+  document.addEventListener('keydown', escapeKey);
+  /*On close remove listeners and close modal */
+
+  close.addEventListener('click', () => {
+    document.removeEventListener('keydown', keyEvents);
+    cards.forEach(card => {
+      card.removeEventListener('click', e => onEnterCard(e));
+      card.removeEventListener('keydown', e => {
+        if (e.code === 'Enter') {
+          e.preventDefault;
+          onEnterCard(null, card);
+        }
+      });
+    });
+    slideButton.forEach(button => button.removeEventListener('click', sliderOnclick));
+    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
+  });
+  /*On click slider buttons execute slider('direction', 'current media')*/
+
+  const sliderOnclick = e => {
+    slider(e.target.getAttribute('data-direction'), document.querySelector('.media-current'));
+  };
+  /*Arrow keys events */
+
+
+  const keyEvents = e => {
+    let key = e.which || e.keycode;
+
+    if (e.code === 'ArrowRight') {
+      e.preventDefault();
+      rightArrow.focus();
+      if (!lastSlide) slider('right', document.querySelector('.media-current'));
+    }
+
+    if (key === 37) {
+      e.preventDefault();
+      leftArrow.focus();
+      if (!firstSlide) slider('left', document.querySelector('.media-current'));
+    }
+  };
   /**
    * Hide left/right arrow for first and last slide
    * @param {integer} index 
    */
 
+
   const displayArrows = index => {
     if (index === 0) {
       leftArrow.classList.add('hidden');
       firstSlide = true;
-      console.log(firstSlide);
     } else {
       firstSlide = false;
     }
@@ -1154,6 +1193,8 @@ const lightbox = medias => {
     title,
     alt
   }) => {
+    const slideElmtsToRemove = document.querySelectorAll('.media-container *');
+    slideElmtsToRemove.forEach(elmt => elmt.remove());
     let element = type === 'image' ? 'img' : 'video';
     let mediaElement = null;
 
@@ -1179,6 +1220,9 @@ const lightbox = medias => {
       mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('video', ['media-current'], [{
         name: 'title',
         value: title
+      }, {
+        name: 'tabindex',
+        value: 0
       }]);
       const source = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('source');
       source.setAttribute('src', src);
@@ -1193,12 +1237,13 @@ const lightbox = medias => {
       const customControls = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['controls']);
       const play = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['playpause'], '', 'Play');
       const stop = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['stop'], '', 'Stop');
-      const rwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['rwd'], '', 'Rwd');
-      const fwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['fwd'], '', 'Fwd');
+      const rwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['rwd'], '', 'Retour');
+      const fwd = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['fwd'], '', 'Avancer');
       const time = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['time'], '', '00:00');
       customControls.append(play, stop, rwd, fwd, time);
       player.append(mediaElement, customControls);
       mediaElement = player;
+      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
 
     mediaTitle.textContent = title;
@@ -1210,83 +1255,51 @@ const lightbox = medias => {
    */
 
 
-  const mediaModal = target => {
-    const mediaLightbox = document.querySelector('.modal-media .media-current');
-    console.log('ismedialightbox', document.querySelector('.modal-media .media-current'));
-
-    if (mediaLightbox) {
-      mediaLightbox.remove();
-      mediaTitle.remove();
-    }
-
-    console.log('the targte', target);
+  const mediaModal = (target, mediaSorted) => {
+    /*Add listener on arrow buttons */
+    slideButton.forEach(button => button.addEventListener('click', sliderOnclick));
     /*Get media in medias based on article ID */
 
-    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0];
-    console.log('media inmediaModal', media);
+    const media = mediaSorted.filter(media => parseInt(media.id) === parseInt(target.id))[0];
     /*Get media index in medias */
 
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id));
+    currentIndex = mediaSorted.findIndex(media => parseInt(media.id) === parseInt(target.id));
+    /*Update data-id on Article element */
+
     lightboxArticle.setAttribute('data-id', target.id);
     /*Setup arrows */
 
     leftArrow.classList.remove('hidden');
     rightArrow.classList.remove('hidden');
     displayArrows(currentIndex);
+    /*Append media and focus on */
+
     lightbox.append(createSlide(media));
     document.querySelector('.media-current').focus();
-    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
   };
-
-  cards.forEach(card => {
-    card.addEventListener("click", e => {
-      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-      console.log('target', e.currentTarget);
-      console.log('data', medias);
-      mediaModal(e.currentTarget, medias);
-      document.addEventListener('keydown', keyEvents);
-    });
-    card.addEventListener("keydown", e => {
-      if (e.code === "Enter") {
-        console.log('e', e);
-        console.log('target', e.currentTarget);
-        e.preventDefault();
-        (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
-        mediaModal(card, medias);
-        document.addEventListener('keydown', keyEvents);
-      }
-    });
-  });
   /**
    * Go to next slide
-   * @param {Object} media 
    * @param {integer} index 
    */
 
-  const nextSlide = (media, index) => {
-    document.querySelector('.left-button').classList.remove('hidden');
-    console.log('med', media);
-    media.remove();
-    console.log(medias);
-    currentIndex = index + 1;
-    /* currentIndex = medias.findIndex(currentMedia => parseInt(media.id) === parseInt(currentMedia.id)) + 1*/
 
+  const nextSlide = index => {
+    document.querySelector('.left-button').classList.remove('hidden');
+    currentIndex = index + 1;
     lightbox.append(createSlide(medias[currentIndex]));
-    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    document.querySelector('.media-current').focus();
   };
   /**
    * Go to previous slide
-   * @param {Object} media 
    * @param {integer} index 
    */
 
 
-  const prevSlide = (media, index) => {
+  const prevSlide = index => {
     document.querySelector('.right-button').classList.remove('hidden');
-    media.remove();
     currentIndex = index - 1;
     lightbox.append(createSlide(medias[currentIndex]));
-    (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    document.querySelector('.media-current').focus();
   };
   /**
    * Slider
@@ -1295,37 +1308,20 @@ const lightbox = medias => {
 
 
   const slider = direction => {
-    console.log('medias slider');
-    const currentMedia = document.querySelector('.media-current');
+    /*Get index of current media */
     currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')));
 
     if (direction === "right") {
-      nextSlide(currentMedia, currentIndex);
+      nextSlide(currentIndex);
     }
 
     if (direction === "left") {
-      prevSlide(currentMedia, currentIndex);
+      prevSlide(currentIndex);
     }
 
     lightboxArticle.setAttribute('data-id', medias[currentIndex].id);
     displayArrows(currentIndex);
   };
-
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))));
-
-  const escapeKey = e => {
-    if (e.code === 'Escape') {
-      e.preventDefault();
-      document.removeEventListener('keydown', keyEvents);
-      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
-    }
-  };
-
-  document.addEventListener('keydown', escapeKey);
-  close.addEventListener('click', () => {
-    document.removeEventListener('keydown', keyEvents);
-    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
-  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lightbox);
@@ -1428,7 +1424,6 @@ const openModal = modalContent => {
 
 
 const closeModal = id => {
-  console.log('is id', id);
   main.removeAttribute('aria-hidden');
   modal.classList.remove('display-modal');
   body.classList.remove('no-scroll');
@@ -1436,6 +1431,7 @@ const closeModal = id => {
   if (id) {
     document.getElementById(id).focus();
   } else {
+    console.log('focus on', document.querySelector('.contact-button'));
     document.querySelector('.contact-button').focus();
   }
 };
@@ -1444,7 +1440,7 @@ const keyBoardEvents = () => {
   const keyEvents = e => {
     if (e.code === 'Escape') {
       e.preventDefault();
-      closeModal();
+      closeModal(null);
     }
   };
 
@@ -1566,7 +1562,7 @@ const contact = photographer => {
   main.insertAdjacentElement('afterend', modal);
   button.addEventListener('click', (e, fields = inputs) => (0,_utils_contactForm__WEBPACK_IMPORTED_MODULE_2__["default"])(e, fields));
   contactButton.addEventListener('click', () => (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('modal-form'));
-  closeModalButton.addEventListener('click', _utils_modal__WEBPACK_IMPORTED_MODULE_3__.closeModal);
+  closeModalButton.addEventListener('click', () => (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.closeModal)(null));
   contactButton.addEventListener("keydown", e => {
     if (e.code === "Enter") {
       e.preventDefault();
@@ -1802,7 +1798,7 @@ const lightboxUI = () => {
     value: 'left'
   }, {
     name: 'aria-label',
-    value: 'Next media'
+    value: 'Previous media'
   }]);
   leftButton.append((0,_icons_arrowLighboxLeft__WEBPACK_IMPORTED_MODULE_1__["default"])());
   const rightButton = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('button', ['modal-button', 'right-button', 'slide-button'], [{
@@ -1810,7 +1806,7 @@ const lightboxUI = () => {
     value: 'right'
   }, {
     name: 'aria-label',
-    value: 'Previous media'
+    value: 'Next media'
   }]);
   rightButton.append((0,_icons_arrowLightboxRight__WEBPACK_IMPORTED_MODULE_2__["default"])());
   article.append(mediaContainer, title);

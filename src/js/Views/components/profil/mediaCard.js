@@ -42,7 +42,8 @@ const mediaCard = media => {
       media._isLiked = true
     }
   }
-  likeIcon.addEventListener('click', updateCount)
+  likeButton.addEventListener('click', updateCount)
+  
   likeButton.append(likeIcon)
 
   legend.append(title, likeCounter, likeButton)

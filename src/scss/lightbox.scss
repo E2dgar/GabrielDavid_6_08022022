@@ -67,6 +67,7 @@
 
         .controls {
             position: absolute;
+            right: 0;
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -78,6 +79,9 @@
                 border: none;
                 padding: .5rem;
                 cursor: pointer;
+            }
+            div {
+                min-width: 80px;
             }
         }
     }

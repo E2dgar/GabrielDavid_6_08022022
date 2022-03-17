@@ -2,6 +2,7 @@ import { createDOMElement } from '../../../services'
 import cross from '../icons/cross'
 import submitForm from '../../../utils/contactForm'
 import { openModal, closeModal } from '../../../utils/modal'
+
 /**
  * Create contact form 
  * @param {string} photographer Photographer name
@@ -45,7 +46,7 @@ const contact = photographer => {
   button.addEventListener('click', (e, fields = inputs) => submitForm(e, fields))
 
   contactButton.addEventListener('click',() => openModal('modal-form'))
-  closeModalButton.addEventListener('click', closeModal)
+  closeModalButton.addEventListener('click', () => closeModal(null))
 
   contactButton.addEventListener("keydown", e => {
     if(e.code === "Enter"){ 

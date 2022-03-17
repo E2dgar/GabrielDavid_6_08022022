@@ -3,8 +3,6 @@ import mediaFactory from '../Models/mediaFactory'
 import lightbox from './mediaModal'
 
 const gallerySort = medias => {
-  
-  console.log('medias in sort', medias)
   const gallery = document.querySelector('.medias-wrapper')
   const cards = document.querySelectorAll('.media-card')
 

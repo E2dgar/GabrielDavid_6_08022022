@@ -4,29 +4,7 @@ import { openModal, closeModal } from './modal'
 
 
 const lightbox = (medias) => {
- /* let countListenr = 1;
-  let mesMedias = []
-  mesMedias = medias
-  keyBoardEvents();*/
-  const keyEvents = (e) => {
-    let key = e.which || e.keycode;
-      if(key === 39){
-        e.preventDefault()
-        rightArrow.focus();
-        console.log("ecode",e.code)
-        if(!lastSlide) slider('right')
-      }
-      if(key === 37){
-        e.preventDefault()
-        
-        console.log("ecode", e.code)
-        leftArrow.focus();
-        if(!firstSlide) slider('left')
-      }
-    
-  }
-  document.removeEventListener('keydown', keyEvents)
-
+  /*DOM Elements */
   const lightboxArticle = document.querySelector('.modal-media article')
   const lightbox = document.querySelector('.modal-media article .media-container')
   const mediaTitle = document.querySelector('.modal-media h1')
@@ -36,31 +14,88 @@ const lightbox = (medias) => {
   const cards= document.querySelectorAll('.lightbox-link')
   const close = document.querySelector('.modal-media .close-modal')
 
-  cards.forEach(card => {
-    card.removeEventListener("click", e => {
-      openModal('modal-media')
-      console.log('target',e.currentTarget)
-      console.log('data', medias)
-      mediaModal(e.currentTarget, medias)
-      document.addEventListener('keydown', keyEvents)
-    })
+  /*Init variables */
+  let currentIndex = 0
+  let firstSlide = false
+  let lastSlide = false
 
-    card.removeEventListener("keydown", e => {
-      if(e.code === "Enter"){ 
-        console.log('e',e)
-        console.log('target',e.currentTarget)
-        e.preventDefault()
-        openModal('modal-media')
-        mediaModal(card, medias)
-        document.addEventListener('keydown', keyEvents)
+  /*Init lightbox on click in gallery*/
+  const onEnterCard = (e, card) => {
+    openModal('modal-media')
+    mediaModal(card ?? e.currentTarget, medias)
+    document.addEventListener('keydown', keyEvents)
+  }
+
+  /*Add listener on each media card when lightbox is loaded*/
+  cards.forEach(card => {
+    card.addEventListener('click', e => onEnterCard(e))
+
+    card.addEventListener('keydown', e => {
+      if(e.code === 'Enter'){
+        e.preventDefault
+        onEnterCard(null, card)
       }
     })
   })
 
+  /*Add listener on Escape*/
+  const escapeKey = e => {
+    if(e.code === 'Escape'){
+      e.preventDefault()
+      document.removeEventListener('keydown', keyEvents)
+      cards.forEach(card => {
+        card.removeEventListener('click', e => onEnterCard(e))
+    
+        card.removeEventListener('keydown', e => {
+          if(e.code === 'Enter'){
+            e.preventDefault
+            onEnterCard(null, card)
+          }
+        })
+      })
+      slideButton.forEach(button => button.removeEventListener('click', sliderOnclick))
+      closeModal(document.querySelector('.media').getAttribute('data-id'))
+    }
+  }
+  document.addEventListener('keydown', escapeKey)
+
+  /*On close remove listeners and close modal */
+  close.addEventListener('click',() => {
+    document.removeEventListener('keydown', keyEvents)
+   
+    cards.forEach(card => {
+      card.removeEventListener('click', e => onEnterCard(e))
   
-  let currentIndex = 0
-  let firstSlide = false
-  let lastSlide = false
+      card.removeEventListener('keydown', e => {
+        if(e.code === 'Enter'){
+          e.preventDefault
+          onEnterCard(null, card)
+        }
+      })
+    })
+    slideButton.forEach(button => button.removeEventListener('click', sliderOnclick))
+    closeModal(document.querySelector('.media').getAttribute('data-id'))
+  })
+
+  /*On click slider buttons execute slider('direction', 'current media')*/
+  const sliderOnclick = e => {
+    slider(e.target.getAttribute('data-direction'), document.querySelector('.media-current'))
+  }
+
+  /*Arrow keys events */
+  const keyEvents = e => {
+    let key = e.which || e.keycode
+      if(e.code === 'ArrowRight'){
+        e.preventDefault()
+        rightArrow.focus()
+        if(!lastSlide) slider('right', document.querySelector('.media-current'))
+      }
+      if(key === 37){
+        e.preventDefault()
+        leftArrow.focus()
+        if(!firstSlide) slider('left', document.querySelector('.media-current'))
+      } 
+  }
  
   /**
    * Hide left/right arrow for first and last slide
@@ -70,7 +105,6 @@ const lightbox = (medias) => {
     if(index === 0){
       leftArrow.classList.add('hidden')
       firstSlide = true
-      console.log(firstSlide)
     } else {
       firstSlide = false
     }
@@ -87,8 +121,10 @@ const lightbox = (medias) => {
    * @param {Object} media 
    */
   const createSlide = ({src, type, title, alt}) => {
+    const slideElmtsToRemove = document.querySelectorAll('.media-container *')
+    slideElmtsToRemove.forEach(elmt => elmt.remove())
+
     let element = type === 'image' ? 'img' : 'video'
-  
     let mediaElement = null
 
     if(element === 'img'){
@@ -100,7 +136,7 @@ const lightbox = (medias) => {
     if(element === 'video'){
       const player = createDOMElement('section', ['player'])
 
-      mediaElement = createDOMElement('video', ['media-current'], [{name: 'title', value: title}])
+      mediaElement = createDOMElement('video', ['media-current'], [{name: 'title', value: title}, {name: 'tabindex', value: 0}])
       const source = createDOMElement('source')
       source.setAttribute('src', src)
       source.setAttribute('type', 'video/mp4')
@@ -114,39 +150,38 @@ const lightbox = (medias) => {
       const customControls = createDOMElement('div', ['controls'])
       const play = createDOMElement('button', ['playpause'], '', 'Play')
       const stop = createDOMElement('button', ['stop'], '', 'Stop')
-      const rwd = createDOMElement('button', ['rwd'], '', 'Rwd')
-      const fwd = createDOMElement('button', ['fwd'], '', 'Fwd')
+      const rwd = createDOMElement('button', ['rwd'], '', 'Retour')
+      const fwd = createDOMElement('button', ['fwd'], '', 'Avancer')
       const time = createDOMElement('div', ['time'], '', '00:00')
 
       customControls.append(play, stop, rwd, fwd, time)
 
       player.append(mediaElement, customControls)
       mediaElement = player
+
+      videoPlayer()
     }
 
-    mediaTitle.textContent = title;
+    mediaTitle.textContent = title
+
     return mediaElement
   }
-
+  
   /**
    * Create slide on open modal depending on thumb clicked
    * @param {event} e 
    */
-  const mediaModal = (target) => {
-    const mediaLightbox = document.querySelector('.modal-media .media-current')
-    console.log('ismedialightbox', document.querySelector('.modal-media .media-current'))
-    if(mediaLightbox) {
-      mediaLightbox.remove()
-      mediaTitle.remove()
-    }
-console.log('the targte', target)
+  const mediaModal = (target, mediaSorted) => {   
+    /*Add listener on arrow buttons */
+    slideButton.forEach(button => button.addEventListener('click', sliderOnclick))
+   
     /*Get media in medias based on article ID */
-    const media = medias.filter(media => parseInt(media.id) === parseInt(target.id))[0]
+    const media = mediaSorted.filter(media => parseInt(media.id) === parseInt(target.id))[0]
 
-console.log('media inmediaModal', media)
+
     /*Get media index in medias */
-    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(target.id))
-
+    currentIndex = mediaSorted.findIndex(media => parseInt(media.id) === parseInt(target.id))
+    /*Update data-id on Article element */
     lightboxArticle.setAttribute('data-id', target.id)
 
     /*Setup arrows */
@@ -155,107 +190,57 @@ console.log('media inmediaModal', media)
     
     displayArrows(currentIndex)
 
+    /*Append media and focus on */
     lightbox.append(createSlide(media))
     document.querySelector('.media-current').focus()
-    
-    videoPlayer()
   }
 
-  cards.forEach(card => {
-    card.addEventListener("click", e => {
-      openModal('modal-media')
-      console.log('target',e.currentTarget)
-      console.log('data', medias)
-      mediaModal(e.currentTarget, medias)
-      document.addEventListener('keydown', keyEvents)
-    })
-
-    card.addEventListener("keydown", e => {
-      if(e.code === "Enter"){ 
-        console.log('e',e)
-        console.log('target',e.currentTarget)
-        e.preventDefault()
-        openModal('modal-media')
-        mediaModal(card, medias)
-        document.addEventListener('keydown', keyEvents)
-      }
-    })
-  })
-
-
+  
   /**
    * Go to next slide
-   * @param {Object} media 
    * @param {integer} index 
    */
-  const nextSlide = (media, index) => {
+  const nextSlide = index => {
     document.querySelector('.left-button').classList.remove('hidden')
-console.log('med',media)
-    media.remove()
-console.log(medias)
 
     currentIndex = index + 1
-   /* currentIndex = medias.findIndex(currentMedia => parseInt(media.id) === parseInt(currentMedia.id)) + 1*/
 
     lightbox.append(createSlide(medias[currentIndex]))
-    
-    videoPlayer()
+    document.querySelector('.media-current').focus()
   }
 
   /**
    * Go to previous slide
-   * @param {Object} media 
    * @param {integer} index 
    */
-  const prevSlide = (media, index) => {
+  const prevSlide = index => {
     document.querySelector('.right-button').classList.remove('hidden')
-
-    media.remove()
 
     currentIndex = index - 1
 
     lightbox.append(createSlide(medias[currentIndex]))
-    
-    videoPlayer()
+    document.querySelector('.media-current').focus()
   }
 
   /**
    * Slider
    * @param {string} direction 
    */
-  const slider = (direction) => {
-    console.log('medias slider')
-      const currentMedia = document.querySelector('.media-current')
-      currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
-      
-      if(direction === "right") {
-        nextSlide(currentMedia, currentIndex)
-      }
-      if(direction === "left") {
-        prevSlide(currentMedia, currentIndex)
-      }
-
-      lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
-
-      displayArrows(currentIndex)
-  }
-
-  slideButton.forEach(button => button.addEventListener('click', e => slider(e.target.getAttribute('data-direction'))))
-
-  const escapeKey = e => {
-    if(e.code === 'Escape'){
-      e.preventDefault()
-      document.removeEventListener('keydown', keyEvents)
-      closeModal(document.querySelector('.media').getAttribute('data-id'))
+  const slider = direction => {
+    /*Get index of current media */
+    currentIndex = medias.findIndex(media => parseInt(media.id) === parseInt(document.querySelector('.modal-media article').getAttribute('data-id')))
+    
+    if(direction === "right") {
+      nextSlide(currentIndex)
     }
+    if(direction === "left") {
+      prevSlide(currentIndex)
+    }
+
+    lightboxArticle.setAttribute('data-id', medias[currentIndex].id)
+
+    displayArrows(currentIndex)
   }
-  document.addEventListener('keydown', escapeKey)
-
-
-  close.addEventListener('click',() => {
-    document.removeEventListener('keydown', keyEvents)
-    closeModal(document.querySelector('.media').getAttribute('data-id'))
-  })
 }
 
-export default lightbox;
+export default lightbox

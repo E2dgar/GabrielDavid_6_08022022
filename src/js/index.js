@@ -10,25 +10,24 @@ const { photographers } = await getData();
 
 window.onload = () => {
   if(window.location.hash){
-    ProfilController(photographers, window.location.hash)
+    ProfilController(photographers, window.location.hash.substring(1))
   }
-    history.pushState(null, null,  window.location.pathname );
+  history.pushState(null, null,  window.location.pathname)
 
-    const links = document.querySelectorAll('.data-link');
-    let url ="";
+  const links = document.querySelectorAll('.data-link')
+  let url = ''
 
-    links.forEach(element => { element.addEventListener('click', e => {
-            e.preventDefault();
-            url = e.target.closest('a').href
-            history.pushState(null, null, window.location.pathname + url)
-        })
-    });
+  links.forEach(element => { element.addEventListener('click', e => {
+        e.preventDefault()
+        url = e.target.closest('a').href
+        history.pushState(null, null, window.location.pathname + url)
+    })
+  })
 
-    HomeController(photographers);
+  HomeController(photographers)
 }
 
 const renderPage = () => {
-  console.log('popstate')
   const hash = window.location.hash.substring(1);
 
   if(hash !== "" && hash !== "main-content"){

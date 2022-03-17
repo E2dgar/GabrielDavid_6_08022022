@@ -22,7 +22,7 @@ const header = (title) => {
   }
 
   /*Remove homepage header h1 when navigate to profil page */
-  if(!document.querySelector('body').classList.contains('home-page')){
+  if(!document.querySelector('body').classList.contains('home-page') && document.querySelector('header h1')){
     document.querySelector('header h1').remove()
   }
 }

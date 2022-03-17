@@ -14,10 +14,10 @@ const lightboxUI = () => {
   const closeButton = createDOMElement('button', ['modal-button', 'close-modal'], [{name: 'type', value: 'button'}, {name: 'aria-label', value: 'Close medias modal'}])
   closeButton.append(cross())
 
-  const leftButton = createDOMElement('button', ['modal-button', 'left-button', 'slide-button'], [{name: 'data-direction', value: 'left'}, {name: 'aria-label', value: 'Next media'}])
+  const leftButton = createDOMElement('button', ['modal-button', 'left-button', 'slide-button'], [{name: 'data-direction', value: 'left'}, {name: 'aria-label', value: 'Previous media'}])
   leftButton.append(arrowLeft())
 
-  const rightButton = createDOMElement('button', ['modal-button', 'right-button', 'slide-button'], [{name: 'data-direction', value: 'right'}, {name: 'aria-label', value: 'Previous media'}])
+  const rightButton = createDOMElement('button', ['modal-button', 'right-button', 'slide-button'], [{name: 'data-direction', value: 'right'}, {name: 'aria-label', value: 'Next media'}])
   rightButton.append(arrowRight())
 
   article.append(mediaContainer, title)

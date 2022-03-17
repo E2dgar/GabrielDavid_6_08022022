@@ -5,6 +5,7 @@ const hero = photographer => {
   let heroSection = document.querySelector('section.hero-photographer')
   if(heroSection){
     heroSection.remove()
+    console.log('remove')
   } else {
     heroSection = createDOMElement('section', ['hero-photographer'])
   }
