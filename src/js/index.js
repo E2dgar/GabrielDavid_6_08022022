@@ -9,7 +9,7 @@ window.onload = () => {
   if(window.location.hash){
     ProfilController(photographers, window.location.hash.substring(1))
   }
-  history.pushState(null, null,  window.location.pathname)
+  history.pushState(null, null,  window.location.pathname + window.location.hash)
 
   const links = document.querySelectorAll('.data-link')
   let url = ''
