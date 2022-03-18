@@ -1,6 +1,6 @@
 import { createDOMElement } from '../../../services'
 import mediaCard from './mediaCard'
-import mediasFilters from './mediasFilters'
+import mediasFilters from './filter/mediasFiltersUI'
 
 const gallery = medias => {
     /* Remove potential previous gallery */

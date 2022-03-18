@@ -1,6 +1,6 @@
-import { createDOMElement } from '../services'
-import videoPlayer from '../Views/components/profil/lightbox/player'
-import { openModal, closeModal } from './modal'
+import { createDOMElement } from '../../../../services'
+import videoPlayer from './player'
+import { openModal, closeModal } from '../../../../utils/modal'
 
 
 const lightbox = (medias) => {

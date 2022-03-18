@@ -1,4 +1,4 @@
-import profil from '../Views/profil'
+import profil from '../Views/pages/profil'
 import Photographer from '../Models/Photographer'
 
 /**

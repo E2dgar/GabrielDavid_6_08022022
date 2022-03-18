@@ -142,11 +142,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Views_home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _Views_pages_home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 
 
 const HomeController = photographers => {
-  (0,_Views_home__WEBPACK_IMPORTED_MODULE_0__["default"])(photographers);
+  (0,_Views_pages_home__WEBPACK_IMPORTED_MODULE_0__["default"])(photographers);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HomeController);
@@ -333,7 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Views_profil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _Views_pages_profil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
@@ -346,7 +346,7 @@ __webpack_require__.r(__webpack_exports__);
 const ProfilController = async (photographers, id) => {
   const filtered = photographers.filter(photographer => photographer.id === parseInt(id));
   const photographer = new _Models_Photographer__WEBPACK_IMPORTED_MODULE_1__["default"](filtered[0]);
-  (0,_Views_profil__WEBPACK_IMPORTED_MODULE_0__["default"])(photographer, await photographer.getMedias());
+  (0,_Views_pages_profil__WEBPACK_IMPORTED_MODULE_0__["default"])(photographer, await photographer.getMedias());
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfilController);
@@ -364,10 +364,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_profil_gallery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
 /* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
 /* harmony import */ var _components_profil_likesCounter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
-/* harmony import */ var _utils_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
-/* harmony import */ var _components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
-/* harmony import */ var _utils_mediaModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(23);
-/* harmony import */ var _components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(29);
+/* harmony import */ var _components_profil_filter_customSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _components_contactForm_contactUI__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(26);
+/* harmony import */ var _components_profil_lightbox_lightbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(23);
+/* harmony import */ var _components_profil_lightbox_lightboxUI__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(29);
 
 
 
@@ -411,12 +411,12 @@ const profil = (photographer, medias) => {
   main.append(heroSection, galleryPhotographer, counter);
   /*Add select for filter */
 
-  (0,_utils_customSelect__WEBPACK_IMPORTED_MODULE_5__["default"])(medias);
+  (0,_components_profil_filter_customSelect__WEBPACK_IMPORTED_MODULE_5__["default"])(medias);
   /*Create modals (contact and lightbox) */
 
-  (0,_components_contactForm_contact__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name);
-  (0,_components_profil_lightbox__WEBPACK_IMPORTED_MODULE_8__["default"])();
-  (0,_utils_mediaModal__WEBPACK_IMPORTED_MODULE_7__["default"])(mediaSorted);
+  (0,_components_contactForm_contactUI__WEBPACK_IMPORTED_MODULE_6__["default"])(photographer.name);
+  (0,_components_profil_lightbox_lightboxUI__WEBPACK_IMPORTED_MODULE_8__["default"])();
+  (0,_components_profil_lightbox_lightbox__WEBPACK_IMPORTED_MODULE_7__["default"])(mediaSorted);
   /*Set focus on h1 for accessibility */
 
   document.querySelector('.hero-photographer h1').focus();
@@ -486,7 +486,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _mediaCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _mediasFilters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _filter_mediasFiltersUI__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
 
 
 
@@ -502,7 +502,7 @@ const gallery = medias => {
   gallerySection = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['medias-section']);
   const mediasWrapper = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('div', ['medias-wrapper']);
   medias.forEach(media => mediasWrapper.append((0,_mediaCard__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
-  gallerySection.append(_mediasFilters__WEBPACK_IMPORTED_MODULE_2__["default"], mediasWrapper);
+  gallerySection.append(_filter_mediasFiltersUI__WEBPACK_IMPORTED_MODULE_2__["default"], mediasWrapper);
   return gallerySection;
 };
 
@@ -962,9 +962,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _mediaCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var _Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-/* harmony import */ var _mediaModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
+/* harmony import */ var _lightbox_lightbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
 
 
 
@@ -979,8 +979,8 @@ const gallerySort = medias => {
   cards.forEach(card => card.remove());
   const mediaSorted = [];
   medias.forEach(media => mediaSorted.push((0,_Models_mediaFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(media)));
-  mediaSorted.forEach(media => gallery.append((0,_Views_components_profil_mediaCard__WEBPACK_IMPORTED_MODULE_0__["default"])(media)));
-  (0,_mediaModal__WEBPACK_IMPORTED_MODULE_2__["default"])(mediaSorted);
+  mediaSorted.forEach(media => gallery.append((0,_mediaCard__WEBPACK_IMPORTED_MODULE_0__["default"])(media)));
+  (0,_lightbox_lightbox__WEBPACK_IMPORTED_MODULE_2__["default"])(mediaSorted);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (gallerySort);
@@ -994,8 +994,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
 
 
 
@@ -1018,7 +1018,7 @@ const lightbox = medias => {
   /*Init lightbox on click in gallery*/
 
   const onEnterCard = (e, card) => {
-    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
+    (0,_utils_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('modal-media');
     mediaModal(card ?? e.currentTarget, medias);
     document.addEventListener('keydown', keyEvents);
   };
@@ -1050,7 +1050,7 @@ const lightbox = medias => {
         });
       });
       slideButton.forEach(button => button.removeEventListener('click', sliderOnclick));
-      (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
+      (0,_utils_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
     }
   };
 
@@ -1069,7 +1069,7 @@ const lightbox = medias => {
       });
     });
     slideButton.forEach(button => button.removeEventListener('click', sliderOnclick));
-    (0,_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
+    (0,_utils_modal__WEBPACK_IMPORTED_MODULE_2__.closeModal)(document.querySelector('.media').getAttribute('data-id'));
   });
   /*On click slider buttons execute slider('direction', 'current media')*/
 
@@ -1208,7 +1208,7 @@ const lightbox = medias => {
     lightbox.append(createSlide(media));
 
     if (media.type === 'video') {
-      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+      (0,_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
 
     document.querySelector('.media-current').focus();
@@ -1226,7 +1226,7 @@ const lightbox = medias => {
     document.querySelector('.media-current').focus();
 
     if (medias[currentIndex].type === 'video') {
-      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+      (0,_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
   };
   /**
@@ -1242,7 +1242,7 @@ const lightbox = medias => {
     document.querySelector('.media-current').focus();
 
     if (medias[currentIndex].type === 'video') {
-      (0,_Views_components_profil_lightbox_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
+      (0,_player__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
   };
   /**
@@ -1390,7 +1390,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _icons_cross__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
-/* harmony import */ var _utils_contactForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
 /* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
 
 
@@ -1491,11 +1491,11 @@ const contact = photographer => {
   form.append(button);
   modal.append(form);
   main.insertAdjacentElement('afterend', modal);
-  button.addEventListener('click', (e, fields = inputs) => (0,_utils_contactForm__WEBPACK_IMPORTED_MODULE_2__["default"])(e, fields));
+  button.addEventListener('click', (e, fields = inputs) => (0,_form__WEBPACK_IMPORTED_MODULE_2__["default"])(e, fields));
   contactButton.addEventListener('click', () => (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('modal-form'));
   closeModalButton.addEventListener('click', () => (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.closeModal)(null));
-  contactButton.addEventListener("keydown", e => {
-    if (e.code === "Enter") {
+  contactButton.addEventListener('keydown', e => {
+    if (e.code === 'Enter') {
       e.preventDefault();
       (0,_utils_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('modal-form');
     }
@@ -1535,7 +1535,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 
 const submitForm = (e, inputs) => {
@@ -1679,7 +1679,7 @@ const submitForm = (e, inputs) => {
     return;
   }
 
-  (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)(null); //Si ok on log les data
+  (0,_utils_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)(null); //Si ok on log les data
 
   console.table(data);
   contactForm.reset();

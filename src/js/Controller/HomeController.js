@@ -1,4 +1,4 @@
-import home from '../Views/home'
+import home from "../Views/pages/home"
 
 const HomeController = photographers => {
   home(photographers)

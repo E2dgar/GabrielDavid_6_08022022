@@ -1,7 +1,7 @@
-import header from './components/header'
-import Photographer from '../Models/Photographer'
-import photographerCard from './components/home/photographerCard'
-import { createDOMElement } from '../services'
+import header from '../components/header'
+import Photographer from '../../Models/Photographer'
+import photographerCard from '../components/home/photographerCard'
+import { createDOMElement } from '../../services'
 
 const home = async (photographers) => {
   /*Set document title and add class on body */

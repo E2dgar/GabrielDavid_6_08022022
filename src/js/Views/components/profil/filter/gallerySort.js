@@ -1,6 +1,6 @@
-import mediaCard from '../Views/components/profil/mediaCard'
-import mediaFactory from '../Models/mediaFactory'
-import lightbox from './mediaModal'
+import mediaCard from '../mediaCard'
+import mediaFactory from '../../../../Models/mediaFactory'
+import lightbox from '../lightbox/lightbox'
 
 /**
  * Reinit lightbox with medias filtered

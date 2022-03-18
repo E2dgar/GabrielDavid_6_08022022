@@ -1,12 +1,12 @@
-import header from './components/header'
-import hero from './components/profil/hero'
-import gallery from './components/profil/gallery'
-import mediaFactory from '../Models/mediaFactory'
-import likesCounter from './components/profil/likesCounter'
-import customSelect from '../utils/customSelect'
-import contact from './components/contactForm/contact'
-import lightbox from '../utils/mediaModal'
-import lightboxUI from './components/profil/lightbox'
+import header from '../components/header'
+import hero from '../components/profil/hero'
+import gallery from '../components/profil/gallery'
+import mediaFactory from '../../Models/mediaFactory'
+import likesCounter from '../components/profil/likesCounter'
+import customSelect from '../components/profil/filter/customSelect'
+import contact from '../components/contactForm/contactUI'
+import lightbox from '../components/profil/lightbox/lightbox'
+import lightboxUI from '../components/profil/lightbox/lightboxUI'
 
 const profil = (photographer, medias) => {
   /*Update title document and add class on body*/

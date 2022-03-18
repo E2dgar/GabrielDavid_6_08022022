@@ -1,4 +1,4 @@
-import { closeModal } from './modal'
+import { closeModal } from '../../../utils/modal'
 
 const submitForm = (e, inputs) => {
 	e.preventDefault()

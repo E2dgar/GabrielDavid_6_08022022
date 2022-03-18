@@ -1,7 +1,7 @@
-import { createDOMElement } from '../../../services'
-import arrowLeft from '../icons/arrowLighboxLeft'
-import arrowRight from '../icons/arrowLightboxRight'
-import cross from '../icons/cross'
+import { createDOMElement } from '../../../../services'
+import arrowLeft from '../../icons/arrowLighboxLeft'
+import arrowRight from '../../icons/arrowLightboxRight'
+import cross from '../../icons/cross'
 
 const lightboxUI = () => {
   const main = document.querySelector('#main-content')
