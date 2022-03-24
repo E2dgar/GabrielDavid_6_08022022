@@ -1151,7 +1151,7 @@ const lightbox = medias => {
       const player = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('section', ['player']);
       mediaElement = (0,_services__WEBPACK_IMPORTED_MODULE_0__.createDOMElement)('video', ['media-current'], [{
         name: 'title',
-        value: title
+        value: 'vidéo' + title
       }, {
         name: 'tabindex',
         value: 0

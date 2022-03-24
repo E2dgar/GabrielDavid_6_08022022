@@ -135,7 +135,7 @@ const lightbox = (medias) => {
     if(element === 'video'){
       const player = createDOMElement('section', ['player'])
 
-      mediaElement = createDOMElement('video', ['media-current'], [{name: 'title', value: title}, {name: 'tabindex', value: 0}])
+      mediaElement = createDOMElement('video', ['media-current'], [{name: 'title', value: 'vidéo' + title}, {name: 'tabindex', value: 0}])
       const source = createDOMElement('source')
       source.setAttribute('src', src)
       source.setAttribute('type', 'video/mp4')
